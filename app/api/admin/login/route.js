@@ -12,17 +12,13 @@ export async function POST(req) {
     if (!expected || !password || password !== expected) {
       return NextResponse.json({ error: 'Credenciales incorrectas' }, { status: 401 });
     }
-
+    if (!process.env.SESSION_SECRET) {
+      return NextResponse.json({ error: 'SESSION_SECRET no configurado' }, { status: 500 });
+    }
     const value = `admin:${Date.now()}`;
     const token = `${value}.${sign(value)}`;
     const res = NextResponse.json({ ok: true });
-    res.cookies.set('innov_admin', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/admin',
-      maxAge: 60 * 60 * 8,
-    });
+    res.cookies.set('innov_admin', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', path: '/', maxAge: 60 * 60 * 8 });
     return res;
   } catch {
     return NextResponse.json({ error: 'Solicitud inválida' }, { status: 400 });
@@ -31,6 +27,6 @@ export async function POST(req) {
 
 export async function DELETE() {
   const res = NextResponse.json({ ok: true });
-  res.cookies.set('innov_admin', '', { httpOnly: true, expires: new Date(0), path: '/admin' });
+  res.cookies.set('innov_admin', '', { httpOnly: true, expires: new Date(0), path: '/' });
   return res;
 }
