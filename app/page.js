@@ -63,9 +63,7 @@ export default function Home() {
     setBusy(true); setError(''); setSent(false);
     try {
       const data = Object.fromEntries(new FormData(event.currentTarget));
-      const response = await fetch('/api/contact', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
-      });
+      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
       if (!response.ok) {
         const result = await response.json().catch(() => ({}));
         throw new Error(result.error || 'No fue posible enviar el mensaje');
@@ -76,20 +74,19 @@ export default function Home() {
   }
 
   const closeMenu = () => setMenuOpen(false);
+  const navItems = [['Retos Logísticos','#retos'],['Capacidades','#capacidades'],['Cómo Trabajamos','#metodologia'],['Experiencia y Resultados','#industria'],['Nosotros','#nosotros'],['Contacto','#contacto']];
 
   return (
     <main>
       <header className={menuOpen ? 'menuOpen' : ''}>
         <a className="logo" href="#inicio" onClick={closeMenu}>INNOV<span>SUPPLY CHAIN SOLUTIONS</span></a>
-        <button className="menuButton" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menú"><i></i><i></i><i></i></button>
-        <nav>
-          {[['Retos Logísticos','#retos'],['Capacidades','#capacidades'],['Cómo Trabajamos','#metodologia'],['Experiencia y Resultados','#industria'],['Nosotros','#nosotros'],['Contacto','#contacto']].map(([label, href]) => <a key={label} href={href} onClick={closeMenu}>{label}</a>)}
-        </nav>
+        <button className="menuButton" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}><i></i><i></i><i></i></button>
+        <nav>{navItems.map(([label, href]) => <a key={label} href={href} onClick={closeMenu}>{label}</a>)}</nav>
         <a className="navCta" href="#contacto" onClick={closeMenu}>HABLEMOS</a>
       </header>
 
       <section id="inicio" className="hero">
-        <div className="heroBg" style={{ backgroundImage: `linear-gradient(90deg,rgba(35,10,61,.97),rgba(35,10,61,.58),rgba(35,10,61,.18)),url(${slides[slide]})` }} />
+        <div className="heroBg" style={{ backgroundImage: `linear-gradient(90deg,rgba(35,10,61,.97),rgba(35,10,61,.58),rgba(35,10,61,.16)),url(${slides[slide]})` }} />
         <div className="heroText">
           <p className="eyebrow">SUPPLY CHAIN SOLUTIONS</p>
           <h1>Transformamos la operación de tu almacén en ventaja competitiva.</h1>
@@ -97,58 +94,55 @@ export default function Home() {
           <div className="actions"><a href="#capacidades" className="primary">CONOCE NUESTRAS SOLUCIONES</a><a href="#contacto" className="secondary">HABLEMOS DE TU PROYECTO</a></div>
         </div>
         <div className="heroStats"><span><strong>16+</strong><small>AÑOS DE EXPERIENCIA</small></span><span><strong>360°</strong><small>VISIÓN DE LA OPERACIÓN</small></span><span><strong>1</strong><small>RETO · UNA SOLUCIÓN</small></span></div>
-        <div className="dots">{slides.map((_, index) => <button key={index} aria-label={`Imagen ${index + 1}`} className={index === slide ? 'active' : ''} onClick={() => setSlide(index)} />)}</div>
+        <div className="dots">{slides.map((_, index) => <button key={index} type="button" aria-label={`Imagen ${index + 1}`} className={index === slide ? 'active' : ''} onClick={() => setSlide(index)} />)}</div>
       </section>
 
-      <section id="retos" className="intro">
-        <p className="eyebrow purple">LOS RETOS</p>
+      <section id="retos" className="intro sectionReveal">
+        <div className="sectionKicker"><span>01</span><p className="eyebrow purple">LOS RETOS</p></div>
         <h2>Los grandes retos que frenan el desempeño de una operación logística.</h2>
         <p>Antes de implementar tecnología, identificamos las restricciones que realmente afectan tu operación y construimos soluciones orientadas a resultados medibles.</p>
-        <div className="cards">{challenges.map(([number, title, text]) => <article key={number}><b>{number}</b><h3>{title}</h3><p>{text}</p></article>)}</div>
+        <div className="cards">{challenges.map(([number, title, text]) => <article key={number}><b>{number}</b><h3>{title}</h3><p>{text}</p><span className="cardArrow">↗</span></article>)}</div>
       </section>
 
-      <section id="capacidades" className="dark">
-        <div className="split"><div><p className="eyebrow">CAPACIDADES</p><h2>Capacidades que combinamos para resolver el reto completo.</h2></div><p>Integramos tecnología, procesos y conocimiento operativo para construir soluciones que no dependen de una sola marca ni de una sola capa tecnológica.</p></div>
-        <div className="capGrid">{capabilities.map(([number, title, text]) => <article key={number}><b>{number}</b><h3>{title}</h3><p>{text}</p></article>)}</div>
+      <section id="capacidades" className="dark sectionReveal">
+        <div className="split"><div><div className="sectionKicker"><span>02</span><p className="eyebrow">CAPACIDADES</p></div><h2>Capacidades que combinamos para resolver el reto completo.</h2></div><p>Integramos tecnología, procesos y conocimiento operativo para construir soluciones que no dependen de una sola marca ni de una sola capa tecnológica.</p></div>
+        <div className="capGrid">{capabilities.map(([number, title, text]) => <article key={number}><b>{number}</b><h3>{title}</h3><p>{text}</p><span className="cardArrow">↗</span></article>)}</div>
       </section>
 
-      <section id="metodologia" className="method">
-        <p className="eyebrow purple">CÓMO TRABAJAMOS</p>
+      <section id="metodologia" className="method sectionReveal">
+        <div className="sectionKicker"><span>03</span><p className="eyebrow purple">CÓMO TRABAJAMOS</p></div>
         <h2>Del objetivo de negocio a una solución implementada y medible.</h2>
         <div className="steps">{steps.map(([number, title]) => <article key={number}><b>{number}</b><h3>{title}</h3><span>→</span></article>)}</div>
         <a className="textLink" href="#contacto">Conocer nuestra metodología completa →</a>
       </section>
 
-      <section id="industria" className="industry">
-        <p className="eyebrow purple">EXPERIENCIA Y RESULTADOS</p>
+      <section id="industria" className="industry sectionReveal">
+        <div className="sectionKicker"><span>04</span><p className="eyebrow purple">EXPERIENCIA Y RESULTADOS</p></div>
         <h2>Indicadores que reflejan el impacto de la transformación logística en cada industria.</h2>
         <p>Cada sector enfrenta restricciones diferentes. Nuestra experiencia nos permite enfocar la transformación en los indicadores operativos y económicos que tienen mayor relevancia para cada tipo de operación.</p>
-        <div className="industryGrid">{industries.map(([number, title, image]) => <article key={number}><img src={image} alt="" loading="lazy"/><div><b>{number}</b><h3>{title}</h3><span>Explorar industria →</span></div></article>)}</div>
+        <div className="industryGrid">{industries.map(([number, title, image]) => <article key={number}><div className="industryImage"><img src={image} alt="" loading="lazy"/><span>{number}</span></div><div><b>{number}</b><h3>{title}</h3><span>Explorar industria →</span></div></article>)}</div>
       </section>
 
-      <section id="nosotros" className="about">
-        <div className="aboutIntro"><div><p className="eyebrow">NOSOTROS</p><h2>¿Quién es InnOv?</h2></div><p>Ayudamos a las compañías a construir operaciones más eficientes, escalables y preparadas para crecer de forma sostenible. Contamos con más de 16 años de experiencia integrando soluciones tecnológicas de alto impacto en México.</p></div>
-        <div className="aboutGrid">
-          <article><b>01</b><h3>Valor antes que tecnología</h3><p>Partimos del resultado que el negocio necesita y después definimos la tecnología.</p></article>
-          <article><b>02</b><h3>Independencia tecnológica</h3><p>Evaluamos alternativas con una visión integral para elegir lo que mejor resuelve el reto.</p></article>
-          <article><b>03</b><h3>Evolución sin ruptura</h3><p>Diseñamos arquitecturas que permiten transformar la operación sin detenerla.</p></article>
-          <article><b>04</b><h3>Viabilidad económica</h3><p>Validamos el caso financiero para que la transformación tenga sentido operativo y económico.</p></article>
-        </div>
+      <section id="nosotros" className="about sectionReveal">
+        <div className="aboutIntro"><div><div className="sectionKicker"><span>05</span><p className="eyebrow">NOSOTROS</p></div><h2>¿Quién es InnOv?</h2></div><p>Ayudamos a las compañías a construir operaciones más eficientes, escalables y preparadas para crecer de forma sostenible. Contamos con más de 16 años de experiencia integrando soluciones tecnológicas de alto impacto en México.</p></div>
+        <div className="aboutGrid">{[
+          ['01','Valor antes que tecnología','Partimos del resultado que el negocio necesita y después definimos la tecnología.'],
+          ['02','Independencia tecnológica','Evaluamos alternativas con una visión integral para elegir lo que mejor resuelve el reto.'],
+          ['03','Evolución sin ruptura','Diseñamos arquitecturas que permiten transformar la operación sin detenerla.'],
+          ['04','Viabilidad económica','Validamos el caso financiero para que la transformación tenga sentido operativo y económico.'],
+        ].map(([number,title,text]) => <article key={number}><b>{number}</b><h3>{title}</h3><p>{text}</p></article>)}</div>
       </section>
 
-      <section className="ecosystem">
-        <p className="eyebrow purple">ECOSISTEMA TECNOLÓGICO</p>
+      <section className="ecosystem sectionReveal">
+        <div className="sectionKicker"><span>06</span><p className="eyebrow purple">ECOSISTEMA TECNOLÓGICO</p></div>
         <h2>Tecnología líder al servicio de la solución.</h2>
         <p>Trabajamos con un ecosistema de fabricantes y plataformas líderes para construir la arquitectura adecuada para cada proyecto.</p>
         <div className="partnerGrid">{partners.map((partner) => <div key={partner}>{partner}</div>)}</div>
       </section>
 
-      <section id="contacto" className="contact">
-        <div><p className="eyebrow purple">CONTACTO</p><h2>Cuéntenos su reto. Diseñemos juntos la solución que lo hace posible.</h2><p>No necesita comenzar definiendo la tecnología. Comience por decirnos qué necesita lograr.</p><div className="contactNote"><strong>InnOv · Supply Chain Solutions</strong><span>Transformación logística con visión de negocio.</span></div></div>
-        <form onSubmit={submit}>
-          <input name="name" placeholder="Nombre *" required/><input name="company" placeholder="Empresa"/><input name="email" type="email" placeholder="Correo electrónico *" required/><input name="phone" placeholder="Teléfono"/><textarea name="message" placeholder="Cuéntenos sobre su proyecto *" rows="5" required/><input name="website" className="hp" tabIndex="-1" autoComplete="off"/><button disabled={busy}>{busy ? 'ENVIANDO...' : 'ENVIAR PROYECTO →'}</button>
-          {sent && <small>Mensaje enviado correctamente.</small>}{error && <small className="formError">{error}</small>}
-        </form>
+      <section id="contacto" className="contact sectionReveal">
+        <div><div className="sectionKicker"><span>07</span><p className="eyebrow purple">CONTACTO</p></div><h2>Cuéntenos su reto. Diseñemos juntos la solución que lo hace posible.</h2><p>No necesita comenzar definiendo la tecnología. Comience por decirnos qué necesita lograr.</p><div className="contactNote"><strong>InnOv · Supply Chain Solutions</strong><span>Transformación logística con visión de negocio.</span></div></div>
+        <form onSubmit={submit}><input name="name" placeholder="Nombre *" required/><input name="company" placeholder="Empresa"/><input name="email" type="email" placeholder="Correo electrónico *" required/><input name="phone" placeholder="Teléfono"/><textarea name="message" placeholder="Cuéntenos sobre su proyecto *" rows="5" required/><input name="website" className="hp" tabIndex="-1" autoComplete="off"/><button disabled={busy}>{busy ? 'ENVIANDO...' : 'ENVIAR PROYECTO →'}</button>{sent && <small>Mensaje enviado correctamente.</small>}{error && <small className="formError">{error}</small>}</form>
       </section>
 
       <footer><div className="logo">INNOV<span>SUPPLY CHAIN SOLUTIONS</span></div><p>© 2026 Innov. Todos los derechos reservados. · <a href="/admin">Administración</a></p></footer>
