@@ -31,7 +31,7 @@
 .dark .capGrid .cardArrow{position:static!important;margin-top:auto!important;padding-top:12px!important;font-size:0!important;color:#4e1590!important;font-weight:700!important}
 .dark .capGrid .cardArrow:after{content:'Explorar capacidad →';font-size:10px!important}
 
-/* Cómo Trabajamos: replica visual de la referencia compartida */
+/* Cómo Trabajamos: réplica visual y texto completo visible en los 6 pasos */
 .method{background:#f7f4ef!important;padding-top:92px!important;padding-bottom:108px!important}
 .method .sectionKicker{margin-bottom:16px!important;gap:0!important}
 .method .sectionKicker>span{font-size:0!important;display:inline-block!important;width:auto!important;color:#a092aa!important}
@@ -41,15 +41,15 @@
 .methodIntro{max-width:1120px!important;color:#5e5865!important;font-size:14px!important;line-height:1.75!important;margin:0!important}
 .methodPanel{margin-top:38px!important;padding:24px!important;background:linear-gradient(135deg,#f7f0ea 0%,#f5ebf1 48%,#eee5f4 100%)!important;border:1px solid rgba(112,64,141,.14)!important;border-radius:2px!important;box-shadow:0 24px 65px rgba(48,24,62,.09)!important}
 .methodSteps{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important}
-.methodSteps article{background:rgba(255,255,255,.97)!important;border:1px solid #ddd5df!important;border-radius:12px!important;padding:21px 18px 18px!important;min-height:185px!important;box-shadow:0 1px 0 rgba(35,10,61,.02)!important;transform:none!important;cursor:default!important}
+.methodSteps article{background:rgba(255,255,255,.97)!important;border:1px solid #ddd5df!important;border-radius:12px!important;padding:21px 18px 18px!important;min-height:185px!important;max-height:none!important;height:auto!important;overflow:visible!important;box-shadow:0 1px 0 rgba(35,10,61,.02)!important;transform:none!important;cursor:default!important}
 .methodSteps article:hover{transform:translateY(-2px)!important;box-shadow:0 12px 26px rgba(49,22,63,.08)!important;border-color:#c5afd0!important}
 .methodSteps article.open{background:#fff!important;border-color:#a878bd!important;box-shadow:0 14px 30px rgba(49,22,63,.10)!important;transform:none!important}
-.methodCardTop{grid-template-columns:1fr auto!important;gap:10px!important}
+.methodCardTop{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}
 .methodSteps b{font-size:9px!important;letter-spacing:.18em!important;color:#62327a!important}
 .methodSteps h3{font-size:16px!important;line-height:1.3!important;color:#24102f!important;margin:8px 0 0!important;font-weight:700!important}
-.methodArrow{display:none!important}
-.methodDetail{display:block!important;grid-template-rows:none!important;opacity:1!important;margin-top:0!important}
-.methodDetail p{font-size:12px!important;line-height:1.55!important;color:#68616d!important;margin:12px 0 0!important;overflow:visible!important}
+.methodArrow{display:none!important;visibility:hidden!important}
+.methodDetail,.methodSteps article:not(.open) .methodDetail{display:block!important;visibility:visible!important;grid-template-rows:none!important;opacity:1!important;margin-top:0!important;max-height:none!important;height:auto!important;overflow:visible!important}
+.methodDetail p,.methodSteps article:not(.open) .methodDetail p{display:block!important;visibility:visible!important;font-size:12px!important;line-height:1.55!important;color:#68616d!important;margin:12px 0 0!important;max-height:none!important;height:auto!important;overflow:visible!important;opacity:1!important}
 .methodButton{display:inline-flex!important;align-items:center!important;margin-top:22px!important;border:1px solid #9b73ae!important;border-radius:999px!important;padding:11px 16px!important;color:#4a1d5e!important;text-decoration:none!important;font-size:11px!important;font-weight:700!important;background:transparent!important}
 .methodButton:hover{background:#fff!important;transform:translateY(-1px)!important}
 
