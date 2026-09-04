@@ -31,6 +31,23 @@
 .dark .capGrid .cardArrow{position:static!important;margin-top:auto!important;padding-top:12px!important;font-size:0!important;color:#4e1590!important;font-weight:700!important}
 .dark .capGrid .cardArrow:after{content:'Explorar capacidad →';font-size:10px!important}
 
+/* Textos completos de las 7 capacidades, iguales a la referencia */
+.dark .capGrid article:nth-child(1) p,
+.dark .capGrid article:nth-child(2) p,
+.dark .capGrid article:nth-child(3) p,
+.dark .capGrid article:nth-child(4) p,
+.dark .capGrid article:nth-child(5) p,
+.dark .capGrid article:nth-child(6) p,
+.dark .capGrid article:nth-child(7) p{font-size:0!important}
+.dark .capGrid article:nth-child(1) p:after{content:'AMR, AGV, AS/RS, conveyors, sorters y Goods-to-Person para automatizar movimiento, almacenamiento, picking y clasificación.';font-size:10px!important}
+.dark .capGrid article:nth-child(2) p:after{content:'WMS y WCS para controlar inventario, dirigir tareas, coordinar recursos y orquestar la ejecución física y digital end-to-end.';font-size:10px!important}
+.dark .capGrid article:nth-child(3) p:after{content:'Machine Vision, barcode, QR, RFID y captura móvil para identificar, validar y registrar producto, lote, serie y ubicación.';font-size:10px!important}
+.dark .capGrid article:nth-child(4) p:after{content:'Cámaras inteligentes, videoanalítica e IA integradas con WMS/ERP para observar eventos físicos, medir y detectar desviaciones.';font-size:10px!important}
+.dark .capGrid article:nth-child(5) p:after{content:'Protección contra incendios, seguridad y continuidad diseñadas en coordinación con infraestructura y automatización crítica.';font-size:10px!important}
+.dark .capGrid article:nth-child(6) p:after{content:'Dashboards, modelos predictivos y optimización para convertir datos operativos en decisiones y anticipar restricciones.';font-size:10px!important}
+.dark .capGrid article:nth-child(7) p:after{content:'Redes, Wi-Fi industrial, IoT, servidores y edge para habilitar una operación conectada, robusta, segura y escalable.';font-size:10px!important}
+.dark .capGrid article p:after{display:block!important;line-height:1.55!important;color:#68616d!important;margin:0!important}
+
 /* Cómo Trabajamos: réplica visual y texto completo visible en los 6 pasos */
 .method{background:#f7f4ef!important;padding-top:92px!important;padding-bottom:108px!important}
 .method .sectionKicker{margin-bottom:16px!important;gap:0!important}
