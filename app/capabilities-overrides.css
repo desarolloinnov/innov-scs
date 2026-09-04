@@ -6,7 +6,7 @@
 .dark .sectionKicker{margin:0 0 12px!important;gap:0!important}
 .dark .sectionKicker>span{display:none!important}
 .dark .sectionKicker .eyebrow{font-size:10px!important;letter-spacing:.18em!important;color:#4e1590!important;font-weight:800!important;margin:0!important}
-.dark .sectionKicker .eyebrow:before{content:'03 · NUESTRAS CAPACIDADES';font-size:inherit;letter-spacing:inherit;color:inherit}
+.dark .sectionKicker .eyebrow:before{content:'02 · NUESTRAS CAPACIDADES';font-size:inherit;letter-spacing:inherit;color:inherit}
 .dark .sectionKicker .eyebrow{font-size:0!important}
 .dark .sectionKicker .eyebrow:before{font-size:10px!important}
 .dark .split h2{font-family:'Playfair Display',serif!important;color:#211b2a!important;font-size:clamp(38px,3.8vw,56px)!important;line-height:1.06!important;font-weight:600!important;max-width:1000px!important;margin:0 0 14px!important;letter-spacing:-.02em!important}
@@ -41,16 +41,24 @@
 .methodIntro{max-width:1120px!important;color:#5e5865!important;font-size:14px!important;line-height:1.75!important;margin:0!important}
 .methodPanel{margin-top:38px!important;padding:24px!important;background:linear-gradient(135deg,#f7f0ea 0%,#f5ebf1 48%,#eee5f4 100%)!important;border:1px solid rgba(112,64,141,.14)!important;border-radius:2px!important;box-shadow:0 24px 65px rgba(48,24,62,.09)!important}
 .methodSteps{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important}
-.methodSteps article{background:rgba(255,255,255,.97)!important;border:1px solid #ddd5df!important;border-radius:12px!important;padding:21px 18px 18px!important;min-height:148px!important;box-shadow:0 1px 0 rgba(35,10,61,.02)!important;transform:none!important}
+.methodSteps article{background:rgba(255,255,255,.97)!important;border:1px solid #ddd5df!important;border-radius:12px!important;padding:21px 18px 18px!important;min-height:185px!important;box-shadow:0 1px 0 rgba(35,10,61,.02)!important;transform:none!important;cursor:default!important}
 .methodSteps article:hover{transform:translateY(-2px)!important;box-shadow:0 12px 26px rgba(49,22,63,.08)!important;border-color:#c5afd0!important}
 .methodSteps article.open{background:#fff!important;border-color:#a878bd!important;box-shadow:0 14px 30px rgba(49,22,63,.10)!important;transform:none!important}
 .methodCardTop{grid-template-columns:1fr auto!important;gap:10px!important}
 .methodSteps b{font-size:9px!important;letter-spacing:.18em!important;color:#62327a!important}
 .methodSteps h3{font-size:16px!important;line-height:1.3!important;color:#24102f!important;margin:8px 0 0!important;font-weight:700!important}
-.methodArrow{font-size:20px!important;color:#70408d!important}
-.methodDetail{margin-top:0!important}
-.methodDetail p{font-size:13px!important;line-height:1.55!important;color:#68616d!important;margin:12px 0 0!important}
+.methodArrow{display:none!important}
+.methodDetail{display:block!important;grid-template-rows:none!important;opacity:1!important;margin-top:0!important}
+.methodDetail p{font-size:12px!important;line-height:1.55!important;color:#68616d!important;margin:12px 0 0!important;overflow:visible!important}
 .methodButton{display:inline-flex!important;align-items:center!important;margin-top:22px!important;border:1px solid #9b73ae!important;border-radius:999px!important;padding:11px 16px!important;color:#4a1d5e!important;text-decoration:none!important;font-size:11px!important;font-weight:700!important;background:transparent!important}
 .methodButton:hover{background:#fff!important;transform:translateY(-1px)!important}
+
+/* Numeración continua después de mover Cómo Trabajamos al bloque 04 */
+#industria .sectionKicker>span,.about .sectionKicker>span,.ecosystem .sectionKicker>span,#contacto .sectionKicker>span{display:inline-block!important;font-size:0!important;width:auto!important}
+#industria .sectionKicker>span:after{content:'05';font-size:10px!important;letter-spacing:.12em!important}
+.about .sectionKicker>span:after{content:'06';font-size:10px!important;letter-spacing:.12em!important}
+.ecosystem .sectionKicker>span:after{content:'07';font-size:10px!important;letter-spacing:.12em!important}
+#contacto .sectionKicker>span:after{content:'08';font-size:10px!important;letter-spacing:.12em!important}
+
 @media(max-width:1050px){.dark .capGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.methodSteps{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-@media(max-width:650px){.dark{padding:75px 5% 80px!important}.dark .capGrid{grid-template-columns:1fr!important}.dark .capGrid article:before{height:180px!important}.dark .split h2{font-size:38px!important}.method{padding:75px 5% 80px!important}.method>h2{font-size:40px!important}.methodPanel{padding:14px!important;margin-top:28px!important}.methodSteps{grid-template-columns:1fr!important}.methodSteps article{min-height:130px!important}}
+@media(max-width:650px){.dark{padding:75px 5% 80px!important}.dark .capGrid{grid-template-columns:1fr!important}.dark .capGrid article:before{height:180px!important}.dark .split h2{font-size:38px!important}.method{padding:75px 5% 80px!important}.method>h2{font-size:40px!important}.methodPanel{padding:14px!important;margin-top:28px!important}.methodSteps{grid-template-columns:1fr!important}.methodSteps article{min-height:0!important}}
