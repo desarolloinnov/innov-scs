@@ -1,23 +1,18 @@
-/* Final isolated layout for section 07 · Cainiao only. */
+/* Final isolated Cainiao section layout. Keep section 07 independent from sections 01-06 and 08. */
 .cainiaoSection .cainiaoInner{
-  width:min(88%,1500px) !important;
-  max-width:1500px !important;
-  margin:0 auto !important;
   display:grid !important;
-  grid-template-columns:minmax(360px,34%) minmax(0,1fr) !important;
+  grid-template-columns:minmax(320px,32%) minmax(0,1fr) !important;
   grid-template-rows:auto auto auto !important;
-  column-gap:56px !important;
-  row-gap:32px !important;
+  column-gap:68px !important;
+  row-gap:18px !important;
   align-items:start !important;
 }
-
 .cainiaoSection .cainiaoEyebrow{
   grid-column:1 / -1 !important;
   grid-row:1 !important;
-  margin:0 0 2px !important;
+  margin:0 !important;
   align-self:start !important;
 }
-
 .cainiaoSection .cainiaoBrandCard{
   grid-column:1 !important;
   grid-row:2 !important;
@@ -26,120 +21,114 @@
   align-self:stretch !important;
   width:100% !important;
   height:100% !important;
-  min-height:360px !important;
+  min-height:390px !important;
   margin:0 !important;
   box-sizing:border-box !important;
-  padding:28px 28px 26px !important;
+  padding:30px 28px 28px !important;
   display:flex !important;
   flex-direction:column !important;
   justify-content:flex-start !important;
+  border:1px solid #e1d6e6 !important;
+  border-radius:18px !important;
+  background:linear-gradient(145deg,#fbf8fc 0%,#f5eff8 100%) !important;
+  box-shadow:0 18px 42px rgba(39,24,63,.07) !important;
   overflow:hidden !important;
 }
-
 .cainiaoSection .cainiaoBrandCard:before{
   content:'' !important;
   position:absolute !important;
-  width:240px !important;
-  height:240px !important;
+  width:210px !important;
+  height:210px !important;
   border-radius:50% !important;
-  right:-110px !important;
-  top:-115px !important;
-  background:rgba(33,103,232,.08) !important;
+  right:-105px !important;
+  top:-95px !important;
+  background:rgba(37,101,235,.08) !important;
   pointer-events:none !important;
 }
-
 .cainiaoSection .cainiaoLogo{
   position:relative !important;
   z-index:1 !important;
-  font-size:clamp(78px,6.4vw,108px) !important;
-  line-height:.76 !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:clamp(72px,6vw,104px) !important;
+  font-weight:300 !important;
+  line-height:.78 !important;
   letter-spacing:-.085em !important;
-  margin:0 0 30px -4px !important;
+  color:#2167e8 !important;
+  margin:0 0 34px -5px !important;
 }
-
 .cainiaoSection .cainiaoBrandCard strong{
   position:relative !important;
   z-index:1 !important;
+  display:block !important;
+  font-size:13px !important;
+  line-height:1.45 !important;
+  color:#21152f !important;
   margin-top:auto !important;
-  padding-top:22px !important;
+  padding-top:24px !important;
   border-top:1px solid rgba(112,64,141,.18) !important;
-  font-size:12px !important;
-  line-height:1.4 !important;
 }
-
 .cainiaoSection .cainiaoBrandCard p{
   position:relative !important;
   z-index:1 !important;
-  margin:10px 0 0 !important;
   font-size:10px !important;
-  line-height:1.6 !important;
+  line-height:1.65 !important;
+  color:#6f6575 !important;
+  margin:10px 0 0 !important;
 }
-
 .cainiaoSection .cainiaoCopy{
   grid-column:2 !important;
   grid-row:2 !important;
   align-self:start !important;
-  min-width:0 !important;
   margin:0 !important;
   padding:0 !important;
+  min-width:0 !important;
 }
-
 .cainiaoSection .cainiaoCopy h2{
-  margin:0 0 18px !important;
-  max-width:980px !important;
+  margin:0 0 20px !important;
+  max-width:900px !important;
   text-align:left !important;
 }
-
 .cainiaoSection .cainiaoCopy>p:not(.ecosystemEyebrow){
-  max-width:980px !important;
+  max-width:920px !important;
   margin:0 0 20px !important;
-  font-size:11px !important;
-  line-height:1.7 !important;
 }
-
 .cainiaoSection .cainiaoCallout{
-  width:100% !important;
   max-width:none !important;
   margin:0 !important;
+  border-left:3px solid #70408d !important;
+  border-radius:0 12px 12px 0 !important;
+  background:#f7f2f9 !important;
   padding:16px 18px !important;
   box-sizing:border-box !important;
-  font-size:9px !important;
-  line-height:1.65 !important;
 }
-
 .cainiaoSection .cainiaoCopy>a{
+  display:inline-block !important;
   margin-top:16px !important;
+  font-weight:700 !important;
+  transition:transform .2s ease,color .2s ease !important;
 }
-
+.cainiaoSection .cainiaoCopy>a:hover{transform:translateX(5px) !important}
 .cainiaoSection .cainiaoStats{
   grid-column:1 / -1 !important;
   grid-row:3 !important;
-  width:100% !important;
-  display:grid !important;
-  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
-  gap:12px !important;
-  margin:0 !important;
+  clear:none !important;
+  margin-top:18px !important;
   align-self:start !important;
-  box-sizing:border-box !important;
 }
-
 .cainiaoSection .cainiaoStats article{
-  min-width:0 !important;
-  min-height:82px !important;
-  box-sizing:border-box !important;
-  padding:16px !important;
+  border-radius:13px !important;
+  background:#fff !important;
+  border:1px solid #e1d6e6 !important;
 }
-
-@media(max-width:1100px){
+@media(max-width:1000px){
   .cainiaoSection .cainiaoInner{
-    grid-template-columns:minmax(300px,35%) minmax(0,1fr) !important;
-    column-gap:30px !important;
+    grid-template-columns:minmax(270px,32%) minmax(0,1fr) !important;
+    column-gap:32px !important;
+    row-gap:18px !important;
   }
-  .cainiaoSection .cainiaoLogo{font-size:78px !important}
-  .cainiaoSection .cainiaoBrandCard{min-height:340px !important;padding:24px 22px !important}
-  .cainiaoSection .cainiaoStats{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+  .cainiaoSection .cainiaoBrandCard{min-height:360px !important;padding:26px 22px 24px !important}
+  .cainiaoSection .cainiaoLogo{font-size:clamp(66px,8vw,90px) !important}
 }
-
 @media(max-width:800px){
   .cainiaoSection .cainiaoInner{
     width:90% !important;
@@ -149,14 +138,13 @@
     column-gap:0 !important;
     row-gap:24px !important;
   }
-  .cainiaoSection .cainiaoEyebrow{grid-column:1 !important;grid-row:1 !important;margin:0 !important}
-  .cainiaoSection .cainiaoBrandCard{grid-column:1 !important;grid-row:2 !important;min-height:0 !important;height:auto !important}
+  .cainiaoSection .cainiaoEyebrow{grid-column:1 !important;grid-row:1 !important}
+  .cainiaoSection .cainiaoBrandCard{grid-column:1 !important;grid-row:2 !important;min-height:0 !important;height:auto !important;padding:28px 24px !important}
   .cainiaoSection .cainiaoCopy{grid-column:1 !important;grid-row:3 !important}
-  .cainiaoSection .cainiaoStats{grid-column:1 !important;grid-row:4 !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;margin:0 !important}
+  .cainiaoSection .cainiaoStats{grid-column:1 !important;grid-row:4 !important;margin-top:0 !important}
 }
-
 @media(max-width:480px){
+  .cainiaoSection .cainiaoStats{grid-template-columns:1fr !important}
   .cainiaoSection .cainiaoBrandCard{padding:22px 18px !important}
   .cainiaoSection .cainiaoLogo{font-size:68px !important}
-  .cainiaoSection .cainiaoStats{grid-template-columns:1fr !important}
 }
