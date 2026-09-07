@@ -1,0 +1,46 @@
+/* Final Cainiao layout: label first, then a clean two-column content row. */
+.cainiaoInner{
+  display:grid !important;
+  grid-template-columns:minmax(280px,32%) minmax(0,1fr) !important;
+  grid-template-rows:auto auto auto !important;
+  column-gap:54px !important;
+  row-gap:0 !important;
+  align-items:start !important;
+}
+.cainiaoEyebrow{
+  grid-column:1 / -1 !important;
+  grid-row:1 !important;
+  align-self:start !important;
+  margin:0 0 26px !important;
+}
+.cainiaoBrandCard{
+  grid-column:1 !important;
+  grid-row:2 !important;
+  align-self:start !important;
+  margin:0 !important;
+  width:auto !important;
+}
+.cainiaoCopy{
+  grid-column:2 !important;
+  grid-row:2 !important;
+  align-self:start !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+.cainiaoCopy h2{margin-top:0 !important}
+.cainiaoStats{
+  grid-column:1 / -1 !important;
+  grid-row:3 !important;
+  clear:none !important;
+  margin-top:36px !important;
+}
+@media(max-width:1000px){
+  .cainiaoInner{grid-template-columns:minmax(250px,32%) minmax(0,1fr) !important;column-gap:28px !important}
+}
+@media(max-width:800px){
+  .cainiaoInner{grid-template-columns:1fr !important;grid-template-rows:auto auto auto auto !important;row-gap:28px !important}
+  .cainiaoEyebrow{grid-column:1 !important;grid-row:1 !important;margin-bottom:0 !important}
+  .cainiaoBrandCard{grid-column:1 !important;grid-row:2 !important}
+  .cainiaoCopy{grid-column:1 !important;grid-row:3 !important}
+  .cainiaoStats{grid-column:1 !important;grid-row:4 !important;margin-top:0 !important}
+}
