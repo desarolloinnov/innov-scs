@@ -8,6 +8,7 @@ import './intralogistica/polish.css';
 import './intralogistica/cainiao-fix.css';
 import './intralogistica/alignment-fix.css';
 import './gestion-orquestacion/pill-fix.css';
+import './gestion-orquestacion/dashboard-image.css';
 import CapabilityLinks from './CapabilityLinks';
 import OrchestrationSystemCallout from './OrchestrationSystemCallout';
 export const metadata={title:'Innov | Supply Chain Solutions',description:'Soluciones integrales de WMS, automatización e integración tecnológica.'};
