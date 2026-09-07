@@ -3,7 +3,7 @@
 #industria .sectionKicker{margin:0 0 12px!important;gap:0!important}
 #industria .sectionKicker>span{display:none!important}
 #industria .sectionKicker .eyebrow{font-size:9px!important;letter-spacing:.18em!important;color:#70408d!important;font-weight:800!important;font-size:0!important;margin:0!important}
-#industria .sectionKicker .eyebrow:before{content:'05 · IMPACTOS GENERADOS POR INDUSTRIA';font-size:9px!important;letter-spacing:.18em!important}
+#industria .sectionKicker .eyebrow:before{content:'04 · IMPACTOS GENERADOS POR INDUSTRIA';font-size:9px!important;letter-spacing:.18em!important}
 #industria>h2{font-family:'Playfair Display',serif!important;font-size:clamp(42px,4vw,58px)!important;line-height:1.05!important;font-weight:500!important;max-width:900px!important;color:#211b2a!important;margin:0 0 16px!important;letter-spacing:-.02em!important}
 #industria>p:not(.eyebrow){max-width:1000px!important;color:#5e5865!important;font-size:12px!important;line-height:1.7!important;margin:0!important}
 #industria .industryGrid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;margin-top:32px!important}
