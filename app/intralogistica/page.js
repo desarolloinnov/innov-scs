@@ -22,8 +22,8 @@ export default function Intralogistica(){
       <div className="intraHeroCopy">
         <p className="intraEyebrow">AUTOMATIZACIÓN INTRALOGÍSTICA</p>
         <h1>Más capacidad, productividad y control para hacer crecer su operación.</h1>
-        <p className="intraLead">Diseñamos e integramos soluciones de automatización intralogística a partir de los objetivos, restricciones y características reales de cada operación. Combinamos tecnologías de almacenamiento, movimiento, picking y control para construir operaciones más eficientes, escalables y preparadas para crecer.</p>
-        <div className="intraActions"><Link href="/#contacto" className="intraPrimary">HABLEMOS DE TU PROYECTO →</Link><Link href="/#capacidades" className="intraSecondary">← VOLVER A CAPACIDADES</Link></div>
+        <p className="intraLead">Diseñamos e integramos soluciones de automatización intralogística a partir de los objetivos, restricciones y características reales de cada operación. Combinamos tecnologías de almacenamiento, movimiento, surtido y clasificación para incrementar capacidad y productividad, reducir errores y construir operaciones más escalables y eficientes.</p>
+        <div className="intraActions"><Link href="/#contacto" className="intraPrimary">Cuéntenos su reto →</Link><Link href="/#metodologia" className="intraSecondary">Conozca cómo trabajamos</Link></div>
       </div>
       <div className="intraHeroVisual"><img src="https://images.unsplash.com/photo-1749244768351-2726dc23d26c?auto=format&fit=crop&w=1800&q=90" alt="Operación intralogística"/><span>FLUJO · AUTOMATIZACIÓN · PRODUCTIVIDAD</span></div>
     </section>
