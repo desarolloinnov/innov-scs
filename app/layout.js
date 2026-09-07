@@ -14,6 +14,5 @@ import './gestion-orquestacion/partners-section-fix.css';
 import './gestion-orquestacion/partner-section-exact.css';
 import './gestion-orquestacion/final-cta-fix.css';
 import CapabilityLinks from './CapabilityLinks';
-import OrchestrationSystemCallout from './OrchestrationSystemCallout';
 export const metadata={title:'Innov | Supply Chain Solutions',description:'Soluciones integrales de WMS, automatización e integración tecnológica.'};
-export default function RootLayout({children}){return <html lang="es"><body>{children}<CapabilityLinks/><OrchestrationSystemCallout/></body></html>}
+export default function RootLayout({children}){return <html lang="es"><body>{children}<CapabilityLinks/></body></html>}
