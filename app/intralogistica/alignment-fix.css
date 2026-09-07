@@ -1,0 +1,70 @@
+/* Final alignment pass for sections 03 and 05.
+   Use the same content rail as the adjacent sections and neutralize
+   earlier max-width/margin rules that were centering the eyebrow/cards. */
+@media (min-width: 801px){
+  .wixLevels,
+  .wixCases{
+    width: 78.5% !important;
+    max-width: 1332px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .wixLevels .wixEyebrow,
+  .wixCases .wixEyebrow,
+  .wixLevels h2,
+  .wixLevels .wixLead,
+  .wixCases h2,
+  .wixCases .wixLead,
+  .wixCases .caseGrid{
+    width: 100% !important;
+    max-width: 1120px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    text-align: left !important;
+  }
+
+  .wixLevels .levels{
+    width: 100% !important;
+    max-width: 1120px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .wixCases .caseGrid{
+    grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+    gap: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  .wixCases .caseGrid article{
+    min-width: 0 !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 800px){
+  .wixLevels,
+  .wixCases{
+    width: 90% !important;
+    max-width: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .wixLevels .wixEyebrow,
+  .wixCases .wixEyebrow,
+  .wixLevels h2,
+  .wixLevels .wixLead,
+  .wixCases h2,
+  .wixCases .wixLead,
+  .wixCases .caseGrid{
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    text-align: left !important;
+  }
+  .wixCases .caseGrid{grid-template-columns:1fr !important}
+}
