@@ -1,0 +1,34 @@
+/* Final text normalization for section 09.
+   Keep StockMan / StockMatic inline at the same size as the paragraph text,
+   matching the Wix reference rather than inheriting oversized heading styles. */
+.gestionPage .goPartners .betaCard > p,
+.gestionPage .goPartners .betaCard > p *{
+  font-family:Arial,sans-serif!important;
+  font-size:14px!important;
+  line-height:1.7!important;
+  letter-spacing:normal!important;
+}
+
+.gestionPage .goPartners .betaCard > p{
+  max-width:455px!important;
+  margin:0!important;
+  padding:0!important;
+  color:#fff!important;
+  font-weight:400!important;
+  text-align:left!important;
+}
+
+.gestionPage .goPartners .betaCard > p strong,
+.gestionPage .goPartners .betaCard > p strong b,
+.gestionPage .goPartners .betaCard > p strong em{
+  display:inline!important;
+  margin:0!important;
+  padding:0!important;
+  color:#fff!important;
+  font-family:Arial,sans-serif!important;
+  font-size:14px!important;
+  line-height:1.7!important;
+  font-weight:700!important;
+  letter-spacing:normal!important;
+  vertical-align:baseline!important;
+}
