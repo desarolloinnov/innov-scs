@@ -68,6 +68,27 @@
 @media(max-width:1000px){.cainiaoInner{grid-template-columns:290px minmax(0,1fr);grid-template-rows:auto auto auto}.cainiaoEyebrow{grid-column:1 / -1}.cainiaoBrandCard{grid-column:1;grid-row:2}.cainiaoCopy{grid-column:2;grid-row:2}.cainiaoStats{grid-column:1 / -1;grid-row:3}}
 @media(max-width:800px){.wixEyebrow,.ecosystemEyebrow,.operationEyebrow{font-size:10px;text-align:left}.cainiaoSection{padding-top:62px}.cainiaoInner{grid-template-columns:1fr;grid-template-rows:auto auto auto auto;gap:28px}.cainiaoEyebrow{grid-column:1;grid-row:1;margin-bottom:0}.cainiaoBrandCard{grid-column:1;grid-row:2}.cainiaoCopy{grid-column:1;grid-row:3}.cainiaoStats{grid-column:1;grid-row:4}.cainiaoCopy h2{text-align:center}}
 
-/* Unified numbered-section rail: 01–08 share the same left edge while headings remain centered. */
-.wixEyebrow,.ecosystemEyebrow,.operationEyebrow{width:90vw;max-width:none;margin-left:calc((100% - 90vw)/2);margin-right:0}
-@media(max-width:800px){.wixEyebrow,.ecosystemEyebrow,.operationEyebrow{width:90vw;margin-left:calc((100% - 90vw)/2)}}
+/* Corrected 03–05 layout: one consistent content rail, no viewport-based eyebrow offsets, and a contained case grid. */
+.wixEyebrow,.ecosystemEyebrow,.operationEyebrow{width:auto;max-width:none;margin-left:0;margin-right:0}
+.wixLevels{box-sizing:border-box;padding-left:max(6%,calc((100vw - 1380px)/2));padding-right:max(6%,calc((100vw - 1380px)/2))}
+.wixLevels .wixEyebrow{max-width:1380px;margin-left:auto;margin-right:auto}
+.wixLevels h2,.wixLevels .wixLead{max-width:1050px;margin-left:auto;margin-right:auto}
+.wixLevels .levels{max-width:1180px;margin-left:auto;margin-right:auto}
+.wixIntegration .wixEyebrow,.wixCases .wixEyebrow{max-width:1380px;margin-left:auto;margin-right:auto}
+.wixIntegration h2,.wixIntegration .wixLead{max-width:1050px;margin-left:auto;margin-right:auto}
+.wixIntegration .integrationFlow{width:min(100%,1050px);max-width:1050px;margin-left:auto;margin-right:auto}
+.wixCases{box-sizing:border-box;padding-left:max(6%,calc((100vw - 1380px)/2));padding-right:max(6%,calc((100vw - 1380px)/2))}
+.wixCases h2,.wixCases .wixLead{max-width:1050px;margin-left:auto;margin-right:auto}
+.wixCases .caseGrid{width:100%;max-width:1180px;margin-left:auto;margin-right:auto;box-sizing:border-box;grid-template-columns:repeat(3,minmax(0,1fr))}
+.caseGrid article{min-width:0;box-sizing:border-box}
+@media(max-width:1000px){.wixLevels,.wixCases{padding-left:5%;padding-right:5%}.wixIntegration .integrationFlow{width:100%}}
+@media(max-width:800px){.wixLevels,.wixCases{padding-left:5%;padding-right:5%}.wixCases .caseGrid{grid-template-columns:1fr}.wixIntegration .integrationFlow{width:100%}}
+
+/* Keep 06–08 as the stable reference layout. */
+.cainiaoEyebrow{grid-column:1 / -1;grid-row:1;margin:0 0 26px}
+.cainiaoInner{grid-template-columns:330px minmax(0,1fr);grid-template-rows:auto auto auto;align-items:start}
+.cainiaoBrandCard{grid-column:1;grid-row:2}
+.cainiaoCopy{grid-column:2;grid-row:2}
+.cainiaoStats{grid-column:1 / -1;grid-row:3}
+@media(max-width:1000px){.cainiaoInner{grid-template-columns:290px minmax(0,1fr);grid-template-rows:auto auto auto}.cainiaoEyebrow{grid-column:1 / -1}.cainiaoBrandCard{grid-column:1;grid-row:2}.cainiaoCopy{grid-column:2;grid-row:2}.cainiaoStats{grid-column:1 / -1;grid-row:3}}
+@media(max-width:800px){.cainiaoInner{grid-template-columns:1fr;grid-template-rows:auto auto auto auto;gap:28px}.cainiaoEyebrow{grid-column:1;grid-row:1;margin-bottom:0}.cainiaoBrandCard{grid-column:1;grid-row:2}.cainiaoCopy{grid-column:1;grid-row:3}.cainiaoStats{grid-column:1;grid-row:4}}
