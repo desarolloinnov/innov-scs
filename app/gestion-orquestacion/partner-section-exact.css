@@ -1,0 +1,161 @@
+.gestionPage .goPartners{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:40px 4.8% 26px !important;
+  box-sizing:border-box !important;
+  background:#fff !important;
+}
+
+.gestionPage .goPartners > .goEyebrow{
+  margin:0 !important;
+  text-align:left !important;
+}
+
+.gestionPage .goPartnerSplit{
+  width:100% !important;
+  max-width:1306px !important;
+  margin:28px auto 0 !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,55%) minmax(0,41%) !important;
+  column-gap:4% !important;
+  align-items:start !important;
+}
+
+.gestionPage .goPartnerSplit > div:first-child{
+  min-width:0 !important;
+}
+
+.gestionPage .goPartnerSplit > div:first-child h2{
+  margin:0 !important;
+  max-width:740px !important;
+  font-size:clamp(48px,4.0vw,58px) !important;
+  line-height:1.02 !important;
+  letter-spacing:-.045em !important;
+  font-family:'Playfair Display',serif !important;
+  color:#271b3d !important;
+  text-align:left !important;
+}
+
+.gestionPage .goPartnerSplit > div:first-child h2{
+  font-size:0 !important;
+}
+.gestionPage .goPartnerSplit > div:first-child h2::before{
+  content:'Tecnología especializada respaldada por décadas de experiencia en gestión de almacenes.';
+  font-size:clamp(48px,4.0vw,58px) !important;
+  line-height:1.02 !important;
+  letter-spacing:-.045em !important;
+  display:block !important;
+}
+
+.gestionPage .goPartnerSplit > div:first-child p{
+  margin:10px 0 0 !important;
+  max-width:710px !important;
+  font-size:14px !important;
+  line-height:1.62 !important;
+  color:#655e6b !important;
+}
+.gestionPage .goPartnerSplit > div:first-child p{font-size:0 !important;}
+.gestionPage .goPartnerSplit > div:first-child p::before{
+  content:'Para nuestras soluciones de Gestión y Orquestación trabajamos con Beta 80, compañía italiana de tecnología y system integration fundada en Milán en 1986. Su experiencia combina conocimiento profundo de procesos logísticos, desarrollo de software propietario e integración de almacenes manuales, híbridos y automatizados.';
+  font-size:14px !important;
+  line-height:1.62 !important;
+  display:block !important;
+}
+
+/* Four exact stat tiles; the unused partner entries remain hidden. */
+.gestionPage .goPartnerGrid{
+  width:100% !important;
+  max-width:1306px !important;
+  margin:28px auto 0 !important;
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:16px !important;
+}
+.gestionPage .goPartnerGrid div{
+  min-height:123px !important;
+  background:#fbf9fc !important;
+  border:1px solid #dfd5e3 !important;
+  border-radius:16px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+  align-items:flex-start !important;
+  padding:24px 20px !important;
+  box-sizing:border-box !important;
+  color:#241a39 !important;
+  font-family:'Playfair Display',serif !important;
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease !important;
+}
+.gestionPage .goPartnerGrid div:nth-child(n+5){display:none !important;}
+.gestionPage .goPartnerGrid div{font-size:0 !important;}
+.gestionPage .goPartnerGrid div:nth-child(1)::before{content:'1986';}
+.gestionPage .goPartnerGrid div:nth-child(2)::before{content:'500+';}
+.gestionPage .goPartnerGrid div:nth-child(3)::before{content:'200+';}
+.gestionPage .goPartnerGrid div:nth-child(4)::before{content:'150+';}
+.gestionPage .goPartnerGrid div::before{
+  display:block !important;
+  font-size:32px !important;
+  line-height:1 !important;
+  font-weight:600 !important;
+  letter-spacing:-.03em !important;
+  color:#241a39 !important;
+}
+.gestionPage .goPartnerGrid div:nth-child(1)::after{content:'fundación en Milán';}
+.gestionPage .goPartnerGrid div:nth-child(2)::after{content:'colaboradores';}
+.gestionPage .goPartnerGrid div:nth-child(3)::after{content:'clientes activos';}
+.gestionPage .goPartnerGrid div:nth-child(4)::after{content:'almacenes con Stockager® en 3 continentes';}
+.gestionPage .goPartnerGrid div::after{
+  display:block !important;
+  margin-top:5px !important;
+  font-family:Arial,sans-serif !important;
+  font-size:11px !important;
+  line-height:1.35 !important;
+  color:#6c6371 !important;
+}
+.gestionPage .goPartnerGrid div:hover{
+  transform:translateY(-4px) !important;
+  box-shadow:0 14px 28px rgba(39,24,63,.09) !important;
+  border-color:#cdb8d8 !important;
+}
+
+/* Reproduce the Wix Beta 80 card as a single faithful visual. */
+.gestionPage .goPartnerSplit > .betaCard{
+  width:100% !important;
+  min-height:625px !important;
+  border:0 !important;
+  border-radius:30px !important;
+  background:#27183f url('data:image/jpeg;base64,DATAURI') center center / 100% 100% no-repeat !important;
+  box-shadow:none !important;
+  overflow:hidden !important;
+  color:transparent !important;
+  font-size:0 !important;
+  padding:0 !important;
+  display:block !important;
+  transform:translateZ(0) !important;
+  transition:transform .3s ease,box-shadow .3s ease !important;
+}
+.gestionPage .goPartnerSplit > .betaCard:hover{
+  transform:translateY(-5px) !important;
+  box-shadow:0 20px 42px rgba(39,24,63,.15) !important;
+}
+.gestionPage .goPartnerSplit > .betaCard > *{visibility:hidden !important;}
+
+@media (min-width:1500px){
+  .gestionPage .goPartners{padding-left:7.4% !important;padding-right:7.4% !important;}
+  .gestionPage .goPartnerSplit,.gestionPage .goPartnerGrid{max-width:1306px !important;}
+}
+
+@media (max-width:900px){
+  .gestionPage .goPartnerSplit{grid-template-columns:1fr !important;row-gap:28px !important;}
+  .gestionPage .goPartnerSplit > .betaCard{min-height:520px !important;}
+  .gestionPage .goPartnerGrid{grid-template-columns:1fr 1fr !important;}
+}
+
+@media (max-width:560px){
+  .gestionPage .goPartners{padding:34px 6% 20px !important;}
+  .gestionPage .goPartnerSplit{margin-top:22px !important;}
+  .gestionPage .goPartnerSplit > div:first-child h2::before{font-size:42px !important;}
+  .gestionPage .goPartnerGrid{grid-template-columns:1fr !important;}
+  .gestionPage .goPartnerGrid div{min-height:110px !important;}
+}
