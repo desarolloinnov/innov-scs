@@ -8,7 +8,7 @@ import './intralogistica/polish.css';
 import './intralogistica/cainiao-fix.css';
 import './intralogistica/alignment-fix.css';
 import './gestion-orquestacion/pill-fix.css';
-import './gestion-orquestacion/dashboard-image.css';
+import './gestion-orquestacion/dashboard-real-fix.css';
 import './gestion-orquestacion/logo-fix.css';
 import CapabilityLinks from './CapabilityLinks';
 import OrchestrationSystemCallout from './OrchestrationSystemCallout';
