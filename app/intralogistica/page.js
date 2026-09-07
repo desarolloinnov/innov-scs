@@ -2,13 +2,20 @@ import Link from 'next/link';
 import './intralogistica.css';
 
 const technologies = [
-  ['01','Almacenamiento automatizado','AS/RS, shuttles y soluciones Goods-to-Person para aumentar densidad, capacidad y velocidad de operación.','https://images.unsplash.com/photo-1586528116493-da8c8f8b9a3f?auto=format&fit=crop&w=1200&q=88'],
-  ['02','Movimiento inteligente','AMR, AGV y conveyors para transportar materiales de forma segura, flexible y coordinada.','https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=88'],
-  ['03','Picking y clasificación','Sorters, estaciones ergonómicas y automatización para elevar productividad y precisión.','https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1200&q=88'],
-  ['04','Orquestación operacional','WMS, WCS y software para coordinar personas, equipos, inventario y flujo físico.','https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=88']
+  ['01','Almacenamiento y densificación','AS/RS · MINILOAD · SHUTTLE SYSTEMS · HIGH-DENSITY STORAGE','Aumentamos la utilización del espacio y la capacidad de almacenamiento mediante soluciones compactas y automatizadas que reducen desplazamientos y permiten aprovechar mejor la superficie y altura disponible.','Impacta: densidad · capacidad · productividad · utilización de espacio.','https://images.unsplash.com/photo-1586528116493-da8c8f8b9a3f?auto=format&fit=crop&w=1200&q=88'],
+  ['02','Movimiento y transporte interno','AMR · AGV · CONVEYORS · AUTONOMOUS FORKLIFTS','Automatizamos movimientos repetitivos entre recepción, almacenamiento, producción, picking, consolidación y despacho reduciendo traslados improductivos y dependencia del movimiento manual.','Impacta: productividad · tiempos de movimiento · utilización de recursos · seguridad.','https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=88'],
+  ['03','Preparación y surtido','GOODS-TO-PERSON · PICK/P UTT-TO-LIGHT · ROBOTIC PICKING · AMR-ASSISTED PICKING','Llevamos el producto al operador —o automatizamos directamente parte del proceso— para reducir recorridos, acelerar el surtido y elevar simultáneamente productividad y precisión.','Impacta: líneas/hora · pedidos/hora · exactitud · tiempo de ciclo · costo por pedido.','https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1200&q=88'],
+  ['04','Clasificación y distribución','SORTERS · CROSS-BELT · CONVEYORS · ROBOTIC SORTING','Automatizamos la clasificación de productos, pedidos o paquetes con destinos para soportar mayores volúmenes, múltiples rutas y operaciones multicanal con mayor velocidad y precisión.','Impacta: throughput · capacidad · precisión · tiempo de procesamiento.','https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=88']
 ];
 
-const results = ['Mayor throughput y productividad','Reducción de recorridos y tiempos de ciclo','Mayor utilización del espacio','Escalabilidad para crecimiento futuro'];
+const process = [
+  ['01','Entender','Objetivos, operación y datos'],
+  ['02','Diagnosticar','Restricciones y oportunidades'],
+  ['03','Diseñar','Alternativas y dimensionamiento'],
+  ['04','Simular','Capacidad y desempeño esperado'],
+  ['05','Validar','ROI y caso financiero'],
+  ['06','Implementar','Integración, puesta en marcha y evolución']
+];
 
 export default function Intralogistica(){
   return <main className="intralogisticaPage">
@@ -28,17 +35,40 @@ export default function Intralogistica(){
       <div className="intraHeroVisual"><img src="https://images.unsplash.com/photo-1749244768351-2726dc23d26c?auto=format&fit=crop&w=1800&q=90" alt="Operación intralogística"/><span>FLUJO · AUTOMATIZACIÓN · PRODUCTIVIDAD</span></div>
     </section>
 
-    <section className="intraIntro">
-      <div><p className="intraEyebrow purple">UNA ARQUITECTURA, MÚLTIPLES TECNOLOGÍAS</p><h2>La solución correcta depende de cómo funciona tu operación.</h2></div>
-      <p>Analizamos volúmenes, recorridos, inventario, niveles de servicio, restricciones físicas y crecimiento esperado para diseñar una arquitectura que combine automatización, software e infraestructura sin sobredimensionar la solución.</p>
+    <section className="wixSection wixProcess">
+      <p className="wixEyebrow">01 · DEL RETO A LA SOLUCIÓN</p>
+      <h2>Automatizar empieza por entender qué está limitando a la operación.</h2>
+      <p className="wixLead">Partimos de los objetivos del negocio, los flujos, volúmenes, perfiles de pedido, inventario, restricciones físicas y niveles de servicio. Identificamos qué está limitando el desempeño, diseñamos alternativas y validamos su capacidad y viabilidad económica antes de implementar. Así, la automatización responde a la operación y no al revés.</p>
+      <div className="processRow">{process.map(([n,t,d],i)=><div className={'processItem '+(i===3||i===4?'isActive':'')} key={n}><span>{n}</span><strong>{t}</strong><small>{d}</small>{i<process.length-1&&<i>→</i>}</div>)}</div>
+      <div className="processNote"><strong>No partimos de una tecnología.</strong><span>Primero demostramos qué solución puede producir el resultado esperado y si la inversión tiene sentido.</span></div>
     </section>
 
-    <section className="intraTech"><div className="intraSectionHead"><p className="intraEyebrow purple">TECNOLOGÍAS QUE COMBINAMOS</p><h2>De la automatización puntual a una operación orquestada.</h2></div><div className="intraTechGrid">{technologies.map(([n,t,d,img])=><article key={n}><div className="intraTechImage"><img src={img} alt={t}/><span>{n}</span></div><div className="intraTechBody"><h3>{t}</h3><p>{d}</p><span className="intraArrow">Explorar tecnología →</span></div></article>)}</div></section>
+    <section className="wixSection wixTech">
+      <p className="wixEyebrow">02 · CAPACIDADES DE AUTOMATIZACIÓN</p>
+      <h2>Combinamos tecnologías para transformar el flujo físico completo.</h2>
+      <p className="wixLead">La solución puede integrar diferentes tecnologías y niveles de automatización. El objetivo es seleccionar la combinación que resuelva las restricciones de la operación con el mejor balance entre capacidad, productividad, flexibilidad y retorno.</p>
+      <div className="wixTechGrid">{technologies.map(([n,t,tag,d,impact,img])=><article key={n} className="wixTechCard"><img src={img} alt={t}/><div className="wixTechBody"><h3>{t}</h3><b>{tag}</b><p>{d}</p><hr/><small>{impact}</small></div></article>)}</div>
+    </section>
 
-    <section className="intraDark"><div><p className="intraEyebrow">EL OBJETIVO NO ES AUTOMATIZAR POR AUTOMATIZAR</p><h2>Diseñamos el nivel de automatización que realmente necesita la operación.</h2><p className="intraDarkText">Una buena arquitectura permite crecer, medir y evolucionar. Integramos las tecnologías existentes con nuevas capacidades para construir una operación más eficiente sin perder flexibilidad.</p></div><div className="intraResults">{results.map((r,i)=><div key={r}><b>0{i+1}</b><span>{r}</span></div>)}</div></section>
+    <section className="wixSection wixLevels">
+      <p className="wixEyebrow">03 · NIVEL DE AUTOMATIZACIÓN</p>
+      <h2>El objetivo no es alcanzar la máxima automatización. Es encontrar la automatización correcta.</h2>
+      <p className="wixLead">Evaluamos qué procesos conviene mantener manuales, cuáles deben ser asistidos y cuáles justifican una automatización parcial o completa. La solución puede evolucionar conforme cambian los volúmenes, la complejidad y las necesidades del negocio, evitando sobredimensionamiento y protegiendo la inversión.</p>
+      <div className="levels"><span>Manual</span><span>Asistido</span><span>Semiautomatizado</span><span>Automatizado</span><span>Autónomo</span></div>
+    </section>
 
-    <section className="intraCases"><div className="intraSectionHead"><p className="intraEyebrow purple">APLICACIONES</p><h2>Donde la intralogística puede cambiar el desempeño.</h2></div><div className="intraCasesGrid"><article><span>01</span><h3>Almacenes de alta demanda</h3><p>Más capacidad de procesamiento y productividad sin depender de recorridos manuales.</p></article><article><span>02</span><h3>Operaciones con crecimiento</h3><p>Arquitecturas escalables que permiten aumentar capacidad conforme evoluciona el negocio.</p></article><article><span>03</span><h3>Picking y fulfillment</h3><p>Flujos más cortos, mayor precisión y mejor nivel de servicio para pedidos de alta rotación.</p></article></div></section>
+    <section className="wixSection wixIntegration">
+      <p className="wixEyebrow">04 · INTEGRACIÓN Y ORQUESTACIÓN</p>
+      <h2>La automatización genera valor cuando funciona como un solo sistema.</h2>
+      <p className="wixLead">Integramos la automatización con los sistemas de gestión y control de la operación para coordinar inventario, tareas, recursos y equipos en tiempo real, incluso cuando la arquitectura incorpora tecnologías de distintos fabricantes.</p>
+      <div className="integrationFlow"><div>ERP / OMS</div><i>↓</i><div>WMS</div><i>↓</i><div>WCS / Orquestación</div><i>↓</i><div>AS/RS · AMR · AGV · Conveyors · Sorters · Robots</div><i>↓</i><div>Operación física</div></div>
+    </section>
 
-    <section className="intraCtaSection"><p className="intraEyebrow">¿TIENES UN RETO DE INTRALOGÍSTICA?</p><h2>Diseñemos la combinación tecnológica que mejor responda a tu operación.</h2><Link href="/#contacto">HABLEMOS DE TU PROYECTO →</Link></section>
+    <section className="wixSection wixCases">
+      <p className="wixEyebrow">05 · EXPERIENCIA Y RESULTADOS</p>
+      <h2>Casos que demuestran el impacto de automatizar con propósito.</h2>
+      <p className="wixLead">Mostramos únicamente resultados respaldados por los casos disponibles, diferenciando experiencia directa de InnOv y evidencia de nuestro ecosistema tecnológico.</p>
+      <div className="caseGrid"><article><b>FARMACÉUTICA</b><h3>Automatización integral de intralogística</h3><p>Integración de automatización, control y sistemas de gestión para transformar el flujo físico de una operación regulada.</p><a href="#contacto">Ver caso completo →</a></article><article><b>E-COMMERCE / FULFILLMENT</b><h3>Mayor capacidad para procesamiento de pedidos</h3><p>Automatización orientada a incrementar velocidad, precisión y capacidad de surtido en operaciones de alto volumen.</p><a href="#contacto">Ver caso completo →</a></article><article><b>DISTRIBUCIÓN</b><h3>Clasificación automatizada multicanal</h3><p>Sorting y orquestación para soportar múltiples destinos y mayores volúmenes con menor intervención manual.</p><a href="#contacto">Ver caso completo →</a></article></div>
+    </section>
   </main>
 }
