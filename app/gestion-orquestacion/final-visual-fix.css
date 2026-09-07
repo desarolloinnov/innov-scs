@@ -1,0 +1,205 @@
+/* Final visual cleanup for sections 09 and 10.
+   This file is loaded last and neutralizes the previous pseudo-content hacks. */
+
+/* ---------- 09 · SOCIO TECNOLÓGICO ---------- */
+.gestionPage .goPartners{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:40px 4.25% 52px !important;
+  box-sizing:border-box !important;
+  background:#fff !important;
+}
+
+.gestionPage .goPartners > .goEyebrow{
+  margin:0 0 24px !important;
+  text-align:left !important;
+}
+
+.gestionPage .goPartnerSplit{
+  width:100% !important;
+  max-width:1306px !important;
+  margin:0 auto !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,55%) minmax(0,41%) !important;
+  column-gap:4% !important;
+  align-items:start !important;
+}
+
+.gestionPage .goPartnerSplit > div:first-child{
+  min-width:0 !important;
+}
+
+.gestionPage .goPartnerSplit > div:first-child h2{
+  margin:0 !important;
+  max-width:740px !important;
+  font-family:'Playfair Display',serif !important;
+  font-size:clamp(48px,4vw,58px) !important;
+  line-height:1.02 !important;
+  letter-spacing:-.045em !important;
+  color:#271b3d !important;
+  text-align:left !important;
+}
+.gestionPage .goPartnerSplit > div:first-child h2::before{
+  content:none !important;
+  display:none !important;
+}
+
+.gestionPage .goPartnerSplit > div:first-child p{
+  margin:12px 0 0 !important;
+  max-width:710px !important;
+  font-size:14px !important;
+  line-height:1.62 !important;
+  color:#655e6b !important;
+  text-align:left !important;
+}
+.gestionPage .goPartnerSplit > div:first-child p::before{
+  content:none !important;
+  display:none !important;
+}
+
+.gestionPage .goPartnerGrid{
+  width:100% !important;
+  max-width:1306px !important;
+  margin:28px auto 0 !important;
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:16px !important;
+}
+.gestionPage .goPartnerGrid div{
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+  align-items:flex-start !important;
+  min-height:123px !important;
+  padding:24px 20px !important;
+  box-sizing:border-box !important;
+  background:#fbf9fc !important;
+  border:1px solid #dfd5e3 !important;
+  border-radius:16px !important;
+  color:#241a39 !important;
+  font-size:inherit !important;
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease !important;
+}
+.gestionPage .goPartnerGrid div:nth-child(n+5){display:none !important;}
+.gestionPage .goPartnerGrid div:hover{
+  transform:translateY(-4px) !important;
+  box-shadow:0 14px 28px rgba(39,24,63,.09) !important;
+  border-color:#cdb8d8 !important;
+}
+
+.gestionPage .goPartnerSplit > .betaCard{
+  width:100% !important;
+  min-height:625px !important;
+  margin:0 !important;
+  padding:38px 38px 34px !important;
+  box-sizing:border-box !important;
+  border:0 !important;
+  border-radius:30px !important;
+  background:#27183f !important;
+  box-shadow:0 18px 40px rgba(39,24,63,.10) !important;
+  overflow:hidden !important;
+  color:#fff !important;
+  font-size:inherit !important;
+  display:flex !important;
+  flex-direction:column !important;
+  visibility:visible !important;
+  transition:transform .3s ease,box-shadow .3s ease !important;
+}
+.gestionPage .goPartnerSplit > .betaCard:hover{
+  transform:translateY(-5px) !important;
+  box-shadow:0 24px 48px rgba(39,24,63,.16) !important;
+}
+.gestionPage .goPartnerSplit > .betaCard > *{
+  visibility:visible !important;
+}
+
+/* Keep the card content horizontal/vertical instead of inheriting the old SVG-only replacement. */
+.gestionPage .goPartnerSplit > .betaCard h1,
+.gestionPage .goPartnerSplit > .betaCard h2,
+.gestionPage .goPartnerSplit > .betaCard h3,
+.gestionPage .goPartnerSplit > .betaCard p,
+.gestionPage .goPartnerSplit > .betaCard span,
+.gestionPage .goPartnerSplit > .betaCard b,
+.gestionPage .goPartnerSplit > .betaCard strong,
+.gestionPage .goPartnerSplit > .betaCard div{
+  max-width:100% !important;
+}
+
+.gestionPage .goPartnerSplit > .betaCard h1,
+.gestionPage .goPartnerSplit > .betaCard h2,
+.gestionPage .goPartnerSplit > .betaCard h3,
+.gestionPage .goPartnerSplit > .betaCard p{
+  font-size:revert !important;
+  color:revert !important;
+}
+
+.gestionPage .goPartnerSplit > .betaCard img{
+  max-width:100% !important;
+}
+
+/* ---------- 10 · CTA FINAL ---------- */
+.gestionPage .goFooterCta{
+  position:relative !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:78px 11.1% 76px !important;
+  min-height:421px !important;
+  box-sizing:border-box !important;
+  border-radius:0 !important;
+  background:#27183f !important;
+  color:#fff !important;
+  overflow:hidden !important;
+}
+.gestionPage .goFooterCta::after{display:none !important;content:none !important;}
+.gestionPage .goFooterCta > *{position:relative !important;z-index:1 !important;}
+.gestionPage .goFooterCta .goEyebrow{
+  margin:0 0 18px !important;
+  color:#fff !important;
+}
+.gestionPage .goFooterCta h2{
+  max-width:1280px !important;
+  margin:0 0 18px !important;
+  color:#fff !important;
+  font-family:'Playfair Display',serif !important;
+  font-size:clamp(52px,4.2vw,68px) !important;
+  line-height:1.03 !important;
+  letter-spacing:-.045em !important;
+}
+.gestionPage .goFooterCta h2::before{content:none !important;display:none !important;}
+.gestionPage .goFooterCta p{
+  max-width:1250px !important;
+  margin:0 !important;
+  color:#fff !important;
+  font-size:16px !important;
+  line-height:1.55 !important;
+}
+.gestionPage .goFooterCta p::before{content:none !important;display:none !important;}
+.gestionPage .goFooterCta .goPrimary{
+  margin-top:30px !important;
+  background:#fff !important;
+  color:#27183f !important;
+  border-color:#fff !important;
+  padding:15px 22px !important;
+  font-size:14px !important;
+  border-radius:999px !important;
+}
+
+@media(max-width:900px){
+  .gestionPage .goPartnerSplit{grid-template-columns:1fr !important;row-gap:28px !important;}
+  .gestionPage .goPartnerGrid{grid-template-columns:1fr 1fr !important;}
+  .gestionPage .goPartnerSplit > .betaCard{min-height:520px !important;}
+  .gestionPage .goFooterCta{padding:60px 8% 58px !important;min-height:380px !important;}
+}
+
+@media(max-width:560px){
+  .gestionPage .goPartners{padding:34px 6% 30px !important;}
+  .gestionPage .goPartnerGrid{grid-template-columns:1fr !important;}
+  .gestionPage .goPartnerGrid div{min-height:110px !important;}
+  .gestionPage .goPartnerSplit > .betaCard{min-height:0 !important;padding:30px 24px !important;}
+  .gestionPage .goPartnerSplit > div:first-child h2{font-size:42px !important;}
+  .gestionPage .goFooterCta{padding:48px 7% 52px !important;}
+  .gestionPage .goFooterCta h2{font-size:43px !important;}
+  .gestionPage .goFooterCta p{font-size:14px !important;}
+}
