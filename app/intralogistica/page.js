@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import './intralogistica.css';
 import './polish.css';
+import './alignment-fix.css';
 
 const technologies = [
   ['01','Almacenamiento y densificación','AS/RS · MINILOAD · SHUTTLE SYSTEMS · HIGH-DENSITY STORAGE','Aumentamos la utilización del espacio y la capacidad de almacenamiento mediante soluciones compactas y automatizadas que reducen desplazamientos y permiten aprovechar mejor la superficie y altura disponible.','Impacta: densidad · capacidad · productividad · utilización de espacio.','https://images.unsplash.com/photo-1586528116493-da8c8f8b9a3f?auto=format&fit=crop&w=1200&q=88'],
