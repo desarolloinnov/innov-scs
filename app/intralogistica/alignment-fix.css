@@ -1,76 +1,91 @@
-/* Restore the confirmed Wix-style alignment for sections 03 and 05.
-   Keep the colored bands narrower and centered, with all inner content
-   sharing the same left rail as the surrounding sections. */
+/* Final rail lock for sections 03 and 05.
+   Keep their colored bands full-width, but place every content element on
+   the same 84% centered rail used by the surrounding sections. */
 @media (min-width: 801px){
-  .wixLevels,
-  .wixCases{
-    width: 78.5% !important;
-    max-width: 1332px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    box-sizing: border-box !important;
+  .intralogisticaPage .wixLevels,
+  .intralogisticaPage .wixCases{
+    width:100% !important;
+    max-width:none !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
   }
 
-  .wixLevels .wixEyebrow,
-  .wixLevels h2,
-  .wixLevels .wixLead,
-  .wixLevels .levels,
-  .wixCases .wixEyebrow,
-  .wixCases h2,
-  .wixCases .wixLead,
-  .wixCases .caseGrid{
-    width: 100% !important;
-    max-width: 1120px !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    text-align: left !important;
-    box-sizing: border-box !important;
+  .intralogisticaPage .wixLevels > .wixEyebrow,
+  .intralogisticaPage .wixLevels > h2,
+  .intralogisticaPage .wixLevels > .wixLead,
+  .intralogisticaPage .wixLevels > .levels,
+  .intralogisticaPage .wixCases > .wixEyebrow,
+  .intralogisticaPage .wixCases > h2,
+  .intralogisticaPage .wixCases > .wixLead,
+  .intralogisticaPage .wixCases > .caseGrid{
+    width:84% !important;
+    max-width:1500px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    text-align:left !important;
+    box-sizing:border-box !important;
   }
 
-  .wixLevels .levels{
-    margin-top: 26px !important;
+  .intralogisticaPage .wixLevels > h2,
+  .intralogisticaPage .wixLevels > .wixLead,
+  .intralogisticaPage .wixCases > h2,
+  .intralogisticaPage .wixCases > .wixLead{
+    max-width:1120px !important;
+    margin-left:calc((84% - 1120px) / 2) !important;
+    margin-right:0 !important;
   }
 
-  .wixCases .caseGrid{
-    grid-template-columns: repeat(3,minmax(0,1fr)) !important;
-    gap: 16px !important;
-    margin-top: 27px !important;
+  .intralogisticaPage .wixLevels > .levels,
+  .intralogisticaPage .wixCases > .caseGrid{
+    max-width:1180px !important;
+    margin-left:calc((84% - 1180px) / 2) !important;
+    margin-right:0 !important;
   }
 
-  .wixCases .caseGrid article{
-    min-width: 0 !important;
-    width: auto !important;
-    box-sizing: border-box !important;
+  .intralogisticaPage .wixCases > .caseGrid{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:16px !important;
+  }
+
+  .intralogisticaPage .wixCases > .caseGrid article{
+    min-width:0 !important;
+    width:auto !important;
+    box-sizing:border-box !important;
   }
 }
 
-@media (max-width: 800px){
-  .wixLevels,
-  .wixCases{
-    width: 90% !important;
-    max-width: none !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    box-sizing: border-box !important;
+@media (max-width:800px){
+  .intralogisticaPage .wixLevels,
+  .intralogisticaPage .wixCases{
+    width:100% !important;
+    max-width:none !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:5% !important;
+    padding-right:5% !important;
+    box-sizing:border-box !important;
   }
 
-  .wixLevels .wixEyebrow,
-  .wixCases .wixEyebrow,
-  .wixLevels h2,
-  .wixLevels .wixLead,
-  .wixLevels .levels,
-  .wixCases h2,
-  .wixCases .wixLead,
-  .wixCases .caseGrid{
-    width: 100% !important;
-    max-width: none !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    text-align: left !important;
-    box-sizing: border-box !important;
+  .intralogisticaPage .wixLevels > .wixEyebrow,
+  .intralogisticaPage .wixLevels > h2,
+  .intralogisticaPage .wixLevels > .wixLead,
+  .intralogisticaPage .wixLevels > .levels,
+  .intralogisticaPage .wixCases > .wixEyebrow,
+  .intralogisticaPage .wixCases > h2,
+  .intralogisticaPage .wixCases > .wixLead,
+  .intralogisticaPage .wixCases > .caseGrid{
+    width:100% !important;
+    max-width:none !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    text-align:left !important;
+    box-sizing:border-box !important;
   }
 
-  .wixCases .caseGrid{
-    grid-template-columns: 1fr !important;
+  .intralogisticaPage .wixCases > .caseGrid{
+    grid-template-columns:1fr !important;
   }
 }
