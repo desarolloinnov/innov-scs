@@ -1,4 +1,20 @@
-.gestionPage .goCasesGrid .goBrand span{font-size:0!important;line-height:0!important;display:flex!important;align-items:center!important;justify-content:center!important;width:64px!important;height:48px!important;background-repeat:no-repeat!important;background-position:center!important;background-size:contain!important;background-color:#fff!important;overflow:hidden!important;flex:0 0 64px!important}
-.gestionPage .goCasesGrid article:nth-child(1) .goBrand span{background-image:url('/logos/liomont.svg')!important}
-.gestionPage .goCasesGrid article:nth-child(2) .goBrand span{background-image:url('/logos/florim.svg')!important}
-.gestionPage .goCasesGrid article:nth-child(3) .goBrand span{background-image:url('/logos/safilo.svg')!important}
+.gestionPage .goCasesGrid .goBrand span{
+  font-size:0!important;
+  line-height:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:64px!important;
+  height:48px!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+  background-size:contain!important;
+  background-color:#fff!important;
+  overflow:hidden!important;
+  flex:0 0 64px!important;
+}
+.gestionPage .goCasesGrid article:nth-child(1) .goBrand span{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF0AAAA4CAIAAAAQKmN9AAAJnklEQVR4AeybCVCTZxrHyX0QCCQUwmUR")!important}
+.gestionPage .goCasesGrid article:nth-child(2) .goBrand span{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFwAAAA4CAIAAAD/6AhDAAAI5klEQVR4AeybbVBU1xnH930XWEEUAaUg")!important}
+.gestionPage .goCasesGrid article:nth-child(3) .goBrand span{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFgAAAA7CAIAAABwl9qXAAAHuUlEQVR4Aeybe0xTdxTHaaGlgPJUeTlU")!important}
+.gestionPage .goCasesGrid .goBrand{display:flex!important;align-items:center!important;gap:16px!important}
+.gestionPage .goCasesGrid .goBrand h3{margin:0!important}
