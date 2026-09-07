@@ -1,0 +1,32 @@
+.gestionPage .goPartners{padding-top:72px!important;padding-bottom:76px!important}
+.gestionPage .goPartners>.goEyebrow{margin-bottom:26px!important}
+.gestionPage .goPartners .goPartnerSplit{display:grid!important;grid-template-columns:minmax(0,1.06fr) minmax(450px,.76fr)!important;gap:60px!important;align-items:stretch!important}
+.gestionPage .goPartners .goPartnerSplit>div:first-child{display:flex!important;flex-direction:column!important;min-width:0!important}
+.gestionPage .goPartners .goPartnerSplit>div:first-child h2{font-size:clamp(44px,4.2vw,58px)!important;line-height:1.04!important;max-width:720px!important;margin:0 0 16px!important}
+.gestionPage .goPartners .goPartnerSplit>div:first-child>p{font-size:15px!important;line-height:1.7!important;color:#655e6b!important;max-width:760px!important;margin:0!important}
+.gestionPage .goPartners .goPartnerGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;margin:36px 0 0!important;max-width:760px!important}
+.gestionPage .goPartners .goPartnerGrid>div{min-height:124px!important;padding:24px 22px!important;background:#fff!important;border:1px solid #ddd4e2!important;border-radius:16px!important;display:flex!important;flex-direction:column!important;justify-content:center!important;overflow:hidden!important;box-sizing:border-box!important;transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease!important;font-size:0!important}
+.gestionPage .goPartners .goPartnerGrid>div:hover{transform:translateY(-5px)!important;box-shadow:0 15px 30px rgba(39,24,63,.09)!important;border-color:#cdb6d8!important}
+.gestionPage .goPartners .goPartnerGrid>div:before{display:block!important;font-family:'Playfair Display',serif!important;font-size:32px!important;line-height:1!important;font-weight:600!important;color:#271b3d!important;letter-spacing:.01em!important}
+.gestionPage .goPartners .goPartnerGrid>div:after{display:block!important;font-size:11px!important;line-height:1.45!important;color:#675f6d!important;margin-top:8px!important}
+.gestionPage .goPartners .goPartnerGrid>div:nth-child(1):before{content:'1986'}
+.gestionPage .goPartners .goPartnerGrid>div:nth-child(1):after{content:'fundación en Milán'}
+.gestionPage .goPartners .goPartnerGrid>div:nth-child(2):before{content:'500+'}
+.gestionPage .goPartners .goPartnerGrid>div:nth-child(2):after{content:'colaboradores'}
+.gestionPage .goPartners .goPartnerGrid>div:nth-child(3):before{content:'200+'}
+.gestionPage .goPartners .goPartnerGrid>div:nth-child(3):after{content:'clientes activos'}
+.gestionPage .goPartners .goPartnerGrid>div:nth-child(4):before{content:'150+'}
+.gestionPage .goPartners .goPartnerGrid>div:nth-child(4):after{content:'almacenes con Stockager® en 3 continentes'}
+.gestionPage .goPartners .goPartnerGrid>div:nth-child(n+5){display:none!important}
+.gestionPage .goPartners .betaCard{position:relative!important;min-height:620px!important;padding:40px 38px!important;border-radius:30px!important;background:#27183f!important;color:#fff!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;box-shadow:0 18px 44px rgba(39,24,63,.13)!important;overflow:hidden!important;box-sizing:border-box!important}
+.gestionPage .goPartners .betaCard:before{content:'';position:absolute;inset:0 auto auto 0;width:100%;height:8px;background:linear-gradient(90deg,#b894d1,rgba(184,148,209,0))!important;opacity:.9}
+.gestionPage .goPartners .betaCard:after{content:'WMS · StockMan    WCS · StockMatic    Manual    Automatizado    Híbrido';position:absolute;left:38px;right:38px;bottom:118px;font-size:10px;line-height:1.55;color:#fff;opacity:.95;word-spacing:10px}
+.gestionPage .goPartners .betaCard>span{display:flex!important;align-items:center!important;justify-content:center!important;width:74px!important;height:74px!important;border-radius:50%!important;background:#fff!important;color:#27183f!important;font-size:56px!important;line-height:1!important;font-weight:400!important;margin:6px 0 8px!important;box-shadow:0 10px 26px rgba(0,0,0,.08)!important}
+.gestionPage .goPartners .betaCard>strong{font-size:38px!important;line-height:1!important;margin:0!important;color:#fff!important;letter-spacing:-.02em!important}
+.gestionPage .goPartners .betaCard>strong:before{content:'';display:block;width:62px;height:2px;background:#b894d1;margin:28px 0 22px!important}
+.gestionPage .goPartners .betaCard>strong:after{content:'Stockager Suite';display:flex;align-items:center;width:260px;height:82px;margin:0 0 26px!important;padding:0 22px;border-radius:14px;background:#fff;color:#80777a;font-size:15px;font-weight:500;letter-spacing:0;box-sizing:border-box}
+.gestionPage .goPartners .betaCard>small{font-size:0!important;line-height:0!important;color:transparent!important;margin:0!important;max-width:420px!important}
+.gestionPage .goPartners .betaCard>small:before{content:'Una plataforma para gestionar y orquestar el almacén.';display:block;color:#fff;font-size:28px;line-height:1.14;font-weight:700;max-width:450px;margin:0 0 14px}
+.gestionPage .goPartners .betaCard>small:after{content:'Stockager® Suite integra StockMan, el WMS para la gestión operativa del almacén, y StockMatic, el WCS para coordinar sistemas de automatización heterogéneos.\\A\\A━━━━━━━━━━━━━━━━━━━━━━━━\\A\\ALa plataforma puede operar on-premise o en cloud e integrarse con sistemas ERP y tecnologías de automatización existentes.';white-space:pre-line;display:block;color:#e9e1ef;font-size:13px;line-height:1.55;font-weight:400}
+@media(max-width:1100px){.gestionPage .goPartners .goPartnerSplit{grid-template-columns:1fr!important}.gestionPage .goPartners .betaCard{min-height:560px!important}.gestionPage .goPartners .betaCard:after{bottom:105px}}
+@media(max-width:800px){.gestionPage .goPartners{padding-top:58px!important;padding-bottom:60px!important}.gestionPage .goPartners .goPartnerSplit{gap:34px!important}.gestionPage .goPartners .goPartnerSplit>div:first-child h2{font-size:42px!important}.gestionPage .goPartners .goPartnerGrid{grid-template-columns:1fr!important;max-width:none!important}.gestionPage .goPartners .betaCard{padding:32px 26px!important;min-height:0!important}.gestionPage .goPartners .betaCard>strong:after{width:100%;max-width:260px}.gestionPage .goPartners .betaCard:after{left:26px;right:26px;bottom:104px;line-height:1.45}.gestionPage .goPartners .betaCard>small:before{font-size:24px}.gestionPage .goPartners .betaCard>small:after{font-size:12px}}
