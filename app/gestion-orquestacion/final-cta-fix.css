@@ -44,14 +44,6 @@
   letter-spacing:-.045em !important;
 }
 
-.gestionPage .goFooterCta p{
-  max-width:1250px !important;
-  margin:0 !important;
-  color:#fff !important;
-  font-size:16px !important;
-  line-height:1.55 !important;
-}
-
 .gestionPage .goFooterCta h2{font-size:0 !important;}
 .gestionPage .goFooterCta h2::before{
   content:'¿Su WMS controla realmente la operación que hoy necesita ejecutar?' !important;
@@ -59,14 +51,37 @@
   font-size:clamp(52px,4.2vw,68px) !important;
   line-height:1.03 !important;
   letter-spacing:-.045em !important;
+  color:#fff !important;
 }
 
-.gestionPage .goFooterCta p{font-size:0 !important;}
+/* Hide the original paragraph box completely; recreate only the intended copy
+   in a controlled pseudo-element so inherited layout rules cannot squeeze the
+   text into a vertical column. */
+.gestionPage .goFooterCta p{
+  position:relative !important;
+  width:100% !important;
+  max-width:1250px !important;
+  min-height:25px !important;
+  height:auto !important;
+  margin:0 !important;
+  padding:0 !important;
+  color:transparent !important;
+  font-size:0 !important;
+  line-height:0 !important;
+  overflow:visible !important;
+}
 .gestionPage .goFooterCta p::before{
   content:'No necesita comenzar pensando en reemplazarlo. Comencemos entendiendo qué necesita mejorar, integrar o escalar y cuál es la arquitectura más adecuada para hacerlo.' !important;
   display:block !important;
+  position:relative !important;
+  left:0 !important;
+  top:0 !important;
+  width:min(1250px,100%) !important;
+  max-width:1250px !important;
+  color:#fff !important;
   font-size:16px !important;
   line-height:1.55 !important;
+  white-space:normal !important;
 }
 
 .gestionPage .goFooterCta .goPrimary{
