@@ -1,0 +1,9 @@
+.gestionPage .goPartnerSplit > div:first-child h2{font-size:clamp(48px,4vw,58px)!important;line-height:1.02!important;letter-spacing:-.045em!important;margin:0!important;color:#271b3d!important;}
+.gestionPage .goPartnerSplit > div:first-child h2::before{content:none!important;display:none!important;}
+.gestionPage .goPartnerSplit > div:first-child p{font-size:14px!important;line-height:1.62!important;margin:10px 0 0!important;color:#655e6b!important;max-width:710px!important;}
+.gestionPage .goPartnerSplit > div:first-child p::before{content:none!important;display:none!important;}
+.gestionPage .goPartnerSplit > .betaCard{background:#27183f!important;color:#fff!important;font-size:inherit!important;padding:44px 38px 36px!important;min-height:625px!important;box-sizing:border-box!important;overflow:hidden!important;position:relative!important;display:block!important;}
+.gestionPage .goPartnerSplit > .betaCard::before{content:''!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;height:9px!important;background:#a67ac2!important;border-radius:30px 30px 0 0!important;}
+.gestionPage .goPartnerSplit > .betaCard > *{visibility:visible!important;position:relative!important;z-index:1!important;}
+.gestionPage .goPartnerSplit > .betaCard h3,.gestionPage .goPartnerSplit > .betaCard h2,.gestionPage .goPartnerSplit > .betaCard p,.gestionPage .goPartnerSplit > .betaCard b,.gestionPage .goPartnerSplit > .betaCard strong,.gestionPage .goPartnerSplit > .betaCard span{color:#fff!important;}
+.gestionPage .goPartnerSplit > .betaCard img{max-width:100%!important;height:auto!important;display:block!important;}
