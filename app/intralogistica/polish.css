@@ -120,7 +120,6 @@
 .wixCases h2,.wixCases .wixLead{max-width:1120px;margin-left:0;margin-right:0;text-align:left}
 .wixCases .caseGrid{width:100%;max-width:none;margin-left:0;margin-right:0;margin-top:27px;gap:16px}
 .caseGrid article{min-height:170px;padding:19px 18px}
-
 .ecosystemSection{padding-top:52px;padding-bottom:48px}
 .ecosystemInner{width:min(72%,1380px)}
 .ecosystemSection h2,.ecosystemLead{text-align:left;margin-left:0;margin-right:0}
@@ -131,15 +130,27 @@
 .cainiaoSection{padding-bottom:60px}
 .cainiaoInner{width:min(72%,1380px)}
 .operationInner{width:min(72%,1380px)}
+@media(max-width:1000px){.wixSection,.ecosystemInner,.cainiaoInner,.operationInner{width:84%}}
+@media(max-width:800px){.wixSection,.ecosystemInner,.cainiaoInner,.operationInner{width:90%}.wixSection{padding-top:48px;padding-bottom:52px}.wixSection h2,.wixLead,.wixLevels h2,.wixLevels .wixLead,.wixIntegration h2,.wixIntegration .wixLead,.wixCases h2,.wixCases .wixLead{max-width:none;text-align:left}.wixLevels,.wixCases{padding-left:0;padding-right:0}.wixCases .caseGrid{grid-template-columns:1fr}.ecosystemSection h2,.ecosystemLead{text-align:left}}
 
-@media(max-width:1000px){
-  .wixSection,.ecosystemInner,.cainiaoInner,.operationInner{width:84%}
+/* Final 03/05 alignment: use exactly the same outer rail as the stable 06 section. */
+@media(min-width:801px){
+  .wixLevels,.wixCases{width:100%;max-width:none;box-sizing:border-box}
+  .wixLevels > .wixEyebrow,.wixLevels > h2,.wixLevels > .wixLead,.wixLevels > .levels,
+  .wixCases > .wixEyebrow,.wixCases > h2,.wixCases > .wixLead,.wixCases > .caseGrid{
+    width:min(72%,1380px);
+    margin-left:auto;
+    margin-right:auto;
+    box-sizing:border-box;
+  }
+  .wixLevels > h2,.wixLevels > .wixLead,.wixCases > h2,.wixCases > .wixLead{max-width:1120px}
+  .wixLevels > .levels{max-width:none}
+  .wixCases > .caseGrid{max-width:none;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .wixLevels > .wixEyebrow,.wixCases > .wixEyebrow{text-align:left}
 }
 @media(max-width:800px){
-  .wixSection,.ecosystemInner,.cainiaoInner,.operationInner{width:90%}
-  .wixSection{padding-top:48px;padding-bottom:52px}
-  .wixSection h2,.wixLead,.wixLevels h2,.wixLevels .wixLead,.wixIntegration h2,.wixIntegration .wixLead,.wixCases h2,.wixCases .wixLead{max-width:none;text-align:left}
-  .wixLevels,.wixCases{padding-left:0;padding-right:0}
-  .wixCases .caseGrid{grid-template-columns:1fr}
-  .ecosystemSection h2,.ecosystemLead{text-align:left}
+  .wixLevels,.wixCases{width:90%;box-sizing:border-box}
+  .wixLevels > .wixEyebrow,.wixLevels > h2,.wixLevels > .wixLead,.wixLevels > .levels,
+  .wixCases > .wixEyebrow,.wixCases > h2,.wixCases > .wixLead,.wixCases > .caseGrid{width:100%;box-sizing:border-box}
+  .wixCases > .caseGrid{grid-template-columns:1fr}
 }
