@@ -1,41 +1,42 @@
 /* Final alignment pass for sections 03 and 05.
-   Use the same content rail as the adjacent sections and neutralize
-   earlier max-width/margin rules that were centering the eyebrow/cards. */
+   Match the Wix layout: the colored section is a centered page-width band,
+   while its content sits on one centered rail. */
 @media (min-width: 801px){
   .wixLevels,
   .wixCases{
-    width: 78.5% !important;
-    max-width: 1332px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    width: calc(100% - 48px) !important;
+    max-width: none !important;
+    margin-left: 24px !important;
+    margin-right: 24px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     box-sizing: border-box !important;
   }
 
   .wixLevels .wixEyebrow,
-  .wixCases .wixEyebrow,
   .wixLevels h2,
   .wixLevels .wixLead,
+  .wixLevels .levels,
+  .wixCases .wixEyebrow,
   .wixCases h2,
   .wixCases .wixLead,
   .wixCases .caseGrid{
     width: 100% !important;
-    max-width: 1120px !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    max-width: 1304px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     text-align: left !important;
+    box-sizing: border-box !important;
   }
 
   .wixLevels .levels{
-    width: 100% !important;
-    max-width: 1120px !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-top: 30px !important;
   }
 
   .wixCases .caseGrid{
     grid-template-columns: repeat(3,minmax(0,1fr)) !important;
     gap: 16px !important;
-    box-sizing: border-box !important;
+    margin-top: 27px !important;
   }
 
   .wixCases .caseGrid article{
@@ -48,23 +49,32 @@
 @media (max-width: 800px){
   .wixLevels,
   .wixCases{
-    width: 90% !important;
+    width: calc(100% - 32px) !important;
     max-width: none !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin-left: 16px !important;
+    margin-right: 16px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
   }
+
   .wixLevels .wixEyebrow,
   .wixCases .wixEyebrow,
   .wixLevels h2,
   .wixLevels .wixLead,
+  .wixLevels .levels,
   .wixCases h2,
   .wixCases .wixLead,
   .wixCases .caseGrid{
     width: 100% !important;
     max-width: none !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     text-align: left !important;
+    box-sizing: border-box !important;
   }
-  .wixCases .caseGrid{grid-template-columns:1fr !important}
+
+  .wixCases .caseGrid{
+    grid-template-columns: 1fr !important;
+  }
 }
