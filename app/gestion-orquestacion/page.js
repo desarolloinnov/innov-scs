@@ -149,10 +149,36 @@ export default function GestionOrquestacion(){
 
     <section className="goSection goPartners">
       <p className="goEyebrow">09 · SOCIO TECNOLÓGICO</p>
-      <div className="goPartnerSplit"><div><h2>Tecnología especializada respaldada por décadas de experiencia.</h2><p>Combinamos plataformas, automatización e integración con un ecosistema tecnológico especializado para construir soluciones operativas de alto impacto.</p></div><div className="betaCard"><span>∞</span><strong>Beta 80</strong><small>Soluciones especializadas para logística, WMS y ejecución de operaciones.</small></div></div>
-      <div className="goPartnerGrid">{partners.map(p=><div key={p}>{p}</div>)}</div>
+      <div className="goPartnerSplit">
+        <div className="goPartnerIntro">
+          <h2>Tecnología especializada respaldada por décadas de experiencia en gestión de almacenes.</h2>
+          <p>Para nuestras soluciones de Gestión y Orquestación trabajamos con <strong>Beta 80</strong>, compañía italiana de tecnología y system integration fundada en Milán en 1986. Su experiencia combina conocimiento profundo de procesos logísticos, desarrollo de software propietario e integración de almacenes manuales, híbridos y automatizados.</p>
+          <div className="goPartnerGrid">
+            <div><strong>1986</strong><span>fundación en Milán</span></div>
+            <div><strong>500+</strong><span>colaboradores</span></div>
+            <div><strong>200+</strong><span>clientes activos</span></div>
+            <div><strong>150+</strong><span>almacenes con Stockager® en 3 continentes</span></div>
+          </div>
+        </div>
+        <div className="betaCard">
+          <div className="betaBrand"><span>∞</span><strong>Beta 80</strong></div>
+          <div className="betaRule"></div>
+          <div className="betaProduct">Stockager® Suite</div>
+          <h3>Una plataforma para gestionar y orquestar el almacén.</h3>
+          <p>Stockager® Suite integra <strong>StockMan</strong>, el WMS para la gestión operativa del almacén, y <strong>StockMatic</strong>, el WCS para coordinar sistemas de automatización heterogéneos.</p>
+          <div className="betaPills"><span>WMS · StockMan</span><span>WCS · StockMatic</span><span>Manual</span><span>Automatizado</span><span>Híbrido</span></div>
+          <div className="betaBottom">La plataforma puede operar on-premise o en cloud e integrarse con sistemas ERP y tecnologías de automatización existentes.</div>
+        </div>
+      </div>
     </section>
 
-    <section className="goFooterCta"><div><p className="goEyebrow light">10 · HABLEMOS DE SU OPERACIÓN</p><h2>¿Dónde está hoy la principal restricción de su operación?</h2><p>Analicemos juntos si la gestión y orquestación puede producir un mejor resultado y cuál sería la arquitectura adecuada.</p><Link href="/#contacto">Hablemos de su operación →</Link></div></section>
+    <section className="goFooterCta">
+      <div>
+        <p className="goEyebrow light">10 · HABLEMOS DE SU OPERACIÓN</p>
+        <h2>¿Dónde está hoy la principal restricción de su operación?</h2>
+        <p>Analicemos juntos si la gestión y orquestación puede producir un mejor resultado y cuál sería la arquitectura adecuada.</p>
+        <Link className="goPrimary" href="/#contacto">Hablemos de su operación →</Link>
+      </div>
+    </section>
   </main>
 }
