@@ -1,0 +1,88 @@
+/* Final CTA: direct structural layout matching the Wix reference. */
+.gestionPage .goFooterCta{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:78px 16.5% 76px!important;
+  min-height:470px!important;
+  box-sizing:border-box!important;
+  position:relative!important;
+  overflow:hidden!important;
+  background:#27183f!important;
+  color:#fff!important;
+  border-radius:0!important;
+}
+.gestionPage .goFooterCta::after{
+  content:''!important;
+  position:absolute!important;
+  width:560px!important;
+  height:560px!important;
+  top:-330px!important;
+  right:-45px!important;
+  border-radius:50%!important;
+  background:rgba(104,72,141,.34)!important;
+  pointer-events:none!important;
+}
+.gestionPage .goFooterCta > div{
+  position:relative!important;
+  z-index:1!important;
+  width:100%!important;
+  max-width:1150px!important;
+  margin:0 auto!important;
+}
+.gestionPage .goFooterCta .goEyebrow.light{
+  margin:0 0 18px!important;
+  color:#fff!important;
+}
+.gestionPage .goFooterCta h2{
+  display:block!important;
+  max-width:1050px!important;
+  margin:0 0 20px!important;
+  color:#fff!important;
+  font-family:'Playfair Display',serif!important;
+  font-size:clamp(48px,4.45vw,68px)!important;
+  font-weight:600!important;
+  line-height:1.04!important;
+  letter-spacing:-.045em!important;
+  text-align:left!important;
+}
+.gestionPage .goFooterCta p:not(.goEyebrow){
+  display:block!important;
+  width:auto!important;
+  max-width:1120px!important;
+  height:auto!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+  color:#fff!important;
+  font-size:16px!important;
+  line-height:1.58!important;
+  text-align:left!important;
+}
+.gestionPage .goFooterCta .goPrimary{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:auto!important;
+  margin-top:30px!important;
+  padding:15px 23px!important;
+  border:1px solid #fff!important;
+  border-radius:999px!important;
+  background:#fff!important;
+  color:#27183f!important;
+  text-decoration:none!important;
+  font-size:13px!important;
+  font-weight:800!important;
+  letter-spacing:.01em!important;
+  transition:transform .25s ease,box-shadow .25s ease!important;
+}
+.gestionPage .goFooterCta .goPrimary:hover{transform:translateY(-3px)!important;box-shadow:0 12px 25px rgba(0,0,0,.16)!important}
+
+@media(max-width:1000px){
+  .gestionPage .goFooterCta{padding:68px 10% 70px!important}
+}
+@media(max-width:560px){
+  .gestionPage .goFooterCta{padding:56px 7% 60px!important;min-height:430px!important}
+  .gestionPage .goFooterCta h2{font-size:42px!important}
+  .gestionPage .goFooterCta p:not(.goEyebrow){font-size:14px!important}
+}
