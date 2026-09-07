@@ -1,0 +1,4 @@
+/* Keep a single capability-pill row on Gestión y Orquestación.
+   The first row belongs to the flow section; the duplicate row above the image strip is hidden. */
+.gestionPage .goImageBand .goPillRow{display:none!important}
+.gestionPage .goImageBand{padding-top:0!important}
