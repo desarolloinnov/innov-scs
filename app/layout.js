@@ -11,6 +11,7 @@ import './gestion-orquestacion/pill-fix.css';
 import './gestion-orquestacion/dashboard-real-fix.css';
 import './gestion-orquestacion/logo-fix.css';
 import './gestion-orquestacion/partners-section-fix.css';
+import './gestion-orquestacion/partner-section-exact.css';
 import CapabilityLinks from './CapabilityLinks';
 import OrchestrationSystemCallout from './OrchestrationSystemCallout';
 export const metadata={title:'Innov | Supply Chain Solutions',description:'Soluciones integrales de WMS, automatización e integración tecnológica.'};
