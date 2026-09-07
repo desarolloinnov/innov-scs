@@ -103,13 +103,13 @@ export default function Intralogistica(){
 
     <section className="cainiaoSection">
       <div className="cainiaoInner">
+        <p className="ecosystemEyebrow cainiaoEyebrow">07 · ECOSISTEMA TECNOLÓGICO · CAINIAO</p>
         <div className="cainiaoBrandCard">
           <div className="cainiaoLogo">CAI<br/>NIAO</div>
           <strong>Socio tecnológico para automatización intralogística.</strong>
           <p>Cainiao Logistics Technology desarrolla e integra soluciones de automatización y digitalización para almacenes, centros de clasificación, manufactura y parques industriales.</p>
         </div>
         <div className="cainiaoCopy">
-          <p className="ecosystemEyebrow">07 · ECOSISTEMA TECNOLÓGICO · CAINIAO</p>
           <h2>Escala global y experiencia comprobada para ejecutar proyectos de automatización.</h2>
           <p>Como parte de nuestro ecosistema, Cainiao amplía nuestra capacidad para diseñar e implementar soluciones de automatización de gran escala. Su práctica tecnológica combina ingeniería, software, equipos de automatización, integración, instalación, puesta en marcha y soporte.</p>
           <div className="cainiaoCallout"><strong>Presencia global, incluyendo México.</strong> Cainiao reporta una red logística que alcanza más de 200 países y regiones. En Norteamérica, sus capacidades internacionales incluyen operaciones y rutas que cubren Estados Unidos, Canadá y México. Su práctica de tecnología logística reporta proyectos implementados en más de 28 países.</div>
