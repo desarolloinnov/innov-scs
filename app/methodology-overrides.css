@@ -1,0 +1,26 @@
+/* Cómo trabajamos — 03 · diseño editorial moderno */
+.method{background:#f5f2ee!important;padding:112px 5.2% 105px!important;position:relative!important;overflow:hidden!important}
+.method:before{content:'03';position:absolute;right:-18px;top:8px;font-family:'Playfair Display',serif;font-size:clamp(220px,25vw,420px);line-height:1;color:rgba(112,64,141,.045);font-weight:500;pointer-events:none}
+.method .sectionKicker{position:relative;z-index:2;margin:0 0 15px!important;gap:12px!important}
+.method .sectionKicker>span{font-size:0!important;width:0!important;margin:0!important;padding:0!important}
+.method .sectionKicker>span:after{content:'03';font-size:10px!important;letter-spacing:.14em!important;color:#a092aa!important;font-weight:800!important}
+.method .sectionKicker .eyebrow{font-size:10px!important;letter-spacing:.24em!important;color:#4e1590!important;font-weight:800!important;margin:0!important}
+.method>h2{position:relative;z-index:2;max-width:930px!important;font-size:clamp(43px,5vw,70px)!important;line-height:1.02!important;letter-spacing:-.035em!important;margin:0 0 22px!important}
+.methodIntro{position:relative;z-index:2;max-width:940px!important;color:#5e5865!important;font-size:14px!important;line-height:1.75!important;margin:0!important}
+.methodPanel{position:relative;z-index:2;margin-top:48px!important;padding:24px!important;background:linear-gradient(135deg,#eee7f1,#f8f5f2 72%)!important;border:1px solid #ded2e2!important;border-radius:22px!important;box-shadow:0 24px 70px rgba(48,20,63,.07)!important}
+.methodSteps{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:12px!important;background:transparent!important}
+.methodSteps article{position:relative!important;background:rgba(255,255,255,.92)!important;border:1px solid #ddd5df!important;border-radius:16px!important;padding:26px 24px 24px!important;min-height:218px!important;overflow:hidden!important;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s,background .3s!important}
+.methodSteps article:before{content:'';position:absolute;left:0;top:0;width:100%;height:3px;background:linear-gradient(90deg,#4e1590,#b894c8,transparent);transform:scaleX(.18);transform-origin:left;transition:transform .35s ease!important}
+.methodSteps article:hover,.methodSteps article.open{transform:translateY(-5px)!important;background:#fff!important;border-color:#b995c9!important;box-shadow:0 18px 38px rgba(48,20,63,.11)!important;z-index:3!important}
+.methodSteps article:hover:before,.methodSteps article.open:before{transform:scaleX(1)!important}
+.methodCardTop{position:relative;min-height:80px}
+.methodSteps b{display:inline-flex!important;align-items:center;justify-content:center;width:34px!important;height:34px!important;border-radius:50%!important;background:#f0e8f4!important;color:#4e1590!important;font-size:9px!important;letter-spacing:.13em!important;margin:0!important}
+.methodSteps h3{margin:22px 0 0!important;padding-right:24px!important;font-size:18px!important;line-height:1.25!important;color:#211b2a!important;font-weight:700!important}
+.methodArrow{position:absolute!important;right:0!important;top:4px!important;width:32px!important;height:32px!important;border:1px solid #d7cadc!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;color:#4e1590!important;font-size:15px!important;transition:transform .3s,background .3s,color .3s!important}
+.methodSteps article:hover .methodArrow,.methodSteps article.open .methodArrow{background:#4e1590!important;color:#fff!important;transform:rotate(-45deg)!important}
+.methodDetail{margin-top:20px!important}
+.methodDetail p{margin:0!important;color:#6b6570!important;font-size:12px!important;line-height:1.65!important}
+.methodButton{display:inline-flex!important;align-items:center;gap:10px!important;margin:24px 0 0 2px!important;padding:12px 18px!important;border:1px solid #79518e!important;border-radius:999px!important;color:#4e1590!important;text-decoration:none!important;font-size:10px!important;font-weight:800!important;letter-spacing:.06em!important;background:rgba(255,255,255,.35)!important;transition:all .25s ease!important}
+.methodButton:hover{background:#230a3d!important;color:#fff!important;transform:translateX(4px)!important}
+@media(max-width:900px){.method{padding:90px 6% 85px!important}.methodSteps{grid-template-columns:repeat(2,1fr)!important}.method:before{font-size:280px!important}}
+@media(max-width:600px){.method{padding:78px 5% 70px!important}.method>h2{font-size:42px!important}.methodSteps{grid-template-columns:1fr!important}.methodPanel{padding:12px!important;border-radius:17px!important}.methodSteps article{min-height:200px!important}.method:before{font-size:220px!important;top:30px!important;right:-35px!important}}
