@@ -1,15 +1,13 @@
-/* Final alignment pass for sections 03 and 05.
-   Match the Wix layout: the colored section is a centered page-width band,
-   while its content sits on one centered rail. */
+/* Restore the confirmed Wix-style alignment for sections 03 and 05.
+   Keep the colored bands narrower and centered, with all inner content
+   sharing the same left rail as the surrounding sections. */
 @media (min-width: 801px){
   .wixLevels,
   .wixCases{
-    width: calc(100% - 48px) !important;
-    max-width: none !important;
-    margin-left: 24px !important;
-    margin-right: 24px !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    width: 78.5% !important;
+    max-width: 1332px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     box-sizing: border-box !important;
   }
 
@@ -22,15 +20,15 @@
   .wixCases .wixLead,
   .wixCases .caseGrid{
     width: 100% !important;
-    max-width: 1304px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    max-width: 1120px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     text-align: left !important;
     box-sizing: border-box !important;
   }
 
   .wixLevels .levels{
-    margin-top: 30px !important;
+    margin-top: 26px !important;
   }
 
   .wixCases .caseGrid{
@@ -49,12 +47,10 @@
 @media (max-width: 800px){
   .wixLevels,
   .wixCases{
-    width: calc(100% - 32px) !important;
+    width: 90% !important;
     max-width: none !important;
-    margin-left: 16px !important;
-    margin-right: 16px !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     box-sizing: border-box !important;
   }
 
@@ -68,8 +64,8 @@
   .wixCases .caseGrid{
     width: 100% !important;
     max-width: none !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     text-align: left !important;
     box-sizing: border-box !important;
   }
