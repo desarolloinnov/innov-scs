@@ -15,13 +15,14 @@ export default function Intralogistica(){
     <header className="intraHeader">
       <Link className="intraLogo" href="/">INNOV<span>SUPPLY CHAIN SOLUTIONS</span></Link>
       <nav><Link href="/#retos">Retos Logísticos</Link><Link href="/#capacidades">Capacidades</Link><Link href="/#metodologia">Cómo Trabajamos</Link><Link href="/#industria">Experiencia y Resultados</Link><Link href="/#nosotros">Nosotros</Link></nav>
+      <Link className="intraCta" href="/#contacto">Contacto</Link>
     </header>
 
     <section className="intraHero">
       <div className="intraHeroCopy">
-        <p className="intraEyebrow">01 · INTRALOGÍSTICA</p>
-        <h1>Combinamos tecnologías para transformar el flujo completo.</h1>
-        <p className="intraLead">Integramos tecnologías y niveles de automatización. El objetivo es seleccionar la combinación que resuelva las restricciones de la operación con el mejor equilibrio entre productividad, flexibilidad y retorno.</p>
+        <p className="intraEyebrow">AUTOMATIZACIÓN INTRALOGÍSTICA</p>
+        <h1>Más capacidad, productividad y control para hacer crecer su operación.</h1>
+        <p className="intraLead">Diseñamos e integramos soluciones de automatización intralogística a partir de los objetivos, restricciones y características reales de cada operación. Combinamos tecnologías de almacenamiento, movimiento, picking y control para construir operaciones más eficientes, escalables y preparadas para crecer.</p>
         <div className="intraActions"><Link href="/#contacto" className="intraPrimary">HABLEMOS DE TU PROYECTO →</Link><Link href="/#capacidades" className="intraSecondary">← VOLVER A CAPACIDADES</Link></div>
       </div>
       <div className="intraHeroVisual"><img src="https://images.unsplash.com/photo-1749244768351-2726dc23d26c?auto=format&fit=crop&w=1800&q=90" alt="Operación intralogística"/><span>FLUJO · AUTOMATIZACIÓN · PRODUCTIVIDAD</span></div>
