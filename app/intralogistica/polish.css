@@ -57,3 +57,13 @@
 @media(max-width:1000px){.wixSection{width:90%}.ecosystemInner,.cainiaoInner,.operationInner{width:90%}.ecosystemFlowCards{grid-template-columns:1fr 24px 1fr 24px 1fr 24px 1fr}.ecosystemFlowCards article{height:205px}.cainiaoInner{grid-template-columns:290px minmax(0,1fr);column-gap:28px}.cainiaoBrandCard{position:static}.cainiaoStats{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:800px){.wixSection{width:90%;padding:62px 0}.wixSection h2,.ecosystemSection h2,.cainiaoSection h2{text-align:center}.wixLead,.ecosystemLead{text-align:center}.wixEyebrow,.ecosystemEyebrow{font-size:11px;letter-spacing:.18em}.processRow,.wixTechGrid,.caseGrid{grid-template-columns:1fr}.processItem{min-height:120px}.wixTechCard>img{height:205px}.wixLevels{padding-left:7%;padding-right:7%}.levels{height:auto}.integrationFlow{width:100%}.ecosystemFlowCards{grid-template-columns:1fr;gap:12px}.ecosystemFlowCards article{height:auto;min-height:150px}.flowArrow{display:none}.cainiaoInner{grid-template-columns:1fr;gap:28px}.cainiaoCopy h2{text-align:center;margin-left:auto;margin-right:auto}.cainiaoCopy{text-align:center}.cainiaoCallout{text-align:left}.cainiaoStats{grid-template-columns:repeat(2,1fr)}.operationCta h2{text-align:left}}
 @media(max-width:480px){.cainiaoStats{grid-template-columns:1fr}.wixSection h2,.ecosystemSection h2,.cainiaoSection h2,.operationCta h2{font-size:34px}.ecosystemRibbon{font-size:6px;gap:6px}}
+
+/* Shared section-label rail: every numbered marker begins at the same content edge. */
+.wixEyebrow,.ecosystemEyebrow,.operationEyebrow{font-size:12px;letter-spacing:.22em;font-weight:900;line-height:1.2;text-align:left}
+.cainiaoEyebrow{grid-column:1 / -1;grid-row:1;margin:0 0 26px}
+.cainiaoInner{grid-template-columns:330px minmax(0,1fr);grid-template-rows:auto auto auto;align-items:start}
+.cainiaoBrandCard{grid-column:1;grid-row:2}
+.cainiaoCopy{grid-column:2;grid-row:2}
+.cainiaoStats{grid-column:1 / -1;grid-row:3}
+@media(max-width:1000px){.cainiaoInner{grid-template-columns:290px minmax(0,1fr);grid-template-rows:auto auto auto}.cainiaoEyebrow{grid-column:1 / -1}.cainiaoBrandCard{grid-column:1;grid-row:2}.cainiaoCopy{grid-column:2;grid-row:2}.cainiaoStats{grid-column:1 / -1;grid-row:3}}
+@media(max-width:800px){.wixEyebrow,.ecosystemEyebrow,.operationEyebrow{font-size:10px;text-align:left}.cainiaoSection{padding-top:62px}.cainiaoInner{grid-template-columns:1fr;grid-template-rows:auto auto auto auto;gap:28px}.cainiaoEyebrow{grid-column:1;grid-row:1;margin-bottom:0}.cainiaoBrandCard{grid-column:1;grid-row:2}.cainiaoCopy{grid-column:1;grid-row:3}.cainiaoStats{grid-column:1;grid-row:4}.cainiaoCopy h2{text-align:center}}
