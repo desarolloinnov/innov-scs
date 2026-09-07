@@ -15,7 +15,6 @@ export default function Intralogistica(){
     <header className="intraHeader">
       <Link className="intraLogo" href="/">INNOV<span>SUPPLY CHAIN SOLUTIONS</span></Link>
       <nav><Link href="/#retos">Retos Logísticos</Link><Link href="/#capacidades">Capacidades</Link><Link href="/#metodologia">Cómo Trabajamos</Link><Link href="/#industria">Experiencia y Resultados</Link><Link href="/#nosotros">Nosotros</Link></nav>
-      <Link className="intraCta" href="/#contacto">HABLEMOS</Link>
     </header>
 
     <section className="intraHero">
@@ -25,7 +24,7 @@ export default function Intralogistica(){
         <p className="intraLead">Integramos tecnologías y niveles de automatización. El objetivo es seleccionar la combinación que resuelva las restricciones de la operación con el mejor equilibrio entre productividad, flexibilidad y retorno.</p>
         <div className="intraActions"><Link href="/#contacto" className="intraPrimary">HABLEMOS DE TU PROYECTO →</Link><Link href="/#capacidades" className="intraSecondary">← VOLVER A CAPACIDADES</Link></div>
       </div>
-      <div className="intraHeroVisual"><img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1800&q=90" alt="Operación intralogística"/><span>FLUJO · AUTOMATIZACIÓN · PRODUCTIVIDAD</span></div>
+      <div className="intraHeroVisual"><img src="https://images.unsplash.com/photo-1749244768351-2726dc23d26c?auto=format&fit=crop&w=1800&q=90" alt="Operación intralogística"/><span>FLUJO · AUTOMATIZACIÓN · PRODUCTIVIDAD</span></div>
     </section>
 
     <section className="intraIntro">
