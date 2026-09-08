@@ -23,4 +23,4 @@ import './gestion-orquestacion/florim-logo-fix.css';
 import './gestion-orquestacion/florim-logo-final.css';
 import CapabilityLinks from './CapabilityLinks';
 export const metadata={title:'Innov | Supply Chain Solutions',description:'Soluciones integrales de WMS, automatización e integración tecnológica.'};
-export default function RootLayout({children}){return <html lang="es"><body>{children}<CapabilityLinks/></body></html>}
+export default function RootLayout({children}){return <html lang="es"><body><style dangerouslySetInnerHTML={{__html:`body:has(#inicio) > main > header{position:fixed!important;top:0!important;left:0!important;width:100%!important;z-index:9999!important}body:has(#inicio) > main > section[id]{scroll-margin-top:102px!important}`}} />{children}<CapabilityLinks/></body></html>}
