@@ -1,6 +1,17 @@
 /* Homepage-only logo refinement. Keeps the other internal-page logos untouched. */
 body:has(#inicio) main > header .logo{
   font-family:Arial,Helvetica,sans-serif !important;
+  font-size:0 !important;
+  font-weight:700 !important;
+  letter-spacing:0 !important;
+  line-height:1 !important;
+  color:#fff !important;
+  text-transform:none !important;
+}
+body:has(#inicio) main > header .logo::before{
+  content:'InnOv' !important;
+  display:block !important;
+  font-family:Arial,Helvetica,sans-serif !important;
   font-size:35px !important;
   font-weight:700 !important;
   letter-spacing:-0.08em !important;
@@ -20,7 +31,7 @@ body:has(#inicio) main > header .logo span{
   text-transform:uppercase !important;
 }
 @media (max-width:800px){
-  body:has(#inicio) main > header .logo{
+  body:has(#inicio) main > header .logo::before{
     font-size:31px !important;
   }
   body:has(#inicio) main > header .logo span{
