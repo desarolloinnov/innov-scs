@@ -1,0 +1,17 @@
+/* Keep the navigation available while scrolling on the two internal solution pages. */
+.intraHeader,
+.goHeader{
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+}
+
+/* Preserve the existing desktop composition and prevent the sticky header from
+   becoming intrusive on smaller screens. */
+@media (max-width: 800px){
+  .intraHeader,
+  .goHeader{
+    position: sticky !important;
+    top: 0 !important;
+  }
+}
