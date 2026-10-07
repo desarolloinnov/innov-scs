@@ -41,7 +41,28 @@ export default function Home(){
  <section id="industria" className="industry sectionReveal"><div className="sectionKicker"><span>04</span><p className="eyebrow purple">EXPERIENCIA Y RESULTADOS</p></div><h2>Indicadores que reflejan el impacto de la transformación logística en cada industria.</h2><p>Cada sector enfrenta restricciones diferentes. Nuestra experiencia nos permite enfocar la transformación en los indicadores operativos y económicos que tienen mayor relevancia para cada tipo de operación.</p><div className="industryGrid">{industries.map(([n,t,img])=><article key={n}><div className="industryImage"><img src={img} alt={t} loading="lazy"/><span>{n}</span></div><div><b>{n}</b><h3>{t}</h3><span>Explorar industria →</span></div></article>)}</div></section>
  <section id="nosotros" className="about sectionReveal"><div className="aboutIntro"><div><div className="sectionKicker"><span>05</span><p className="eyebrow">NOSOTROS</p></div><h2>¿Quién es InnOv?</h2></div><p>Ayudamos a las compañías a construir operaciones más eficientes, escalables y preparadas para crecer de forma sostenible. Contamos con más de 16 años de experiencia integrando soluciones tecnológicas de alto impacto en México.</p></div><div className="aboutVisual"><img src={visual.team} alt="Equipo de trabajo"/><div><strong>16+ AÑOS</strong><span>Experiencia integrando tecnología de alto impacto en México.</span></div></div><div className="aboutGrid">{[['01','Valor antes que tecnología','Partimos del resultado que el negocio necesita y después definimos la tecnología.'],['02','Independencia tecnológica','Evaluamos alternativas con una visión integral para elegir lo que mejor resuelve el reto.'],['03','Evolución sin ruptura','Diseñamos arquitecturas que permiten transformar la operación sin detenerla.'],['04','Viabilidad económica','Validamos el caso financiero para que la transformación tenga sentido operativo y económico.']].map(([n,t,x])=><article key={n}><b>{n}</b><h3>{t}</h3><p>{x}</p></article>)}</div></section>
  <section className="ecosystem sectionReveal"><div className="sectionKicker"><span>06</span><p className="eyebrow purple">ECOSISTEMA TECNOLÓGICO</p></div><h2>Tecnología líder al servicio de la solución.</h2><p>Trabajamos con un ecosistema de fabricantes y plataformas líderes para construir la arquitectura adecuada para cada proyecto.</p><div className="partnerGrid">{partners.map(p=><div key={p}>{p}</div>)}</div></section>
- <section id="contacto" className="contact contactPlaceholder sectionReveal" aria-hidden="true"></section>
+ <section id="contacto" className="contact contactSection sectionReveal">
+  <div className="contactCopy">
+    <div className="sectionKicker"><span>07</span><p className="eyebrow purple">CONTACTO</p></div>
+    <h2>Cuéntenos su reto. Diseñemos juntos la solución que lo hace posible.</h2>
+    <p>No necesita comenzar definiendo una tecnología. Comience por decirnos qué necesita lograr.</p>
+  </div>
+  <div className="contactCard">
+    <form onSubmit={submit}>
+      <div className="contactFieldGrid">
+        <input name="name" placeholder="Nombre *" required/>
+        <input name="company" placeholder="Empresa"/>
+        <input name="email" type="email" placeholder="Correo electrónico *" required/>
+        <input name="phone" placeholder="Teléfono"/>
+      </div>
+      <textarea name="message" placeholder="Cuéntenos sobre su proyecto *" rows="5" required></textarea>
+      <input name="website" className="hp" tabIndex="-1" autoComplete="off"/>
+      <button className="contactSubmit" disabled={busy}>{busy?'ENVIANDO...':'CONTINUAR →'}</button>
+      {sent&&<small className="contactSuccess">Mensaje enviado correctamente.</small>}
+      {error&&<small className="formError">{error}</small>}
+    </form>
+  </div>
+</section>
  <footer><div className="logo">Inn<i className="logoO">O</i>v<span>SUPPLY CHAIN SOLUTIONS</span></div><p>© 2026 Innov. Todos los derechos reservados. · <a href="/admin">Administración</a></p></footer>
  <style jsx global>{`
  .imageIntro{display:grid;grid-template-columns:1.12fr .88fr;gap:70px;align-items:center}
@@ -87,8 +108,101 @@ export default function Home(){
  .aboutVisual img{width:100%;height:100%;object-fit:cover;display:block;opacity:.72}
  .aboutVisual>div{position:absolute;left:35px;bottom:30px;display:flex;flex-direction:column;gap:6px;color:#fff;max-width:380px}.aboutVisual strong{font-family:'Playfair Display',serif;font-size:44px;font-weight:500}.aboutVisual span{font-size:12px;line-height:1.5;color:#e0d7e4}
  .contactImage{height:220px;margin-top:38px;background-size:cover;background-position:center;position:relative}.contactImage:after{content:'HABLEMOS DE TU OPERACIÓN';position:absolute;left:20px;bottom:18px;background:rgba(35,10,61,.84);color:#fff;padding:9px 12px;font-size:9px;letter-spacing:.14em;font-weight:700}
- .contactPlaceholder{min-height:680px;display:block !important;background:#ebe6e1}
- .contactPlaceholder{width:100% !important}
+ .contactSection{
+  min-height:600px;
+  display:grid !important;
+  grid-template-columns:minmax(460px,.88fr) minmax(620px,1.12fr);
+  gap:70px;
+  align-items:center;
+  background:linear-gradient(115deg,#251340 0%,#43236a 54%,#5a2f86 100%);
+  color:#fff;
+  padding:70px 8%;
+  position:relative;
+  overflow:hidden;
+}
+.contactSection:before{
+  content:'';
+  position:absolute;
+  width:520px;height:520px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:50%;
+  right:-150px;bottom:-250px;
+}
+.contactCopy{position:relative;z-index:1;max-width:610px}
+.contactCopy .sectionKicker{margin-bottom:22px}
+.contactCopy .sectionKicker>span{color:#a797b7}
+.contactCopy .eyebrow{color:#fff}
+.contactCopy h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(48px,4.5vw,76px);
+  line-height:.98;
+  font-weight:500;
+  letter-spacing:-.025em;
+  margin:0 0 28px;
+  max-width:640px;
+}
+.contactCopy>p{
+  max-width:560px;
+  font-size:16px;
+  line-height:1.7;
+  color:#efe8f4;
+  margin:0;
+}
+.contactCard{
+  position:relative;
+  z-index:1;
+  padding:30px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:20px;
+  background:rgba(255,255,255,.08);
+  box-shadow:0 24px 55px rgba(20,8,32,.16);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.contactCard form{display:flex;flex-direction:column;gap:14px}
+.contactFieldGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.contactCard input:not(.hp),
+.contactCard textarea{
+  width:100%;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:11px;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  padding:16px 16px;
+  outline:none;
+  font:inherit;
+  font-size:15px;
+}
+.contactCard input:not(.hp)::placeholder,
+.contactCard textarea::placeholder{color:#ded2e7}
+.contactCard input:not(.hp):focus,
+.contactCard textarea:focus{border-color:rgba(255,255,255,.42);background:rgba(255,255,255,.11)}
+.contactCard textarea{min-height:138px;resize:vertical}
+.contactSubmit{
+  align-self:flex-start;
+  margin-top:2px;
+  border:0;
+  border-radius:999px;
+  padding:15px 25px;
+  background:#7134bd;
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .2s,background .2s;
+}
+.contactSubmit:hover{transform:translateY(-2px);background:#7d3dcb}
+.contactSubmit:disabled{opacity:.55;cursor:wait}
+.contactSuccess{color:#dff3e4}
+@media(max-width:1100px){
+  .contactSection{grid-template-columns:1fr;gap:35px;padding:64px 6%}
+  .contactCopy h2{font-size:clamp(44px,7vw,68px)}
+  .contactCard{max-width:none}
+}
+@media(max-width:900px){
+  .contactFieldGrid{grid-template-columns:1fr}
+  .contactSection{min-height:auto;padding:72px 6%}
+}
  @media(max-width:900px){.imageIntro,.visualBand,.capFeature{grid-template-columns:1fr}.imageFrame{height:300px}.selectedChallenge{align-items:flex-start;flex-direction:column}.visualBandImage{min-height:300px}.visualBandCopy{padding:60px 6%}.capFeature img{min-height:260px}.capFeature>div{padding:40px 28px}.methodSteps{grid-template-columns:1fr}.methodPanel{padding:14px}.methodIntro{font-size:13px}.aboutVisual{height:270px}.contactImage{height:190px}}
  `}</style>
  </main>;
