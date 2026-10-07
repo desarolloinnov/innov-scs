@@ -84,8 +84,8 @@ export default function Admin() {
         <div className="adminPortalHeader">
           <div>
             <p className="adminEyebrow">INNOV · ADMIN</p>
-            <h1>{tab === 'contacts' ? 'Contactos' : 'Sitio'}</h1>
-            <p>{tab === 'contacts' ? countText : 'Vista interna del portal público de Innov.'}</p>
+            <h1>{tab === 'contacts' ? 'Contactos' : 'Formularios'}</h1>
+            <p>{tab === 'contacts' ? countText : 'Formularios internos de levantamiento.'}</p>
           </div>
           <div className="adminPortalActions">
             <button
@@ -148,12 +148,16 @@ export default function Admin() {
             ))}
           </div>
         ) : (
-          <section className="adminSiteTab">
-            <div className="adminSiteToolbar">
-              <span>Portal público de Innov</span>
-              <a href="/" target="_blank" rel="noreferrer">ABRIR EN NUEVA PESTAÑA ↗</a>
+          <section className="adminFormsTab">
+            <div className="adminFormsToolbar">
+              <span>FORMULARIOS · LEVANTAMIENTOS</span>
+              <small>Área interna para capturar levantamientos y consultar la información generada.</small>
             </div>
-            <iframe title="Sitio Innov" src="/" className="adminSiteFrame" />
+            <div className="adminFormsNotice">
+              <p className="adminEyebrow">INNOV · FORMS</p>
+              <h2>Formularios de levantamiento</h2>
+              <p>La pestaña ya está preparada dentro del portal administrativo. La estructura exacta de los formularios de Wix se debe reproducir a partir del contenido visual del editor.</p>
+            </div>
           </section>
         )}
       </div>
