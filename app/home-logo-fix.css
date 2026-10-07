@@ -1,23 +1,29 @@
-/* Official InnOv wordmark used consistently across the site. */
+
+/* Restore the original white InnOv wordmark. */
 body:has(#inicio) main > header .logo{
-  width:165px !important;
-  height:47px !important;
-  flex:0 0 165px !important;
+  width:auto !important;
+  height:auto !important;
+  flex:0 0 auto !important;
   display:block !important;
   padding:0 !important;
-  font-size:0 !important;
-  line-height:0 !important;
-  letter-spacing:0 !important;
-  color:transparent !important;
-  background:#efeef5 url('/logos/innov.svg') center/contain no-repeat !important;
+  font-family:'DM Sans',Arial,sans-serif !important;
+  font-size:24px !important;
+  font-weight:700 !important;
+  line-height:1 !important;
+  letter-spacing:.04em !important;
+  color:#fff !important;
+  background:none !important;
   text-decoration:none !important;
 }
 body:has(#inicio) main > header .logo::before{display:none !important;content:none !important}
-body:has(#inicio) main > header .logo span{display:none !important}
-@media(max-width:800px){
-  body:has(#inicio) main > header .logo{
-    width:145px !important;
-    height:41px !important;
-    flex-basis:145px !important;
-  }
+body:has(#inicio) main > header .logo span{
+  display:block !important;
+  font-size:7px !important;
+  letter-spacing:.22em !important;
+  font-weight:500 !important;
+  margin-top:7px !important;
+}
+@media(max-width:520px){
+  body:has(#inicio) main > header .logo{font-size:20px !important}
+  body:has(#inicio) main > header .logo span{font-size:6px !important}
 }
