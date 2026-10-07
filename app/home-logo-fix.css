@@ -27,3 +27,5 @@ body:has(#inicio) main > header .logo span{
   body:has(#inicio) main > header .logo{font-size:20px !important}
   body:has(#inicio) main > header .logo span{font-size:6px !important}
 }
+
+.logoO{color:#5a2a82 !important;font-style:normal !important;}
