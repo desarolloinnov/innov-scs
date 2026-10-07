@@ -39,7 +39,24 @@ export default function Home(){
  <section id="capacidades" className="dark sectionReveal"><div className="split"><div><div className="sectionKicker"><span>02</span><p className="eyebrow">CAPACIDADES</p></div><h2>Capacidades que combinamos para resolver el reto completo.</h2></div><p>Integramos tecnología, procesos y conocimiento operativo para construir soluciones que no dependen de una sola marca ni de una sola capa tecnológica.</p></div><div className="capFeature"><img src={visual.automation} alt="Tecnología y automatización"/><div><p className="eyebrow">INTEGRACIÓN TECNOLÓGICA</p><h3>Una arquitectura conectada para una operación más visible.</h3><p>Desde identificación y automatización hasta WMS, analítica e infraestructura, conectamos las piezas para que trabajen como una sola solución.</p></div></div><div className="capGrid">{capabilities.map(([n,t,x])=><article key={n}><b>{n}</b><h3>{t}</h3><p>{x}</p><span className="cardArrow">↗</span></article>)}</div></section>
  <section id="metodologia" className="method sectionReveal"><div className="sectionKicker"><span>03</span><p className="eyebrow purple">CÓMO TRABAJAMOS</p></div><h2>Del objetivo de negocio a una solución implementada y medible.</h2><p className="methodIntro">Tomamos responsabilidad sobre el ciclo completo: entender qué necesita conseguir, descubrir qué lo impide, diseñar alternativas, justificar económicamente la decisión e integrar la solución hasta su puesta en marcha y evolución.</p><div className="methodPanel"><div className="methodSteps">{steps.map(([n,t,x],i)=><article key={n} className={methodOpen===i?'open':''} onClick={()=>setMethodOpen(methodOpen===i?-1:i)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setMethodOpen(methodOpen===i?-1:i)}}} role="button" tabIndex={0} aria-expanded={methodOpen===i}><div className="methodCardTop"><b>{n}</b><h3>{t}</h3><span className="methodArrow">{methodOpen===i?'−':'→'}</span></div><div className="methodDetail"><p>{x}</p></div></article>)}</div><a className="methodButton" href="#contacto">Conocer nuestra metodología completa →</a></div></section>
  <section id="industria" className="industry sectionReveal"><div className="sectionKicker"><span>04</span><p className="eyebrow purple">EXPERIENCIA Y RESULTADOS</p></div><h2>Indicadores que reflejan el impacto de la transformación logística en cada industria.</h2><p>Cada sector enfrenta restricciones diferentes. Nuestra experiencia nos permite enfocar la transformación en los indicadores operativos y económicos que tienen mayor relevancia para cada tipo de operación.</p><div className="industryGrid">{industries.map(([n,t,img])=><article key={n}><div className="industryImage"><img src={img} alt={t} loading="lazy"/><span>{n}</span></div><div><b>{n}</b><h3>{t}</h3><span>Explorar industria →</span></div></article>)}</div></section>
- <section id="nosotros" className="nosotrosPlaceholder sectionReveal" aria-hidden="true"></section>
+ <section id="nosotros" className="aboutRebuild sectionReveal">
+  <div className="aboutRebuildInner">
+    <div className="aboutRebuildIntro">
+      <div className="aboutRebuildKicker"><span>05</span><p>NOSOTROS</p></div>
+      <h2>¿Quién es InnOv?</h2>
+      <div className="aboutRebuildCopy">
+        <p>Ayudamos a las empresas a construir operaciones logísticas más eficientes, escalables y preparadas para crecer de forma sostenible. Contamos con <strong>más de 16 años de experiencia</strong> integrando soluciones tecnológicas de alto impacto en México.</p>
+        <p>Partimos de los objetivos del negocio, su madurez operativa y las restricciones reales que limitan su crecimiento. A partir de ahí diseñamos una ruta de evolución que combina <strong>experiencia local, visión estratégica, integración tecnológica y un ecosistema de aliados globales.</strong></p>
+      </div>
+    </div>
+    <div className="aboutRebuildValues">
+      <article><h3>Valor antes que tecnología</h3><p>No vendemos tecnología por vender. Cada decisión debe resolver un reto concreto y mover un indicador relevante para el negocio.</p></article>
+      <article><h3>Independencia tecnológica</h3><p>Seleccionamos y combinamos las tecnologías que mejor responden a la necesidad de cada operación.</p></article>
+      <article><h3>Evolución sin ruptura</h3><p>Construimos soluciones escalables que aprovechan los activos existentes e incorporan nuevas capacidades conforme la operación lo requiere.</p></article>
+      <article><h3>Viabilidad económica</h3><p>Integramos el caso financiero y el ROI desde el diseño para construir soluciones útiles, sostenibles y financieramente viables.</p></article>
+    </div>
+  </div>
+</section>
  <section className="ecosystem sectionReveal"><div className="sectionKicker"><span>06</span><p className="eyebrow purple">ECOSISTEMA TECNOLÓGICO</p></div><h2>Tecnología líder al servicio de la solución.</h2><p>Trabajamos con un ecosistema de fabricantes y plataformas líderes para construir la arquitectura adecuada para cada proyecto.</p><div className="partnerGrid">{partners.map(p=><div key={p}>{p}</div>)}</div></section>
  <section id="contacto" className="contact contactSection sectionReveal">
   <div className="contactCopy">
@@ -116,6 +133,93 @@ export default function Home(){
 }
 @media(max-width:900px){
   .nosotrosPlaceholder{min-height:520px}
+}
+ .aboutRebuild{
+  background:#f7f4ef;
+  min-height:555px;
+  padding:88px 7.2% 82px;
+  color:#211b2a;
+  display:block !important;
+}
+.aboutRebuildInner{
+  width:100%;
+  max-width:1480px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:start;
+}
+.aboutRebuildIntro{min-width:0}
+.aboutRebuildKicker{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:18px;
+}
+.aboutRebuildKicker span{
+  font-size:10px;
+  letter-spacing:.16em;
+  color:#a092aa;
+  font-weight:700;
+}
+.aboutRebuildKicker p{
+  margin:0;
+  color:#5b2780;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.19em;
+}
+.aboutRebuild h2{
+  margin:0 0 26px;
+  max-width:650px;
+  color:#251744;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(48px,4.25vw,66px);
+  line-height:1.02;
+  font-weight:500;
+  letter-spacing:-.025em;
+}
+.aboutRebuildCopy{
+  max-width:650px;
+  color:#5e5965;
+  font-size:15px;
+  line-height:1.72;
+}
+.aboutRebuildCopy p{margin:0 0 24px}
+.aboutRebuildCopy strong{font-weight:800;color:#4c4652}
+.aboutRebuildValues{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  column-gap:52px;
+  row-gap:24px;
+  padding-top:82px;
+}
+.aboutRebuildValues article{min-width:0}
+.aboutRebuildValues h3{
+  margin:0 0 7px;
+  color:#2a174b;
+  font-size:16px;
+  line-height:1.25;
+  font-weight:800;
+}
+.aboutRebuildValues p{
+  margin:0;
+  color:#66606b;
+  font-size:13px;
+  line-height:1.62;
+  max-width:390px;
+}
+@media(max-width:1000px){
+  .aboutRebuild{padding:76px 6% 70px}
+  .aboutRebuildInner{grid-template-columns:1fr;gap:42px}
+  .aboutRebuildValues{padding-top:0}
+}
+@media(max-width:620px){
+  .aboutRebuild{padding:66px 5%}
+  .aboutRebuild h2{font-size:43px}
+  .aboutRebuildCopy{font-size:14px}
+  .aboutRebuildValues{grid-template-columns:1fr;row-gap:26px}
 }
  .contactSection{
   min-height:600px;
