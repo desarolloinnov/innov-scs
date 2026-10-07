@@ -43,7 +43,7 @@ export default function Home(){
  <section className="ecosystem sectionReveal"><div className="sectionKicker"><span>06</span><p className="eyebrow purple">ECOSISTEMA TECNOLÓGICO</p></div><h2>Tecnología líder al servicio de la solución.</h2><p>Trabajamos con un ecosistema de fabricantes y plataformas líderes para construir la arquitectura adecuada para cada proyecto.</p><div className="partnerGrid">{partners.map(p=><div key={p}>{p}</div>)}</div></section>
  <section id="contacto" className="contact contactSection sectionReveal">
   <div className="contactCopy">
-    <div className="sectionKicker"><span>07</span><p className="eyebrow purple">CONTACTO</p></div>
+    <div className="sectionKicker"><span>{`07`}</span><p className="eyebrow purple">CONTACTO</p></div>
     <h2>Cuéntenos su reto. Diseñemos juntos la solución que lo hace posible.</h2>
     <p>No necesita comenzar definiendo una tecnología. Comience por decirnos qué necesita lograr.</p>
   </div>
