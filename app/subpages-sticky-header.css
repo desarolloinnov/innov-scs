@@ -1,32 +1,13 @@
-/* Keep navigation permanently visible on both internal solution pages. */
-.intraHeader,
-.goHeader{
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  z-index: 9999 !important;
-  box-sizing: border-box !important;
+/* Keep internal navigation fixed without changing the header's branding. */
+.intraHeader,.goHeader{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  width:100% !important;
+  z-index:9999 !important;
+  box-sizing:border-box !important;
 }
-
-/* The headers previously occupied 88px in normal flow. Preserve that space
-   so fixing the header does not move the first section or alter the layout. */
-.intralogisticaPage,
-.gestionPage{
-  padding-top: 88px !important;
-}
-
-@media (max-width: 1000px){
-  .intralogisticaPage,
-  .gestionPage{
-    padding-top: 82px !important;
-  }
-}
-
-@media (max-width: 800px){
-  .intralogisticaPage,
-  .gestionPage{
-    padding-top: 82px !important;
-  }
-}
+.intralogisticaPage,.gestionPage{padding-top:92px !important}
+@media(max-width:1000px){.intralogisticaPage,.gestionPage{padding-top:82px !important}}
+@media(max-width:800px){.intralogisticaPage,.gestionPage{padding-top:78px !important}}
