@@ -1,60 +1,37 @@
-/* Consistent InnOv wordmark on internal solution pages. */
+
+/* Restore the original white InnOv wordmark on internal pages. */
 .intraLogo,
 .goLogo{
   flex:0 0 auto !important;
-  width:165px !important;
-  min-width:165px !important;
-  height:47px !important;
+  width:auto !important;
+  min-width:0 !important;
+  height:auto !important;
   padding:0 !important;
   display:block !important;
-  color:transparent !important;
-  font-size:0 !important;
-  line-height:0 !important;
-  letter-spacing:0 !important;
+  font-family:'DM Sans',Arial,sans-serif !important;
+  font-size:24px !important;
+  font-weight:700 !important;
+  line-height:1 !important;
+  letter-spacing:.04em !important;
+  color:#fff !important;
+  background:none !important;
   text-decoration:none !important;
-  background:#efeef5 url('/logos/innov.svg') center/contain no-repeat !important;
 }
 .intraLogo::before,
 .goLogo::before{display:none !important;content:none !important}
 .intraLogo span,
-.goLogo span{display:none !important}
-
-.intraHeader,
-.goHeader{
-  position:fixed !important;
-  top:0 !important;
-  left:0 !important;
-  right:0 !important;
-  width:100% !important;
-  height:92px !important;
-  padding:22px 5% !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-  box-sizing:border-box !important;
-  z-index:9999 !important;
-  background:rgba(35,10,61,.96) !important;
-  backdrop-filter:blur(12px) !important;
-  -webkit-backdrop-filter:blur(12px) !important;
-  border-bottom:1px solid rgba(255,255,255,.09) !important;
-  box-shadow:none !important;
+.goLogo span{
+  display:block !important;
+  font-size:7px !important;
+  letter-spacing:.22em !important;
+  font-weight:500 !important;
+  margin-top:7px !important;
 }
-.intraHeader nav,.goHeader nav{display:flex !important;gap:25px !important;align-items:center !important;margin-left:auto !important;margin-right:0 !important}
-.intraHeader nav a,.goHeader nav a{color:#fff !important;text-decoration:none !important;font-family:'DM Sans',Arial,sans-serif !important;font-size:11px !important;font-weight:600 !important;line-height:1 !important;white-space:nowrap !important}
-.intraCta,.goCta{margin-left:25px !important;margin-right:0 !important;flex:0 0 auto !important;border:1px solid rgba(255,255,255,.65) !important;border-radius:0 !important;background:transparent !important;color:#fff !important;text-decoration:none !important;padding:13px 18px !important;font-family:'DM Sans',Arial,sans-serif !important;font-size:11px !important;font-weight:700 !important;letter-spacing:.04em !important;white-space:nowrap !important}
-.intralogisticaPage,.gestionPage{padding-top:92px !important}
 @media(max-width:1000px){
-  .intraHeader,.goHeader{height:82px !important;padding:18px 5% !important}
-  .intraLogo,.goLogo{width:145px !important;min-width:145px !important;height:41px !important}
-  .intraHeader nav,.goHeader nav{gap:15px !important}
-  .intraHeader nav a,.goHeader nav a{font-size:10px !important}
-  .intraCta,.goCta{margin-left:15px !important;padding:12px 18px !important;font-size:10px !important}
-  .intralogisticaPage,.gestionPage{padding-top:82px !important}
+  .intraLogo,.goLogo{font-size:22px !important}
+  .intraLogo span,.goLogo span{font-size:6px !important}
 }
 @media(max-width:800px){
-  .intraHeader,.goHeader{height:78px !important;padding:18px 5% !important}
-  .intraHeader nav,.goHeader nav{display:none !important}
-  .intraLogo,.goLogo{width:135px !important;min-width:135px !important;height:38px !important}
-  .intraCta,.goCta{margin-left:auto !important;padding:11px 16px !important;font-size:10px !important}
-  .intralogisticaPage,.gestionPage{padding-top:78px !important}
+  .intraLogo,.goLogo{font-size:20px !important}
+  .intraLogo span,.goLogo span{font-size:6px !important}
 }
