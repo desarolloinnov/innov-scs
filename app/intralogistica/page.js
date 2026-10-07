@@ -33,7 +33,7 @@ const ecosystemStats = [
 export default function Intralogistica(){
   return <main className="intralogisticaPage">
     <header className="intraHeader">
-      <Link className="intraLogo" href="/">INNOV<span>SUPPLY CHAIN SOLUTIONS</span></Link>
+      <Link className="intraLogo" href="/">Inn<i className="logoO">O</i>v<span>SUPPLY CHAIN SOLUTIONS</span></Link>
       <nav><Link href="/#retos">Retos Logísticos</Link><Link href="/#capacidades">Capacidades</Link><Link href="/#metodologia">Cómo Trabajamos</Link><Link href="/#industria">Experiencia y Resultados</Link><Link href="/#nosotros">Nosotros</Link></nav>
       <Link className="intraCta" href="/#contacto">Contacto</Link>
     </header>

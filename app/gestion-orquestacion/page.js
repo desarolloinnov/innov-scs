@@ -64,7 +64,7 @@ const partners = ['Beta 80','META GROUP','COGNEX','ZEBRA','SAP','Honeywell'];
 export default function GestionOrquestacion(){
   return <main className="gestionPage">
     <header className="goHeader">
-      <Link className="goLogo" href="/">INNOV<span>SUPPLY CHAIN SOLUTIONS</span></Link>
+      <Link className="goLogo" href="/">Inn<i className="logoO">O</i>v<span>SUPPLY CHAIN SOLUTIONS</span></Link>
       <nav><Link href="/#retos">Retos Logísticos</Link><Link href="/#capacidades">Capacidades</Link><Link href="/#metodologia">Cómo Trabajamos</Link><Link href="/#industria">Experiencia y Resultados</Link><Link href="/#nosotros">Nosotros</Link></nav>
       <Link className="goCta" href="/#contacto">Contacto</Link>
     </header>
