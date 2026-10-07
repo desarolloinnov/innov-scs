@@ -279,3 +279,17 @@
   .adminSiteToolbar{display:block}
   .adminSiteToolbar a{display:inline-block;margin-top:10px}
 }
+
+.adminFormsTab{background:#fff;border:1px solid #ddd5df;min-height:620px}
+.adminFormsToolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 20px;border-bottom:1px solid #e4dde5;background:#fbfaf8}
+.adminFormsToolbar span{color:#4f246f;font-size:11px;font-weight:800;letter-spacing:.12em}
+.adminFormsToolbar small{color:#77707a;font-size:11px}
+.adminFormsNotice{max-width:760px;margin:70px auto;padding:46px;border:1px solid #e1d9e5;background:#faf9f7}
+.adminFormsNotice .adminEyebrow{margin-bottom:22px}
+.adminFormsNotice h2{margin:0 0 16px;font-family:'Playfair Display',serif;font-size:42px;line-height:1.05;font-weight:500;color:#241f29}
+.adminFormsNotice>p:last-child{margin:0;color:#6c6570;font-size:15px;line-height:1.7}
+@media(max-width:800px){
+  .adminFormsToolbar{display:block}
+  .adminFormsToolbar small{display:block;margin-top:8px}
+  .adminFormsNotice{margin:30px 18px;padding:30px 24px}
+}
