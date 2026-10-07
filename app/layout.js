@@ -23,6 +23,7 @@ import './gestion-orquestacion/florim-logo-fix.css';
 import './gestion-orquestacion/florim-logo-final.css';
 import './subpages-sticky-header.css';
 import './home-logo-fix.css';
+import './admin/admin.css';
 import './internal-header-home-style.css';
 import CapabilityLinks from './CapabilityLinks';
 
