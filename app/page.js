@@ -87,6 +87,8 @@ export default function Home(){
  .aboutVisual img{width:100%;height:100%;object-fit:cover;display:block;opacity:.72}
  .aboutVisual>div{position:absolute;left:35px;bottom:30px;display:flex;flex-direction:column;gap:6px;color:#fff;max-width:380px}.aboutVisual strong{font-family:'Playfair Display',serif;font-size:44px;font-weight:500}.aboutVisual span{font-size:12px;line-height:1.5;color:#e0d7e4}
  .contactImage{height:220px;margin-top:38px;background-size:cover;background-position:center;position:relative}.contactImage:after{content:'HABLEMOS DE TU OPERACIÓN';position:absolute;left:20px;bottom:18px;background:rgba(35,10,61,.84);color:#fff;padding:9px 12px;font-size:9px;letter-spacing:.14em;font-weight:700}
+ .contactPlaceholder{min-height:680px;display:block !important;background:#ebe6e1}
+ .contactPlaceholder{width:100% !important}
  @media(max-width:900px){.imageIntro,.visualBand,.capFeature{grid-template-columns:1fr}.imageFrame{height:300px}.selectedChallenge{align-items:flex-start;flex-direction:column}.visualBandImage{min-height:300px}.visualBandCopy{padding:60px 6%}.capFeature img{min-height:260px}.capFeature>div{padding:40px 28px}.methodSteps{grid-template-columns:1fr}.methodPanel{padding:14px}.methodIntro{font-size:13px}.aboutVisual{height:270px}.contactImage{height:190px}}
  `}</style>
  </main>;
