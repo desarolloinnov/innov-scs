@@ -131,6 +131,8 @@ export default function Home(){
 .contactCopy{position:relative;z-index:1;max-width:610px}
 .contactCopy .sectionKicker{margin-bottom:22px}
 .contactCopy .sectionKicker>span{color:#a797b7}
+.contactSection .contactCopy .sectionKicker>span{font-size:0 !important;color:#a797b7 !important}
+.contactSection .contactCopy .sectionKicker>span:after{content:'07' !important;font-size:10px !important;letter-spacing:.12em !important;color:#a797b7 !important}
 .contactCopy .eyebrow{color:#fff}
 .contactCopy h2{
   font-family:'Playfair Display',serif;
