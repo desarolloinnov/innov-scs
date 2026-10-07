@@ -7,13 +7,13 @@ export default function CapabilityLinks(){
     if(!cards.length) return;
     const handlers=[];
     cards.forEach((card,index)=>{
-      const target = index===0 ? '/intralogistica' : index===1 ? '/gestion-orquestacion' : index===2 ? '/identificacion-trazabilidad' : null;
+      const target = index===0 ? '/intralogistica' : index===1 ? '/gestion-orquestacion' : index===2 ? '/identificacion-trazabilidad' : index===3 ? '/visibilidad-inteligencia' : null;
       if(!target) return;
       const go=()=>{window.location.href=target;};
       card.style.cursor='pointer';
       card.setAttribute('role','link');
       card.setAttribute('tabindex','0');
-      card.setAttribute('aria-label',index===0?'Abrir Automatización Intralogística':index===1?'Abrir Gestión y Orquestación':'Abrir Identificación y Trazabilidad');
+      card.setAttribute('aria-label',index===0?'Abrir Automatización Intralogística':index===1?'Abrir Gestión y Orquestación':index===2?'Abrir Identificación y Trazabilidad':'Abrir Visibilidad e Inteligencia Operativa');
       const key=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};
       card.addEventListener('click',go);
       card.addEventListener('keydown',key);
