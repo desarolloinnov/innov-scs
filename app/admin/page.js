@@ -112,11 +112,11 @@ export default function Admin() {
           <button
             type="button"
             role="tab"
-            aria-selected={tab === 'site'}
-            className={tab === 'site' ? 'active' : ''}
-            onClick={()=>setTab('site')}
+            aria-selected={tab === 'forms'}
+            className={tab === 'forms' ? 'active' : ''}
+            onClick={()=>setTab('forms')}
           >
-            SITIO
+            FORMULARIOS
           </button>
         </div>
 
