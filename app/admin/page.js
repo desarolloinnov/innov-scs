@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import './admin.css';
 
 const labels={new:'Nuevo',read:'Leído',contacted:'Contactado',closed:'Cerrado'};
 const formOptions=[
