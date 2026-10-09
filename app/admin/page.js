@@ -1,37 +1,274 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 
-const labels={new:'Nuevo',read:'Leído',contacted:'Contactado',closed:'Cerrado'};
-const formOptions=[
-  {id:'eligibility',title:'Calificación de Elegibilidad'},
-  {id:'warehouseInitial',title:'Levantamiento Inicial para: Almacén'},
-  {id:'sortingInitial',title:'Levantamiento Inicial para: Sorting'},
-  {id:'warehouseDetailed',title:'Cuestionario detallado para: Almacén'},
-  {id:'sortingDetailed',title:'Cuestionario detallado para: Sorting'},
-  {id:'amr',title:"Cálculo inicial de AMR's"},
+const formChoices = [
+  { id:'eligibility', label:'Calificación de Elegibilidad', title:'Calificación de Elegibilidad', subtitle:'Evaluación inicial de la oportunidad.' },
+  { id:'warehouseInitial', label:'Almacén · Inicial', title:'Levantamiento Inicial para: Almacén', subtitle:'Instrumento de primera visita para conocer la operación.' },
+  { id:'sortingInitial', label:'Sorting · Inicial', title:'Levantamiento Inicial para: Sorting', subtitle:'Instrumento de primera visita para centros de clasificación.' },
+  { id:'warehouseDetailed', label:'Almacén · Detallado', title:'Cuestionario detallado para: Almacén', subtitle:'Levantamiento técnico y operativo.' },
+  { id:'sortingDetailed', label:'Sorting · Detallado', title:'Cuestionario detallado para: Sorting', subtitle:'Assessment técnico del centro de clasificación.' },
+  { id:'amr', label:"Cálculo inicial de AMR's", title:"Cálculo inicial de AMR's", subtitle:'Captura inicial para evaluar una solución AMR / AGV.' },
 ];
-const sortSteps=['Información general','Operación','Infraestructura','Sistemas','Clasificación','Recorrido','Problemas','Expectativas','Cierre'];
-const warehouseSteps=['Información general','Tipo de operación','Volumen y recursos','Uso y flujo','Eficiencia','Infraestructura','Objetivos','Cierre'];
 
-function Field({label,children,wide=false}){return <label className={wide?'wfField wide':'wfField'}><span>{label}</span>{children}</label>}
-function Input({name,formData,setFormData,placeholder='',type='text'}){return <input type={type} value={formData[name]??''} placeholder={placeholder} onChange={e=>setFormData({...formData,[name]:e.target.value})}/>}
-function Text({name,formData,setFormData,placeholder=''}){return <textarea value={formData[name]??''} placeholder={placeholder} onChange={e=>setFormData({...formData,[name]:e.target.value})}/>}
-function Select({name,formData,setFormData,options}){return <select value={formData[name]??''} onChange={e=>setFormData({...formData,[name]:e.target.value})}><option value="">Seleccione</option>{options.map(o=><option key={o} value={o}>{o}</option>)}</select>}
-function Check({name,formData,setFormData,label}){return <label className="checkRow"><input type="checkbox" checked={!!formData[name]} onChange={e=>setFormData({...formData,[name]:e.target.checked})}/><span>{label}</span></label>}
-function Card({number,title,subtitle,children,id}){return <section className="wfCard" id={id}><header><b>{number}</b><div><h3>{title}</h3>{subtitle&&<p>{subtitle}</p>}</div></header><div className="wfBody">{children}</div></section>}
-function Note({children}){return <div className="wfNote">{children}</div>}
-function GeneralSection({formData,setFormData,title='Información general',subtitle='Datos básicos de la visita.'}){return <Card number="1" title={title} subtitle={subtitle}><div className="wfGrid"><Field label="Cliente *"><Input name="cliente" formData={formData} setFormData={setFormData}/></Field><Field label="Centro de distribución / sitio *"><Input name="sitio" formData={formData} setFormData={setFormData}/></Field><Field label="Fecha *"><Input name="fecha" type="date" formData={formData} setFormData={setFormData}/></Field><Field label="Responsable del cliente"><Input name="responsable" formData={formData} setFormData={setFormData}/></Field><Field label="Puesto"><Input name="puesto" formData={formData} setFormData={setFormData}/></Field><Field label="Consultor responsable"><Input name="consultor" formData={formData} setFormData={setFormData}/></Field></div></Card>}
+const contactStatus = { new:'Nuevo', read:'Leído', contacted:'Contactado', closed:'Cerrado' };
 
-function ClosureSections({formData,setFormData}){const rows=['Distribución de pesos','Plano CAD','Plano del inmueble','Restricciones eléctricas','Sistema contra incendio','WMS identificado','Método de integración','Destinos','Capacidad requerida','Método de alimentación','Método de descarga','Fotografías'];const count=rows.filter((_,i)=>formData['confirm_'+i]==='Sí').length;return <Card number="9" title="Cierre" subtitle="Confirmación, pendientes y observaciones finales."><table className="wfTable"><thead><tr><th>Elemento</th><th>Confirmado</th><th>Pendiente</th><th>Notas</th></tr></thead><tbody>{rows.map((x,i)=><tr key={x}><td>{x}</td><td><input type="radio" name={'conf_'+i} checked={formData['confirm_'+i]==='Sí'} onChange={()=>setFormData({...formData,['confirm_'+i]:'Sí'})}/></td><td><input type="radio" name={'conf_'+i} checked={formData['confirm_'+i]==='No'} onChange={()=>setFormData({...formData,['confirm_'+i]:'No'})}/></td><td><input placeholder="Notas" value={formData['note_'+i]??''} onChange={e=>setFormData({...formData,['note_'+i]:e.target.value})}/></td></tr>)}</tbody></table><div className="wfSummary"><div><b>Completitud</b><span>{count} de {rows.length} elementos confirmados</span></div><div><b>Estado de la visita</b><span className={count===rows.length?'ok':'warn'}>{count===rows.length?'Completa':'Información incompleta'}</span></div></div><Field label="Observaciones finales del consultor" wide><Text name="observacionesFinales" formData={formData} setFormData={setFormData}/></Field></Card>}
+function Input({ label, value, onChange, type='text', placeholder='' }) {
+  return <label className="wfField"><span>{label}</span><input type={type} value={value ?? ''} placeholder={placeholder} onChange={e=>onChange(e.target.value)} /></label>;
+}
+function Select({ label, value, onChange, options }) {
+  return <label className="wfField"><span>{label}</span><select value={value ?? ''} onChange={e=>onChange(e.target.value)}><option value="">Seleccione</option>{options.map(o=><option key={o}>{o}</option>)}</select></label>;
+}
+function Textarea({ label, value, onChange, wide=true, placeholder='' }) {
+  return <label className={wide ? 'wfField wide' : 'wfField'}><span>{label}</span><textarea value={value ?? ''} placeholder={placeholder} onChange={e=>onChange(e.target.value)} /></label>;
+}
+function Card({ number, title, subtitle, children }) {
+  return <section className="wfCard"><header><b>{number}</b><div><h3>{title}</h3>{subtitle && <p>{subtitle}</p>}</div></header><div className="wfBody">{children}</div></section>;
+}
+function Notice({ children }) {
+  return <div className="wfNotice">{children}</div>;
+}
 
-function SortingForm({formData,setFormData}){const techs=['Código de barras 1D','QR / Código 2D','OCR','RFID','Captura manual'];const total=techs.reduce((s,t)=>s+Number(formData['tech_'+t]||0),0);const missing=Math.max(0,100-total);return <><GeneralSection formData={formData} setFormData={setFormData}/><Card number="2" title="Entendimiento de la operación" subtitle="Volumen, características físicas y calidad del proceso."><h4>2.1 Volumen de operación</h4><Note>Capture el volumen realmente procesado, no sólo la capacidad nominal. Confirme si el pico corresponde a temporada alta, promociones o días específicos.</Note><div className="wfGrid four"><Field label="Volumen promedio diario *"><Input name="volProm" formData={formData} setFormData={setFormData} placeholder="Paquetes por día"/></Field><Field label="Volumen pico diario *"><Input name="volPico" formData={formData} setFormData={setFormData}/></Field><Field label="Volumen mínimo diario"><Input name="volMin" formData={formData} setFormData={setFormData}/></Field><Field label="Horas efectivas de operación por día"><Input name="horas" formData={formData} setFormData={setFormData}/></Field></div><h4>2.2 Características del flujo</h4><div className="wfGrid"><Field label="Unidad de manejo principal"><Select name="unidadManejo" formData={formData} setFormData={setFormData} options={['Tarima','Caja','Tote','Paquete','Mixta','Otra']}/></Field><Field label="Peso típico"><Input name="pesoTipico" formData={formData} setFormData={setFormData} placeholder="kg"/></Field><Field label="Dimensiones típicas"><Input name="dimensiones" formData={formData} setFormData={setFormData}/></Field><Field label="Variabilidad del producto"><Select name="variabilidad" formData={formData} setFormData={setFormData} options={['Baja','Media','Alta']}/></Field><Field label="Observaciones" wide><Text name="obsFlujo" formData={formData} setFormData={setFormData}/></Field></div></Card><Card number="3" title="Infraestructura" subtitle="Condiciones físicas y disponibilidad de servicios."><h4>3.1 Nave y espacio disponible</h4><div className="wfGrid"><Field label="Altura libre disponible"><Input name="altura" formData={formData} setFormData={setFormData} placeholder="Ej. 8.5 m"/></Field><Field label="Área aproximada"><Input name="area" formData={formData} setFormData={setFormData} placeholder="m²"/></Field><Field label="Restricciones físicas" wide><Text name="restricciones" formData={formData} setFormData={setFormData} placeholder="Columnas, racks, pasillos, andenes, rutas de evacuación..."/></Field></div><h4>3.2 Piso</h4><div className="wfGrid three"><Field label="¿Existe estudio de planicidad?"><Select name="planicidad" formData={formData} setFormData={setFormData} options={['Sí','No','Por confirmar']}/></Field><Field label="Capacidad de carga del piso"><Input name="cargaPiso" formData={formData} setFormData={setFormData} placeholder="Ej. 5 t/m²"/></Field><Field label="Espesor de la losa de concreto"><Input name="espesor" formData={formData} setFormData={setFormData} placeholder="Ej. 18 cm"/></Field></div><Field label="Observaciones del piso" wide><Text name="obsPiso" formData={formData} setFormData={setFormData} placeholder="Ej. juntas, desniveles, grietas o zonas reforzadas"/></Field><h4>3.3 Energía eléctrica</h4><Note>Se busca confirmar si el sitio puede alimentar el sistema de clasificación y sus equipos auxiliares sin una ampliación mayor.</Note><div className="wfGrid three"><Field label="Voltaje disponible"><Input name="voltaje" formData={formData} setFormData={setFormData} placeholder="Ej. 220 V / 440 V"/></Field><Field label="Capacidad eléctrica disponible para nuevos equipos"><Input name="capacidadElectrica" formData={formData} setFormData={setFormData} placeholder="Ej. 250 kVA disponibles"/></Field><Field label="¿Existe capacidad eléctrica suficiente?"><Select name="capacidadSuf" formData={formData} setFormData={setFormData} options={['Sí','No','Por confirmar']}/></Field></div><Field label="Observaciones eléctricas" wide><Text name="obsElectrica" formData={formData} setFormData={setFormData} placeholder="Ej. nueva acometida, tablero adicional o ampliación de subestación"/></Field><h4>3.4 Sistema contra incendio y restricciones físicas</h4><div className="wfGrid"><Field label="Tipo de sistema contra incendio"><Input name="sci" formData={formData} setFormData={setFormData} placeholder="Ej. rociadores, hidrantes o detección de humo"/></Field><Field label="Altura libre disponible"><Input name="altura2" formData={formData} setFormData={setFormData} placeholder="Ej. 8.5 m"/></Field><Field label="Restricciones para instalar bandas transportadoras o equipos"><Input name="restriccionesEquipos" formData={formData} setFormData={setFormData}/></Field><Field label="Elementos que limitan la altura"><Input name="elementosAltura" formData={formData} setFormData={setFormData} placeholder="Ej. vigas, luminarias, tuberías, rociadores o racks"/></Field></div></Card><Card number="4" title="Sistemas" subtitle="Sistemas actuales, integración y tecnologías de identificación."><h4>4.1 Sistemas actuales</h4><div className="checkGrid">{[['wms','WMS'],['erp','ERP'],['tms','TMS'],['oms','OMS'],['propio','Sistema propio']].map(([k,l])=><Check key={k} name={k} formData={formData} setFormData={setFormData} label={l}/>)}</div><Field label="Nombre y descripción del sistema principal" wide><Input name="sistemaPrincipal" formData={formData} setFormData={setFormData}/></Field><h4>4.2 Método de integración disponible</h4><Note>Seleccione cómo puede intercambiar información el sistema actual con la solución de clasificación.</Note><div className="checkGrid three">{['REST API','SOAP','Web Services','Base de datos','Archivos CSV / XML','FTP / SFTP','MQTT','OPC-UA','Otro'].map((x,i)=><Check key={x} name={'int_'+i} formData={formData} setFormData={setFormData} label={x}/>)}</div><Field label="Comentarios sobre integración" wide><Text name="comentariosIntegracion" formData={formData} setFormData={setFormData} placeholder="Ej. documentación disponible, responsable de TI, restricciones de seguridad o autenticación"/></Field><h4>4.3 Tecnologías de identificación utilizadas</h4><Note>Distribuya el volumen según la forma en que actualmente se identifica cada paquete. La suma debe ser 100%.</Note><table className="wfTable"><thead><tr><th>Tecnología</th><th>% del volumen</th><th>Comentarios</th></tr></thead><tbody>{techs.map(t=><tr key={t}><td>{t}</td><td><input type="number" min="0" max="100" step="0.1" value={formData['tech_'+t]??''} onChange={e=>setFormData({...formData,['tech_'+t]:e.target.value})}/></td><td><input value={formData['techc_'+t]??''} onChange={e=>setFormData({...formData,['techc_'+t]:e.target.value})}/></td></tr>)}<tr className="wfTotals"><td>Total</td><td>{total.toFixed(1)}%</td><td>{missing>0?'Falta '+missing.toFixed(1)+'%':total>100?'Excede '+Math.abs(100-total).toFixed(1)+'%':'Completo'}</td></tr></tbody></table><h4>4.4 Tasa de lectura automática (Read Rate)</h4><Note>Indique el porcentaje de lecturas automáticas exitosas en el primer intento. No incluya la captura manual.</Note><div className="wfGrid"><Field label="Read Rate actual"><Input name="readRate" formData={formData} setFormData={setFormData} placeholder="%"/></Field><Field label="Porcentaje de No Read"><Input name="noRead" formData={formData} setFormData={setFormData} placeholder="%"/></Field></div><h4>4.5 Manejo de excepciones</h4><Field label="¿Qué sucede cuando un paquete no puede leerse o clasificarse?" wide><Text name="excepciones" formData={formData} setFormData={setFormData} placeholder="Ej. recirculación, estación manual, reetiquetado o envío a zona de excepciones"/></Field></Card><ClosureSections formData={formData} setFormData={setFormData}/></>}
+function GeneralCard({ data, set }) {
+  return <Card number="1" title="Información general" subtitle="Datos básicos de la visita.">
+    <div className="wfGrid">
+      <Input label="Cliente *" value={data.cliente} onChange={v=>set('cliente',v)} />
+      <Input label="Centro de distribución / sitio *" value={data.sitio} onChange={v=>set('sitio',v)} />
+      <Input label="Fecha *" type="date" value={data.fecha} onChange={v=>set('fecha',v)} />
+      <Input label="Responsable del cliente" value={data.responsable} onChange={v=>set('responsable',v)} />
+      <Input label="Puesto" value={data.puesto} onChange={v=>set('puesto',v)} />
+      <Input label="Consultor responsable" value={data.consultor} onChange={v=>set('consultor',v)} />
+    </div>
+  </Card>;
+}
 
-function WarehouseInitial({formData,setFormData}){return <><GeneralSection formData={formData} setFormData={setFormData}/><Card number="2" title="Tipo de operación" subtitle="Seleccione la unidad de manejo principal."><Note>El árbol distingue operaciones basadas en tarimas, totes/contenedores, esquemas mixtos u otras unidades de manejo.</Note><div className="optionGrid">{['Basada en tarimas','Basada en totes','Operación mixta','Otra'].map((x,i)=><label key={x} className="optionCard"><input type="radio" name="opType" checked={formData.opType===x} onChange={()=>setFormData({...formData,opType:x})}/><strong>{x}</strong><small>{['Almacenamiento y movimientos en tarima.','Operación de cajas plásticas, totes y bins.','Combinación de tarimas, totes y otros.','Cartones, racks móviles u otra.'][i]}</small></label>)}</div></Card><Card number="3" title="Volumen y recursos"><div className="wfGrid four"><Field label="Volumen promedio diario"><Input name="wi_avg" formData={formData} setFormData={setFormData}/></Field><Field label="Volumen pico diario"><Input name="wi_peak" formData={formData} setFormData={setFormData}/></Field><Field label="Recursos actuales"><Input name="wi_resources" formData={formData} setFormData={setFormData}/></Field><Field label="Horas efectivas"><Input name="wi_hours" formData={formData} setFormData={setFormData}/></Field></div><Field label="Observaciones de volumen y recursos" wide><Text name="wi_obs" formData={formData} setFormData={setFormData}/></Field></Card><Card number="4" title="Uso y flujo"><div className="wfGrid three"><Field label="Recepción"><Input name="wi_receive" formData={formData} setFormData={setFormData}/></Field><Field label="Almacenamiento"><Input name="wi_store" formData={formData} setFormData={setFormData}/></Field><Field label="Despacho"><Input name="wi_ship" formData={formData} setFormData={setFormData}/></Field><Field label="Recorridos principales" wide><Text name="wi_routes" formData={formData} setFormData={setFormData}/></Field></div></Card><Card number="5" title="Eficiencia"><div className="wfGrid"><Field label="Productividad actual"><Input name="wi_prod" formData={formData} setFormData={setFormData}/></Field><Field label="Cuellos de botella"><Input name="wi_bottleneck" formData={formData} setFormData={setFormData}/></Field><Field label="Errores / retrabajos"><Input name="wi_errors" formData={formData} setFormData={setFormData}/></Field><Field label="Comentarios" wide><Text name="wi_eff_obs" formData={formData} setFormData={setFormData}/></Field></div></Card><Card number="6" title="Infraestructura"><div className="wfGrid three"><Field label="Altura libre"><Input name="wi_height" formData={formData} setFormData={setFormData}/></Field><Field label="Área"><Input name="wi_area" formData={formData} setFormData={setFormData}/></Field><Field label="Capacidad eléctrica"><Input name="wi_power" formData={formData} setFormData={setFormData}/></Field><Field label="Restricciones" wide><Text name="wi_constraints" formData={formData} setFormData={setFormData}/></Field></div></Card><Card number="7" title="Objetivos"><Field label="Objetivo principal" wide><Text name="wi_goal" formData={formData} setFormData={setFormData}/></Field><div className="wfGrid"><Field label="Horizonte"><Select name="wi_horizon" formData={formData} setFormData={setFormData} options={['Corto plazo','Mediano plazo','Largo plazo']}/></Field><Field label="Prioridad"><Select name="wi_priority" formData={formData} setFormData={setFormData} options={['Productividad','Costo','Servicio','Seguridad','Escalabilidad']}/></Field></div></Card><ClosureSections formData={formData} setFormData={setFormData}/></>}
+function SortingCards({ data, set }) {
+  return <>
+    <GeneralCard data={data} set={set} />
+    <Card number="2" title="Entendimiento de la operación" subtitle="Volumen, características físicas y calidad del proceso.">
+      <h4>2.1 Volumen de operación</h4>
+      <Notice>Capture el volumen realmente procesado, no sólo la capacidad nominal.</Notice>
+      <div className="wfGrid four">
+        <Input label="Volumen promedio diario" value={data.avg} onChange={v=>set('avg',v)} placeholder="Paquetes / día" />
+        <Input label="Volumen pico diario" value={data.peak} onChange={v=>set('peak',v)} />
+        <Input label="Volumen mínimo diario" value={data.min} onChange={v=>set('min',v)} />
+        <Input label="Horas efectivas por día" value={data.hours} onChange={v=>set('hours',v)} />
+      </div>
+      <h4>2.2 Características del flujo</h4>
+      <div className="wfGrid">
+        <Select label="Unidad de manejo principal" value={data.unit} onChange={v=>set('unit',v)} options={['Tarima','Caja','Tote','Paquete','Mixta','Otra']} />
+        <Input label="Peso típico" value={data.weight} onChange={v=>set('weight',v)} placeholder="kg" />
+        <Input label="Dimensiones típicas" value={data.dimensions} onChange={v=>set('dimensions',v)} />
+        <Select label="Variabilidad del producto" value={data.variability} onChange={v=>set('variability',v)} options={['Baja','Media','Alta']} />
+        <Textarea label="Observaciones" value={data.flowNotes} onChange={v=>set('flowNotes',v)} />
+      </div>
+    </Card>
+    <Card number="3" title="Infraestructura" subtitle="Condiciones físicas y disponibilidad de servicios.">
+      <div className="wfSubgrid">
+        <h4>3.1 Nave y espacio disponible</h4>
+        <div className="wfGrid">
+          <Input label="Altura libre disponible" value={data.height} onChange={v=>set('height',v)} placeholder="Ej. 8.5 m" />
+          <Input label="Área aproximada" value={data.area} onChange={v=>set('area',v)} placeholder="m²" />
+          <Textarea label="Restricciones físicas" value={data.constraints} onChange={v=>set('constraints',v)} />
+        </div>
+        <h4>3.2 Piso</h4>
+        <div className="wfGrid three">
+          <Select label="¿Existe estudio de planicidad?" value={data.flatness} onChange={v=>set('flatness',v)} options={['Sí','No','Por confirmar']} />
+          <Input label="Capacidad de carga" value={data.floorLoad} onChange={v=>set('floorLoad',v)} placeholder="t/m²" />
+          <Input label="Espesor de losa" value={data.floorThickness} onChange={v=>set('floorThickness',v)} placeholder="cm" />
+        </div>
+        <Textarea label="Observaciones del piso" value={data.floorNotes} onChange={v=>set('floorNotes',v)} />
+        <h4>3.3 Energía eléctrica</h4>
+        <div className="wfGrid three">
+          <Input label="Voltaje disponible" value={data.voltage} onChange={v=>set('voltage',v)} />
+          <Input label="Capacidad disponible" value={data.power} onChange={v=>set('power',v)} />
+          <Select label="¿Existe capacidad suficiente?" value={data.powerOk} onChange={v=>set('powerOk',v)} options={['Sí','No','Por confirmar']} />
+        </div>
+        <Textarea label="Observaciones eléctricas" value={data.powerNotes} onChange={v=>set('powerNotes',v)} />
+      </div>
+    </Card>
+    <Card number="4" title="Sistemas e integración" subtitle="Sistemas actuales y tecnologías de identificación.">
+      <div className="checkGrid">
+        {['WMS','ERP','TMS','OMS','Sistema propio'].map((x,i)=><label key={x} className="checkRow"><input type="checkbox" checked={!!data['sys'+i]} onChange={e=>set('sys'+i,e.target.checked)} /><span>{x}</span></label>)}
+      </div>
+      <div className="wfGrid">
+        <Input label="Sistema principal" value={data.mainSystem} onChange={v=>set('mainSystem',v)} />
+        <Select label="Método de integración" value={data.integration} onChange={v=>set('integration',v)} options={['REST API','SOAP','Web Services','Base de datos','CSV / XML','FTP / SFTP','MQTT','OPC-UA','Otro']} />
+        <Textarea label="Comentarios de integración" value={data.integrationNotes} onChange={v=>set('integrationNotes',v)} />
+      </div>
+      <h4>4.1 Tecnologías de identificación</h4>
+      <table className="wfTable"><thead><tr><th>Tecnología</th><th>% del volumen</th><th>Comentarios</th></tr></thead><tbody>
+        {['Código de barras 1D','QR / Código 2D','OCR','RFID','Captura manual'].map((x,i)=><tr key={x}><td>{x}</td><td><input value={data['pct'+i] ?? ''} onChange={e=>set('pct'+i,e.target.value)} /></td><td><input value={data['note'+i] ?? ''} onChange={e=>set('note'+i,e.target.value)} /></td></tr>)}
+      </tbody></table>
+      <div className="wfSummary"><div><b>Read Rate</b><span>{data.readRate || '—'}%</span></div><div><b>No Read</b><span>{data.noRead || '—'}%</span></div></div>
+      <Textarea label="Manejo de excepciones" value={data.exceptions} onChange={v=>set('exceptions',v)} placeholder="Recirculación, estación manual, reetiquetado..." />
+    </Card>
+    <Card number="5" title="Recorrido y observaciones" subtitle="Documente el flujo físico y los puntos de interés.">
+      <div className="wfGrid">
+        <Textarea label="Recorrido actual" value={data.route} onChange={v=>set('route',v)} />
+        <Textarea label="Problemas observados" value={data.problems} onChange={v=>set('problems',v)} />
+        <Textarea label="Expectativas del cliente" value={data.expectations} onChange={v=>set('expectations',v)} />
+        <Textarea label="Recomendaciones preliminares" value={data.recommendations} onChange={v=>set('recommendations',v)} />
+      </div>
+    </Card>
+    <Card number="6" title="Cierre" subtitle="Confirmación de entregables y pendientes.">
+      <div className="wfTableWrap"><table className="wfTable"><thead><tr><th>Elemento</th><th>Confirmado</th><th>Pendiente</th><th>Notas</th></tr></thead><tbody>
+        {['Plano CAD','Plano del inmueble','Sistema contra incendio','WMS identificado','Método de integración','Destinos','Capacidad requerida','Fotografías'].map((x,i)=><tr key={x}><td>{x}</td><td><input type="radio" name={'c'+i} onChange={()=>set('c'+i,'Sí')} checked={data['c'+i]==='Sí'} /></td><td><input type="radio" name={'c'+i} onChange={()=>set('c'+i,'No')} checked={data['c'+i]==='No'} /></td><td><input value={data['cn'+i] ?? ''} onChange={e=>set('cn'+i,e.target.value)} /></td></tr>)}
+      </tbody></table></div>
+      <Textarea label="Observaciones finales del consultor" value={data.finalNotes} onChange={v=>set('finalNotes',v)} />
+    </Card>
+  </>;
+}
 
-function Eligibility({formData,setFormData}){const score=['e1','e2','e3','e4'].reduce((s,k)=>s+Number(formData[k]||0),0);const status=score>=8?'Elegible':score>=5?'Revisión requerida':'No elegible';return <><Card number="1" title="Datos de elegibilidad" subtitle="Califique rápidamente la oportunidad antes de invertir tiempo en un levantamiento profundo."><div className="wfGrid"><Field label="Cliente"><Input name="eclient" formData={formData} setFormData={setFormData}/></Field><Field label="Operación"><Input name="eop" formData={formData} setFormData={setFormData}/></Field><Field label="Volumen relevante"><Input name="evol" formData={formData} setFormData={setFormData}/></Field><Field label="Nivel de automatización actual"><Select name="eauto" formData={formData} setFormData={setFormData} options={['Bajo','Medio','Alto']}/></Field></div></Card><Card number="2" title="Evaluación rápida"><Note>La puntuación funciona como filtro inicial de la oportunidad.</Note><div className="wfGrid">{['Volumen suficiente','Problema claramente identificado','Datos disponibles','Viabilidad operativa'].map((x,i)=><Field key={x} label={x}><Input name={'e'+(i+1)} type="number" formData={formData} setFormData={setFormData} placeholder="0–3"/></Field>)}</div><div className="wfSummary"><div><b>Puntuación</b><span>{score} / 12</span></div><div><b>Resultado</b><span className={status==='Elegible'?'ok':status==='Revisión requerida'?'warn':'bad'}>{status}</span></div></div></Card></>}
+function EligibilityForm({ data, set }) {
+  const score = ['e1','e2','e3','e4'].reduce((a,k)=>a+Number(data[k]||0),0);
+  const status = score >= 8 ? 'Elegible' : score >= 5 ? 'Revisión requerida' : 'No elegible';
+  return <>
+    <Card number="1" title="Datos de elegibilidad" subtitle="Preevaluación de la oportunidad.">
+      <div className="wfGrid">
+        <Input label="Cliente" value={data.client} onChange={v=>set('client',v)} />
+        <Input label="Operación" value={data.operation} onChange={v=>set('operation',v)} />
+        <Input label="Volumen relevante" value={data.volume} onChange={v=>set('volume',v)} />
+        <Select label="Nivel de automatización" value={data.automation} onChange={v=>set('automation',v)} options={['Bajo','Medio','Alto']} />
+      </div>
+    </Card>
+    <Card number="2" title="Evaluación rápida" subtitle="Puntaje visual provisional.">
+      <div className="wfGrid">
+        {['Volumen suficiente','Problema claramente identificado','Datos disponibles','Viabilidad operativa'].map((x,i)=><Input key={x} label={x} type="number" value={data['e'+(i+1)]} onChange={v=>set('e'+(i+1),v)} placeholder="0–3" />)}
+      </div>
+      <div className="wfSummary"><div><b>Puntuación</b><span>{score} / 12</span></div><div><b>Resultado</b><span className={status==='Elegible'?'ok':status==='Revisión requerida'?'warn':'bad'}>{status}</span></div></div>
+    </Card>
+  </>;
+}
 
-function AmrCalculator({formData,setFormData}){const peak=Number(formData.amrPeak||0),cap=Number(formData.amrCapacity||0),util=Math.min(1,Math.max(.1,Number(formData.amrUtilization||75)/100)),unitCost=Number(formData.amrUnitCost||0),station=Number(formData.amrStationCost||0),stations=Math.max(1,Math.ceil(Number(formData.amrStations||1))),robots=cap>0?Math.max(0,Math.ceil(peak/(cap*util))):0,investment=robots*unitCost+stations*station,saving=Number(formData.amrSaving||0),payback=saving>0?investment/saving:0,sem=robots===0?'Pendiente':payback>0&&payback<=24?'Verde':payback<=36?'Amarillo':'Rojo';return <><div className="quickGuide"><header>Instructivo de uso rápido</header>{['Capture únicamente los datos que el cliente pueda compartir en una etapa temprana.','Utilice valores conservadores de productividad; no use máximos de ficha técnica.','El resultado no sustituye la ingeniería de detalle: ayuda a decidir si avanzar, rediseñar o descartar la oportunidad.','Si el semáforo es verde, avance a Full Scope. Si es amarillo, solicite entre 3 y 5 datos críticos. Si es rojo, evite invertir en un levantamiento profundo.'].map((x,i)=><div key={x}><b>{i+1}</b><span>{x}</span></div>)}</div><div className="metricTiles"><div><span>Robots estimados</span><strong>{robots||'—'}</strong></div><div><span>Estaciones estimadas</span><strong>{formData.amrStations||'—'}</strong></div><div><span>Inversión total estimada</span><strong>{investment?investment.toLocaleString('es-MX',{style:'currency',currency:'MXN'}):'—'}</strong></div><div><span>Payback estimado</span><strong>{payback?payback.toFixed(1)+' meses':'—'}</strong></div></div><Card number="1" title="Formulario de captura mínima"><div className="wfGrid">{[['amrType','Tipo de proceso'],['amrPeak','Volumen pico por hora'],['amrCapacity','Capacidad conservadora por robot / h'],['amrUtilization','Utilización objetivo (%)'],['amrStations','Número de estaciones'],['amrUnitCost','Costo unitario estimado (MXN)'],['amrStationCost','Costo por estación (MXN)'],['amrSaving','Ahorro mensual estimado (MXN)']].map(([name,label])=><Field key={name} label={label}>{name==='amrType'?<Select name={name} formData={formData} setFormData={setFormData} options={['Picking AMR','Goods-to-person','Pallets / AGV','Totes / Bins','Mixto']}/>:<Input name={name} type="number" formData={formData} setFormData={setFormData}/>}</Field>)}</div></Card><div className="resultBoard"><div><b>Resultado automático / Semáforo</b><span className={'lamp '+sem.toLowerCase()}>{sem}</span></div><p>Modelo interno provisional: Robots = techo(Volumen pico / (Capacidad por robot × Utilización)); Payback = Inversión / Ahorro mensual.</p></div></>}
+function AmrForm({ data, set }) {
+  const peak=Number(data.peak||0), cap=Number(data.capacity||0), util=Math.max(.1,Math.min(1,Number(data.util||75)/100));
+  const robots=cap?Math.max(0,Math.ceil(peak/(cap*util))):0;
+  return <>
+    <Notice><b>Instructivo de uso rápido</b><br/>Esta vista se prepara para la captura inicial del cálculo. Las fórmulas finas se ajustarán después.</Notice>
+    <div className="metricTiles"><div><span>Robots estimados</span><strong>{robots||'—'}</strong></div><div><span>Estaciones</span><strong>{data.stations||'—'}</strong></div><div><span>Inversión</span><strong>{data.investment ? '$'+data.investment : '—'}</strong></div><div><span>Payback</span><strong>{data.payback ? data.payback+' meses' : '—'}</strong></div></div>
+    <Card number="1" title="Captura mínima" subtitle="Datos disponibles en pre-scope.">
+      <div className="wfGrid">
+        <Select label="Tipo de proceso" value={data.type} onChange={v=>set('type',v)} options={['Picking AMR','Goods-to-person','Pallets / AGV','Totes / Bins','Mixto']} />
+        <Input label="Volumen pico por hora" type="number" value={data.peak} onChange={v=>set('peak',v)} />
+        <Input label="Capacidad conservadora por robot / h" type="number" value={data.capacity} onChange={v=>set('capacity',v)} />
+        <Input label="Utilización objetivo (%)" type="number" value={data.util} onChange={v=>set('util',v)} placeholder="75" />
+        <Input label="Número de estaciones" type="number" value={data.stations} onChange={v=>set('stations',v)} />
+        <Input label="Inversión estimada" value={data.investment} onChange={v=>set('investment',v)} />
+        <Input label="Ahorro mensual estimado" value={data.saving} onChange={v=>set('saving',v)} />
+        <Input label="Payback" value={data.payback} onChange={v=>set('payback',v)} />
+      </div>
+    </Card>
+  </>;
+}
 
-function FormWorkspace(){const [selected,setSelected]=useState('sortingDetailed'),[data,setData]=useState({}),[message,setMessage]=useState('');const current=formOptions.find(x=>x.id===selected);useEffect(()=>{try{const raw=localStorage.getItem('innov_form_'+selected);setData(raw?JSON.parse(raw):{})}catch{setData({})}},[selected]);const save=()=>{try{localStorage.setItem('innov_form_'+selected,JSON.stringify(data));setMessage('Guardado localmente · '+new Date().toLocaleTimeString('es-MX'));setTimeout(()=>setMessage(''),2500)}catch{}};const clear=()=>{setData({});try{localStorage.removeItem('innov_form_'+selected)}catch{}};const exportJson=()=>{const blob=new Blob([JSON.stringify({form:selected,data},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='innov-'+selected+'.json';a.click();URL.revokeObjectURL(url)};const render=()=>selected==='sortingDetailed'?<SortingForm formData={data} setFormData={setData}/>:selected==='warehouseInitial'?<WarehouseInitial formData={data} setFormData={setData}/>:selected==='sortingInitial'?<WarehouseInitial formData={data} setFormData={setData}/>:selected==='warehouseDetailed'?<SortingForm formData={data} setFormData={setData}/>:selected==='eligibility'?<Eligibility formData={data} setFormData={setData}/>:<AmrCalculator formData={data} setFormData={setData}/>;const steps=selected==='sortingDetailed'?sortSteps:selected==='warehouseDetailed'?warehouseSteps:selected==='warehouseInitial'?warehouseSteps:selected==='sortingInitial'?warehouseSteps:[];return <div className="wfApp"><aside className="wfSide"><div className="wfBrand">Inn<i>O</i>v<small>Logistic Solutions</small></div><button className="sidePrimary" onClick={()=>setSelected('eligibility')}>Calificación de Elegibilidad</button><strong>Levantamiento Inicial para:</strong><div className="sidePair"><button className={selected==='warehouseInitial'?'active':''} onClick={()=>setSelected('warehouseInitial')}>Almacén</button><button className={selected==='sortingInitial'?'active':''} onClick={()=>setSelected('sortingInitial')}>Sorting</button></div><strong>Cuestionario detallado para:</strong><div className="sidePair"><button className={selected==='warehouseDetailed'?'active':''} onClick={()=>setSelected('warehouseDetailed')}>Almacén</button><button className={selected==='sortingDetailed'?'active':''} onClick={()=>setSelected('sortingDetailed')}>Sorting</button></div><strong className="sideCalcTitle">Calculadoras x Solución</strong><button className={selected==='amr'?'active sideCalc':''} onClick={()=>setSelected('amr')}>Calculo inicial de AMR's</button></aside><div className="wfMain"><div className="wfTop"><div><b>{current.title}</b><span>{selected==='amr'?'Calificación comercial rápida · Captura desde cero':'Instrumento de levantamiento · Primera visita'}</span></div><div className="wfTopActions"><button onClick={exportJson}>Exportar JSON</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={()=>window.print()}>PDF in English</button><button className="danger" onClick={clear}>Limpiar</button></div></div><div className="wfTitleBand"><div><h1>{selected==='sortingDetailed'?'Sorting Center Assessment':selected==='warehouseInitial'?'Levantamiento Inicial para Almacenes':selected==='sortingInitial'?'Sorting Center Assessment':selected==='warehouseDetailed'?'Warehouse First Visit Assessment':selected==='amr'?'AMR / AGV Pre-Scope Calculator':'Calificación de Elegibilidad'}</h1><p>{selected==='amr'?'Captura la información del prospecto para estimar viabilidad, presupuesto, ROI y semáforo antes de invertir en un levantamiento profundo.':'Instrumento para recopilar la información mínima necesaria para evaluar la operación, la factibilidad técnica y las oportunidades de automatización.'}</p></div><div className="wfMeta"><span>Documento<strong>Primera visita</strong></span><span>Tipo<strong>{selected==='amr'?'AMR / AGV':selected.includes('sorting')?'Sorting':'Warehouse'}</strong></span><span>Estado<strong>En captura</strong></span></div></div>{selected==='amr'?render():<div className="wfLayout">{steps.length>0&&<nav className="wfProgress"><div>Avance <b>0%</b></div>{steps.map((s,i)=><button key={s} onClick={()=>document.getElementById('wf-step-'+i)?.scrollIntoView({behavior:'smooth',block:'start'})}><b>{i+1}</b>{s}</button>)}</nav>}<div className="wfContent">{render()}</div></div>}<div className="wfBottom"><span>{message||'Guardado local; listo para capturar'}</span><button onClick={save}>Guardar avance</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={()=>window.print()}>PDF in English</button></div></div></div>}
+function FormWorkspace() {
+  const [selected,setSelected]=useState('sortingDetailed');
+  const [data,setData]=useState({});
+  const [saved,setSaved]=useState('');
+  const current=formChoices.find(f=>f.id===selected) || formChoices[0];
 
-export default function Admin(){const [logged,setLogged]=useState(false),[password,setPassword]=useState(''),[messages,setMessages]=useState([]),[error,setError]=useState(''),[loading,setLoading]=useState(false),[tab,setTab]=useState('contacts');async function load(){const r=await fetch('/api/admin/messages',{cache:'no-store'});if(!r.ok){setLogged(false);return;}const data=await r.json();setMessages(data.messages||[]);setLogged(true)}useEffect(()=>{load()},[]);async function login(e){e.preventDefault();setError('');const r=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})});if(!r.ok){setError('Contraseña incorrecta');return;}setPassword('');await load()}async function logout(){await fetch('/api/admin/login',{method:'DELETE'});setLogged(false);setMessages([])}async function changeStatus(id,status){setLoading(true);await fetch('/api/admin/messages',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status})});await load();setLoading(false)}if(!logged)return <main className="adminPortal"><div className="adminLoginReplica"><p className="adminEyebrow">INNOV · ADMIN</p><h1>Acceso a<br/>contactos</h1><p>Ingresa la contraseña administrativa para consultar los prospectos.</p><form onSubmit={login}><input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Contraseña" required autoFocus/><button type="submit">ENTRAR →</button>{error&&<small>{error}</small>}</form><a href="/">← Volver al sitio</a></div></main>;return <main className="adminPortal adminLogged"><div className="adminPortalShell"><div className="adminPortalHeader"><div><p className="adminEyebrow">INNOV · ADMIN</p><h1>{tab==='contacts'?'Contactos':'Formularios'}</h1><p>{tab==='contacts'?(messages.length===1?'1 registro reciente':messages.length+' registros recientes'):'Formularios internos de levantamiento.'}</p></div><div className="adminPortalActions"><button className="adminPrimary" onClick={()=>tab==='contacts'&&load()} disabled={loading}>ACTUALIZAR</button><button className="adminGhost" onClick={logout}>SALIR</button></div></div><div className="adminTabs" role="tablist"><button className={tab==='contacts'?'active':''} onClick={()=>setTab('contacts')}>CONTACTOS</button><button className={tab==='forms'?'active':''} onClick={()=>setTab('forms')}>FORMULARIOS</button></div>{tab==='contacts'?<div className="adminContactList">{messages.length===0?<div className="adminEmpty">Todavía no hay contactos.</div>:messages.map(m=><article className="adminContactCard" key={m.id}><div className="adminContactTop"><div><b>{m.name}</b><span>{m.company||'Sin empresa'}</span></div><select value={m.status} onChange={e=>changeStatus(m.id,e.target.value)} aria-label={'Estatus de '+m.name}><option value="new">{labels.new}</option><option value="read">{labels.read}</option><option value="contacted">{labels.contacted}</option><option value="closed">{labels.closed}</option></select></div><div className="adminContactMeta"><a href={'mailto:'+m.email}>{m.email}</a>{m.phone&&<a href={'tel:'+m.phone}>{m.phone}</a>}<time>{new Date(m.created_at).toLocaleString('es-MX')}</time></div><p>{m.message}</p></article>)}</div>:<FormWorkspace/>}</div></main>
+  useEffect(()=>{
+    try {
+      const raw=localStorage.getItem('innov_form_'+selected);
+      setData(raw ? JSON.parse(raw) : {});
+    } catch {
+      setData({});
+    }
+  },[selected]);
+
+  const set=(key,value)=>setData(prev=>({...prev,[key]:value}));
+
+  const save=()=>{
+    try {
+      localStorage.setItem('innov_form_'+selected,JSON.stringify(data));
+      setSaved('Guardado localmente · '+new Date().toLocaleTimeString('es-MX'));
+    } catch {}
+  };
+
+  const clear=()=>{
+    setData({});
+    try { localStorage.removeItem('innov_form_'+selected); } catch {}
+  };
+
+  const print=()=>window.print();
+
+  const renderForm = selected==='eligibility'
+    ? <EligibilityForm data={data} set={set} />
+    : selected==='amr'
+      ? <AmrForm data={data} set={set} />
+      : <SortingCards data={data} set={set} />;
+
+  const steps=['Información general','Operación','Infraestructura','Sistemas','Recorrido','Cierre'];
+
+  return <div className="wfApp">
+    <aside className="wfSide">
+      <div className="wfBrand">Inn<i>O</i>v<small>Logistic Solutions</small></div>
+      <button className={selected==='eligibility'?'active sidePrimary':''} onClick={()=>setSelected('eligibility')}>Calificación de Elegibilidad</button>
+      <strong>Levantamiento Inicial para:</strong>
+      <div className="sidePair"><button className={selected==='warehouseInitial'?'active':''} onClick={()=>setSelected('warehouseInitial')}>Almacén</button><button className={selected==='sortingInitial'?'active':''} onClick={()=>setSelected('sortingInitial')}>Sorting</button></div>
+      <strong>Cuestionario detallado para:</strong>
+      <div className="sidePair"><button className={selected==='warehouseDetailed'?'active':''} onClick={()=>setSelected('warehouseDetailed')}>Almacén</button><button className={selected==='sortingDetailed'?'active':''} onClick={()=>setSelected('sortingDetailed')}>Sorting</button></div>
+      <strong className="sideCalcTitle">Calculadoras x Solución</strong>
+      <button className={selected==='amr'?'active':''} onClick={()=>setSelected('amr')}>Cálculo inicial de AMR's</button>
+    </aside>
+
+    <div className="wfMain">
+      <div className="wfTop">
+        <div><b>{current.title}</b><span>{current.subtitle}</span></div>
+        <div className="wfTopActions"><button onClick={save}>Guardar</button><button onClick={print}>PDF</button><button onClick={clear}>Limpiar</button></div>
+      </div>
+
+      <div className="wfTitleBand">
+        <div><h1>{current.title}</h1><p>{current.subtitle} Captura la información mínima necesaria para evaluar la operación, la factibilidad técnica y las oportunidades de automatización.</p></div>
+        <div className="wfMeta"><span>Documento<strong>Primera visita</strong></span><span>Tipo<strong>{selected.includes('sorting')?'Sorting':selected==='amr'?'AMR / AGV':'Warehouse'}</strong></span><span>Estado<strong>En captura</strong></span></div>
+      </div>
+
+      {selected!=='eligibility' && selected!=='amr' && <nav className="wfProgress"><div>Avance <b>0%</b></div>{steps.map((s,i)=><button key={s}><b>{i+1}</b>{s}</button>)}</nav>}
+
+      <div className="wfContent">{renderForm()}</div>
+      <div className="wfBottom"><span>{saved || 'Guardado local · listo para capturar'}</span><button onClick={save}>Guardar avance</button><button onClick={print}>PDF en español</button><button onClick={print}>PDF in English</button></div>
+    </div>
+  </div>;
+}
+
+export default function Admin() {
+  const [logged,setLogged]=useState(false);
+  const [password,setPassword]=useState('');
+  const [messages,setMessages]=useState([]);
+  const [error,setError]=useState('');
+  const [tab,setTab]=useState('contacts');
+
+  async function load() {
+    const r=await fetch('/api/admin/messages',{cache:'no-store'});
+    if(!r.ok){setLogged(false);return;}
+    const data=await r.json();
+    setMessages(data.messages||[]);
+    setLogged(true);
+  }
+  useEffect(()=>{load();},[]);
+  async function login(e){
+    e.preventDefault(); setError('');
+    const r=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})});
+    if(!r.ok){setError('Contraseña incorrecta');return;}
+    setPassword('');
+    await load();
+  }
+  async function logout(){await fetch('/api/admin/login',{method:'DELETE'});setLogged(false);setMessages([]);}
+  async function changeStatus(id,status){
+    await fetch('/api/admin/messages',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status})});
+    await load();
+  }
+
+  if(!logged) return <main className="adminPortal"><div className="adminLoginReplica"><p className="adminEyebrow">INNOV · ADMIN</p><h1>Acceso a<br/>contactos</h1><p>Ingresa la contraseña administrativa para consultar los prospectos.</p><form onSubmit={login}><input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Contraseña" required autoFocus/><button>ENTRAR →</button>{error&&<small>{error}</small>}</form><a href="/">← Volver al sitio</a></div></main>;
+
+  return <main className="adminPortal adminLogged">
+    <div className="adminPortalShell">
+      <div className="adminPortalHeader"><div><p className="adminEyebrow">INNOV · ADMIN</p><h1>{tab==='contacts'?'Contactos':'Formularios'}</h1><p>{tab==='contacts'?(messages.length===1?'1 registro reciente':messages.length+' registros recientes'):'Formularios internos de levantamiento.'}</p></div><div className="adminPortalActions"><button className="adminPrimary" onClick={()=>tab==='contacts'&&load}>ACTUALIZAR</button><button className="adminGhost" onClick={logout}>SALIR</button></div></div>
+      <div className="adminTabs"><button className={tab==='contacts'?'active':''} onClick={()=>setTab('contacts')}>CONTACTOS</button><button className={tab==='forms'?'active':''} onClick={()=>setTab('forms')}>FORMULARIOS</button></div>
+      {tab==='contacts'
+        ? <div className="adminContactList">{messages.length===0?<div className="adminEmpty">Todavía no hay contactos.</div>:messages.map(m=><article className="adminContactCard" key={m.id}><div className="adminContactTop"><div><b>{m.name}</b><span>{m.company||'Sin empresa'}</span></div><select value={m.status} onChange={e=>changeStatus(m.id,e.target.value)}><option value="new">{contactStatus.new}</option><option value="read">{contactStatus.read}</option><option value="contacted">{contactStatus.contacted}</option><option value="closed">{contactStatus.closed}</option></select></div><div className="adminContactMeta"><a href={'mailto:'+m.email}>{m.email}</a>{m.phone&&<a href={'tel:'+m.phone}>{m.phone}</a>}<time>{new Date(m.created_at).toLocaleString('es-MX')}</time></div><p>{m.message}</p></article>)}</div>
+        : <FormWorkspace />}
+    </div>
+  </main>;
+}
