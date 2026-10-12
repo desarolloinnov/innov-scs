@@ -4,21 +4,21 @@ import crypto from 'node:crypto';
 import { validAdmin } from '../../admin-auth.js';
 
 async function ensureTables(sql) {
-  await sql\`CREATE TABLE IF NOT EXISTS innov_clients (
+  await sql`CREATE TABLE IF NOT EXISTS innov_clients (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
     company TEXT,
     notes TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  )\`;
-  await sql\`CREATE TABLE IF NOT EXISTS innov_form_data (
+  )`;
+  await sql`CREATE TABLE IF NOT EXISTS innov_form_data (
     client_id TEXT NOT NULL REFERENCES innov_clients(id) ON DELETE CASCADE,
     form_id TEXT NOT NULL,
     data JSONB NOT NULL DEFAULT '{}'::jsonb,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     PRIMARY KEY (client_id, form_id)
-  )\`;
+  )`;
 }
 
 export async function GET(req) {
@@ -27,7 +27,7 @@ export async function GET(req) {
   try {
     const sql = neon(process.env.DATABASE_URL);
     await ensureTables(sql);
-    const clients = await sql\`SELECT id, name, company, notes, created_at, updated_at FROM innov_clients ORDER BY name ASC\`;
+    const clients = await sql`SELECT id, name, company, notes, created_at, updated_at FROM innov_clients ORDER BY name ASC`;
     return NextResponse.json({ clients });
   } catch (error) {
     console.error('Admin clients GET:', error);
@@ -47,9 +47,9 @@ export async function POST(req) {
     const sql = neon(process.env.DATABASE_URL);
     await ensureTables(sql);
     const id = crypto.randomUUID();
-    const rows = await sql\`INSERT INTO innov_clients (id, name, company, notes)
-      VALUES (\${id}, \${name}, \${company}, \${notes})
-      RETURNING id, name, company, notes, created_at, updated_at\`;
+    const rows = await sql`INSERT INTO innov_clients (id, name, company, notes)
+      VALUES (${id}, ${name}, ${company}, ${notes})
+      RETURNING id, name, company, notes, created_at, updated_at`;
     return NextResponse.json({ client: rows[0] }, { status: 201 });
   } catch (error) {
     console.error('Admin clients POST:', error);
