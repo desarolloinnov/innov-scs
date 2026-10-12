@@ -104,26 +104,100 @@ function FormWorkspace(){
   const [selected,setSelected]=useState('sortingDetailed');
   const [data,setData]=useState({});
   const [saved,setSaved]=useState('');
+  const [clients,setClients]=useState([]);
+  const [clientId,setClientId]=useState('');
+  const [clientModal,setClientModal]=useState(false);
+  const [clientForm,setClientForm]=useState({name:'',company:'',notes:''});
+  const [clientLoading,setClientLoading]=useState(false);
   const current=useMemo(()=>FORMS.find(x=>x.id===selected)||FORMS[0],[selected]);
 
-  useEffect(()=>{
+  async function loadClients(){
     try{
-      const raw=localStorage.getItem('innov_form_'+selected);
-      setData(raw?JSON.parse(raw):{});
-    }catch{setData({});}
-  },[selected]);
-
-  function save(){
-    try{
-      localStorage.setItem('innov_form_'+selected,JSON.stringify(data));
-      setSaved('Guardado localmente · '+new Date().toLocaleTimeString('es-MX'));
+      const response=await fetch('/api/admin/clients',{cache:'no-store'});
+      if(!response.ok)return;
+      const payload=await response.json();
+      setClients(payload.clients||[]);
+      if(!clientId && payload.clients?.[0]?.id)setClientId(payload.clients[0].id);
     }catch{}
   }
-  function clear(){
-    setData({});
-    try{localStorage.removeItem('innov_form_'+selected);}catch{}
+
+  async function loadForm(clientOverride=clientId,formOverride=selected){
+    if(!clientOverride){
+      setData({});
+      return;
+    }
+    try{
+      const response=await fetch('/api/admin/forms?clientId='+encodeURIComponent(clientOverride)+'&formId='+encodeURIComponent(formOverride),{cache:'no-store'});
+      if(!response.ok){setData({});return;}
+      const payload=await response.json();
+      setData(payload.data||{});
+      setSaved(payload.updated_at?'Último guardado · '+new Date(payload.updated_at).toLocaleString('es-MX'):'Sin guardado');
+    }catch{setData({});}
   }
+
+  useEffect(()=>{loadClients();},[]);
+  useEffect(()=>{if(clientId)loadForm(clientId,selected);},[clientId,selected]);
+
+  function set(key,value){setData(prev=>({...prev,[key]:value}));}
+
+  async function save(){
+    if(!clientId){
+      setSaved('Selecciona o agrega un cliente antes de guardar');
+      return;
+    }
+    try{
+      const response=await fetch('/api/admin/forms',{
+        method:'PUT',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({clientId,formId:selected,data})
+      });
+      const payload=await response.json().catch(()=>({}));
+      if(!response.ok){
+        setSaved(payload.error||'No fue posible guardar');
+        return;
+      }
+      setSaved('Guardado · '+new Date().toLocaleString('es-MX'));
+    }catch{setSaved('No fue posible guardar');}
+  }
+
+  function clear(){
+    if(!window.confirm('¿Limpiar los datos capturados de este formulario?'))return;
+    setData({});
+    setSaved('Formulario limpio · aún no guardado');
+  }
+
   function print(){window.print();}
+
+  async function createClient(event){
+    event.preventDefault();
+    if(!clientForm.name.trim())return;
+    setClientLoading(true);
+    try{
+      const response=await fetch('/api/admin/clients',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(clientForm)
+      });
+      const payload=await response.json().catch(()=>({}));
+      if(!response.ok){
+        setSaved(payload.error||'No fue posible crear el cliente');
+        setClientLoading(false);
+        return;
+      }
+      const client=payload.client;
+      setClients(prev=>[...prev,client].sort((a,b)=>a.name.localeCompare(b.name,'es')));
+      setClientId(client.id);
+      setClientForm({name:'',company:'',notes:''});
+      setClientModal(false);
+      setSaved('Cliente creado · listo para capturar');
+    }catch{
+      setSaved('No fue posible crear el cliente');
+    }finally{
+      setClientLoading(false);
+    }
+  }
+
+  const activeClient=clients.find(x=>x.id===clientId);
 
   return <div className="wfApp">
     <aside className="wfSide">
@@ -146,15 +220,49 @@ function FormWorkspace(){
     <div className="wfMain">
       <div className="wfTop">
         <div><b>{current.title}</b><span>{current.subtitle}</span></div>
-        <div className="wfTopActions"><button onClick={save}>Guardar</button><button onClick={print}>PDF</button><button onClick={clear}>Limpiar</button></div>
+        <div className="wfTopActions">
+          <button className="clientAddButton" onClick={()=>setClientModal(true)}>+ AGREGAR CLIENTE</button>
+          <button onClick={save} disabled={!clientId}>GUARDAR</button>
+          <button onClick={print}>PDF</button>
+          <button onClick={clear}>LIMPIAR</button>
+        </div>
       </div>
+
+      <div className="clientBar">
+        <div className="clientBarLabel">CLIENTE ACTIVO</div>
+        <select value={clientId} onChange={e=>setClientId(e.target.value)}>
+          <option value="">Selecciona un cliente...</option>
+          {clients.map(client=><option key={client.id} value={client.id}>{client.name}{client.company?' · '+client.company:''}</option>)}
+        </select>
+        {activeClient&&<span className="clientBarMeta">{activeClient.company||'Sin empresa'} · Los formularios se guardan por cliente</span>}
+        {!clients.length&&<span className="clientBarEmpty">Aún no hay clientes. Usa “+ AGREGAR CLIENTE”.</span>}
+      </div>
+
       <div className="wfTitleBand">
         <div><h1>{current.title}</h1><p>{current.subtitle} Captura la información mínima necesaria para evaluar la operación, la factibilidad técnica y las oportunidades de automatización.</p></div>
-        <div className="wfMeta"><span>Documento<strong>Primera visita</strong></span><span>Tipo<strong>{selected.includes('sorting')?'Sorting':selected==='amr'?'AMR / AGV':'Warehouse'}</strong></span><span>Estado<strong>En captura</strong></span></div>
+        <div className="wfMeta"><span>Cliente<strong>{activeClient?.name||'Sin seleccionar'}</strong></span><span>Tipo<strong>{selected.includes('sorting')?'Sorting':selected==='amr'?'AMR / AGV':'Warehouse'}</strong></span><span>Estado<strong>{clientId?'En captura':'Selecciona cliente'}</strong></span></div>
       </div>
+
+      {!clientId&&<div className="clientRequiredNotice">Selecciona un cliente para cargar o guardar la información de este formulario.</div>}
+
       <nav className="wfProgress">{['Información general','Operación','Infraestructura','Sistemas','Recorrido','Cierre'].map((item,index)=><button key={item}><b>{index+1}</b>{item}</button>)}</nav>
       <FormRenderer formId={selected} data={data} setData={setData}/>
-      <div className="wfBottom"><span>{saved||'Guardado local · listo para capturar'}</span><button onClick={save}>Guardar avance</button><button onClick={print}>PDF en español</button><button onClick={print}>PDF in English</button></div>
+      <div className="wfBottom">
+        <span>{saved||'Listo para capturar'}</span>
+        <button onClick={save} disabled={!clientId}>GUARDAR AVANCE</button>
+        <button onClick={print}>PDF EN ESPAÑOL</button>
+        <button onClick={print}>PDF IN ENGLISH</button>
+      </div>
+
+      {clientModal&&<div className="clientModalBackdrop" role="dialog" aria-modal="true">
+        <form className="clientModal" onSubmit={createClient}>
+          <div className="clientModalHead"><div><p>INNOV · CLIENTE</p><h2>Agregar cliente</h2></div><button type="button" className="clientModalClose" onClick={()=>setClientModal(false)}>×</button></div>
+          <label><span>Nombre del cliente *</span><input value={clientForm.name} onChange={e=>setClientForm({...clientForm,name:e.target.value})} autoFocus required /></label>
+          <label><span>Empresa</span><input value={clientForm.company} onChange={e=>setClientForm({...clientForm,company:e.target.value})} /></label>
+          <label><span>Notas</span><textarea value={clientForm.notes} onChange={e=>setClientForm({...clientForm,notes:e.target.value})} /></label>
+          <div className="clientModalActions"><button type="button" onClick={()=>setClientModal(false)}>CANCELAR</button><button type="submit" disabled={clientLoading}>{clientLoading?'GUARDANDO...':'GUARDAR CLIENTE'}</button></div>
+        </form>
+      </div>}
     </div>
   </div>;
 }
