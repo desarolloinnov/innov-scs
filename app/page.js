@@ -80,7 +80,13 @@ export default function Home(){
     </form>
   </div>
 </section>
- <footer><div className="logo">Inn<i className="logoO">O</i>v<span>SUPPLY CHAIN SOLUTIONS</span></div><p>© 2026 Innov. Todos los derechos reservados. · <a href="/admin">Administración</a></p></footer>
+ <footer>
+  <div className="footerBrandRow">
+    <div className="logo">Inn<i className="logoO">O</i>v<span>SUPPLY CHAIN SOLUTIONS</span></div>
+    <img className="footerPartnerLogo" src="/logos/levantamientos-footer.svg" alt="InnOv Supply Chain Solutions · Levantamientos" />
+  </div>
+  <p>© 2026 Innov. Todos los derechos reservados. · <a href="/admin">Administración</a></p>
+</footer>
  <style jsx global>{`
  .imageIntro{display:grid;grid-template-columns:1.12fr .88fr;gap:70px;align-items:center}
  .imageFrame{height:390px;position:relative;overflow:hidden;background:#ddd;border-radius:2px}
