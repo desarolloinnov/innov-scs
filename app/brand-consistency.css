@@ -1,0 +1,65 @@
+/* Unified Innov brand/header system */
+:root{--innov-purple:#5a2a82;--innov-deep:#230a3d;--innov-header-bg:rgba(35,10,61,.82)}
+body{background:#f5f2ee;color:#201c25}
+header,
+.intraHeader,.goHeader,.itHeader,.viHeader,.scHeader,.aoHeader,.icHeader{
+  background:var(--innov-header-bg)!important;
+  backdrop-filter:blur(14px)!important;
+  -webkit-backdrop-filter:blur(14px)!important;
+  border-bottom:1px solid rgba(255,255,255,.12)!important;
+  box-shadow:0 8px 28px rgba(20,4,35,.12);
+}
+body:has(#inicio) main>header,
+.intraHeader,.goHeader,.itHeader,.viHeader,.scHeader,.aoHeader,.icHeader{
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  width:100%!important;
+  z-index:9999!important;
+}
+body:has(#inicio) main>header{height:92px!important}
+body:has(#inicio) main>header .logo,
+.intraLogo,.goLogo,.itLogo,.viLogo,.scLogo,.aoLogo,.icLogo{
+  width:220px!important;
+  min-width:220px!important;
+  height:63px!important;
+  flex:0 0 220px!important;
+  display:block!important;
+  padding:0!important;
+  margin:0!important;
+  background:url('/logos/innov-scs-header.svg') left center/contain no-repeat!important;
+  color:transparent!important;
+  font-size:0!important;
+  line-height:0!important;
+  letter-spacing:0!important;
+  text-decoration:none!important;
+}
+body:has(#inicio) main>header .logo span,
+.intraLogo span,.goLogo span,.itLogo span,.viLogo span,.scLogo span,.aoLogo span,.icLogo span{
+  display:none!important;
+}
+.itHeader,.viHeader,.scHeader,.aoHeader,.icHeader,.intraHeader,.goHeader{height:92px!important}
+.itPage,.viPage,.scPage,.aoPage,.icPage{padding-top:92px!important}
+.intralogisticaPage,.gestionPage{padding-top:92px!important}
+header nav a,.itHeader nav a,.viHeader nav a,.scHeader nav a,.aoHeader nav a,.icHeader nav a,.intraHeader nav a,.goHeader nav a{
+  color:#fff!important;
+  font-weight:600!important;
+}
+.navCta,.itCta,.viCta,.scCta,.aoCta,.icCta{
+  border-color:rgba(255,255,255,.65)!important;
+}
+.navCta{background:transparent!important}
+@media(max-width:1100px){
+  body:has(#inicio) main>header .logo,.intraLogo,.goLogo,.itLogo,.viLogo,.scLogo,.aoLogo,.icLogo{
+    width:190px!important;min-width:190px!important;height:56px!important;flex-basis:190px!important;
+  }
+}
+@media(max-width:800px){
+  body:has(#inicio) main>header,
+  .intraHeader,.goHeader,.itHeader,.viHeader,.scHeader,.aoHeader,.icHeader{height:78px!important}
+  body:has(#inicio) main>header .logo,.intraLogo,.goLogo,.itLogo,.viLogo,.scLogo,.aoLogo,.icLogo{
+    width:165px!important;min-width:165px!important;height:50px!important;flex-basis:165px!important;
+  }
+  .itPage,.viPage,.scPage,.aoPage,.icPage,.intralogisticaPage,.gestionPage{padding-top:78px!important}
+}
