@@ -25,6 +25,7 @@ import './subpages-sticky-header.css';
 import './home-logo-fix.css';
 import './admin/admin.css';
 import './internal-header-home-style.css';
+import './brand-consistency.css';
 import CapabilityLinks from './CapabilityLinks';
 
 export const metadata={
