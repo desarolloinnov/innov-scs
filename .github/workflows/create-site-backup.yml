@@ -1,0 +1,30 @@
+name: Create Innov site backup
+
+on:
+  push:
+    branches:
+      - backup-site-bd3cfcea
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact production commit
+        uses: actions/checkout@v4
+        with:
+          ref: bd3cfceabd8f2c89db72d107ed3bc20c02af1c3f
+          fetch-depth: 1
+
+      - name: Prepare backup
+        run: |
+          mkdir -p backup
+          rsync -a --exclude='.git' ./ backup/
+
+      - name: Upload complete source
+        uses: actions/upload-artifact@v4
+        with:
+          name: innov-scs-backup-bd3cfcea
+          path: backup/
+          if-no-files-found: error
+          retention-days: 30
