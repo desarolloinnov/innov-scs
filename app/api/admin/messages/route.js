@@ -36,7 +36,7 @@ export async function POST(req) {
     const sql = neon(process.env.DATABASE_URL);
     await sql`CREATE TABLE IF NOT EXISTS innov_clients (id TEXT PRIMARY KEY, name TEXT NOT NULL, company TEXT, notes TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`;
     const id = crypto.randomUUID();
-    const rows = await sql`INSERT INTO innov_clients (id,name,company,notes) VALUES (\${id},\${name},\${company},\${notes}) RETURNING id,name,company,notes,created_at,updated_at`;
+    const rows = await sql`INSERT INTO innov_clients (id,name,company,notes) VALUES (${id},${name},${company},${notes}) RETURNING id,name,company,notes,created_at,updated_at`;
     return NextResponse.json({ client: rows[0] }, { status: 201 });
   } catch (error) {
     console.error('Admin client create error:', error);
