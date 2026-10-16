@@ -446,3 +446,8 @@
     width:auto!important;
   }
 }
+
+/* Eligibility: keep only the Wix footer actions; hide the generic admin action bar below it */
+.wfMain:has(.eligibilityView) .wfBottom{
+  display:none!important;
+}
