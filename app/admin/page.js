@@ -255,7 +255,10 @@ function WarehouseRadioCard({item,selected,onChange}){
 }
 function WarehouseCard({section,children,anchor}){
   return <section className="whSection" id={anchor||undefined}>
-    <header className="whSectionHeader"><div className="whNumber">{section.no}</div><div><h3>{section.title}</h3><p>{section.subtitle}</p></div></header>
+    <div className="whSectionHeader" role="heading" aria-level="3">
+      <div className="whNumber">{section.no}</div>
+      <div className="whSectionHeaderText"><h3>{section.title}</h3><p>{section.subtitle}</p></div>
+    </div>
     <div className="whSectionBody">{children}</div>
   </section>;
 }
