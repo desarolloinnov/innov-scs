@@ -351,3 +351,45 @@
   .clientBar select{width:100%;min-width:0}
   .clientModal{padding:20px}
 }
+
+/* Exact visual treatment for the Wix eligibility assessment */
+.eligibilityView{margin:0 24px 24px;background:#edf2f7;color:#18304a}
+.eligHero{background:linear-gradient(90deg,#173b62,#24597f);padding:28px 38px 78px;color:#fff}
+.eligEyebrow{margin:0 0 10px;font-size:9px;font-weight:800;letter-spacing:.18em;color:#eef5fb}
+.eligHero h2{margin:0 0 10px;font-size:28px;line-height:1.05;font-weight:800;color:#fff}
+.eligHero>div>p:last-child{margin:0;max-width:820px;font-size:12px;line-height:1.55;color:#d6e6f2}
+.eligTopGrid{position:relative;margin:-48px 28px 20px;display:grid;grid-template-columns:1.2fr .82fr;gap:16px}
+.eligResult,.eligThresholds{background:#fff;border:1px solid #d8e0e8;border-radius:14px;box-shadow:0 5px 17px rgba(27,51,76,.06)}
+.eligResult{min-height:180px;padding:34px 28px;display:flex;align-items:center;gap:24px}
+.eligScoreCircle{width:122px;height:122px;flex:0 0 122px;border:12px solid #e9eef3;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.eligScoreCircle strong{font-size:24px;line-height:1;color:#08375f;font-weight:800}
+.eligScoreCircle span{font-size:9px;color:#687888;margin-top:4px}
+.eligResultCopy h3{margin:0 0 9px;font-size:18px;color:#1b3048}
+.eligResultCopy p{margin:0 0 10px;color:#647587;font-size:12px;line-height:1.55;max-width:500px}
+.eligResultCopy>span{display:inline-block;padding:7px 11px;border-radius:16px;background:#edf2f6;color:#5c6b79;font-size:9px;font-weight:800}
+.eligThresholds{padding:20px 22px}
+.eligThresholds h3{margin:0 0 12px;color:#18304a;font-size:15px}
+.eligThresholds>div{display:grid;grid-template-columns:76px 1fr;gap:10px;padding:12px 0;border-top:1px solid #e6ebef}
+.eligThresholds>div:first-of-type{border-top:0}
+.eligThresholds b{font-size:11px;align-self:start}
+.eligThresholds b.red{color:#bd261d}.eligThresholds b.amber{color:#b37400}.eligThresholds b.green{color:#187432}
+.eligThresholds span{font-size:10px;line-height:1.45;color:#5d6e7d}.eligThresholds span strong{display:block;color:#193149;font-size:12px;margin-bottom:3px}
+.eligPanel{margin:0 28px;background:#fff;border:1px solid #d5dee7;border-radius:14px;overflow:hidden}
+.eligPanelHead{padding:15px 16px;background:#f5f8fb;border-bottom:1px solid #dae2ea;display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.eligPanelHead h3{margin:0;color:#183149;font-size:15px}.eligPanelHead p{margin:4px 0 0;color:#698091;font-size:9px}.eligPanelHead>b{font-size:10px;color:#14609b;padding-top:2px;white-space:nowrap}
+.eligCriteria{padding:0 8px}
+.eligCriterion{display:grid;grid-template-columns:34px minmax(250px,1.05fr) minmax(350px,1.35fr) 84px;gap:14px;align-items:start;padding:16px 8px;border-bottom:1px solid #e3e9ee}
+.eligCriterion:last-child{border-bottom:0}
+.eligNo{width:32px;height:32px;border-radius:9px;background:#102d4d;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800}
+.eligDescription h4{margin:2px 0 4px;color:#183149;font-size:12px}.eligDescription p{margin:0 0 6px;color:#718190;font-size:9px;line-height:1.45}.eligDescription>span{display:inline-block;background:#edf4f8;color:#21608e;border-radius:4px;padding:4px 7px;font-size:9px;font-weight:800}
+.eligInputArea{display:flex;flex-direction:column;gap:6px}.eligInputArea>label{font-size:8px;font-weight:700;color:#38536a}
+.eligYellow{width:100%;height:38px;box-sizing:border-box;border:1px solid #d3ae00;background:#fff8d8;border-radius:6px;padding:0 10px;color:#415466;font:inherit;font-size:11px;outline:none}
+.eligYellow:focus{border-color:#275f89;box-shadow:0 0 0 2px rgba(39,95,137,.08)}
+.eligInputArea textarea{width:100%;min-height:53px;box-sizing:border-box;border:1px solid #ccd7e0;border-radius:6px;background:#fff;padding:9px 10px;color:#5d6c79;font:inherit;font-size:10px;resize:vertical;outline:none}
+.eligInputArea textarea:focus{border-color:#275f89}.eligInputArea small{font-size:8px;line-height:1.3;color:#6f7f8c}
+.eligScoreBox{background:#f7f9fb;border-radius:9px;min-height:74px;padding:10px 6px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}
+.eligScoreBox strong{font-size:18px;line-height:1;color:#123957}.eligScoreBox span{font-size:8px;color:#687987;margin-top:5px}.eligScoreBox small{font-size:8px;color:#687987;margin-top:4px;line-height:1.1}
+.eligFooter{display:flex;justify-content:flex-end;gap:8px;padding:15px 16px;background:#f3f7fa;border-top:1px solid #dae2e8}.eligFooter button{border:1px solid #c9d5df;background:#fff;border-radius:6px;padding:8px 13px;color:#18334d;font-size:9px;font-weight:800;cursor:pointer}.eligFooter button.dark{background:#102c4d;color:#fff;border-color:#102c4d}
+.eligFootNote{margin:8px 28px 0;color:#6d7c89;font-size:8px;line-height:1.45}
+@media(max-width:1100px){.eligTopGrid{grid-template-columns:1fr}.eligCriterion{grid-template-columns:34px 1fr}.eligInputArea{grid-column:2}.eligScoreBox{grid-column:2;justify-self:start;min-width:84px}}
+@media(max-width:760px){.eligibilityView{margin:0 10px 14px}.eligHero{padding:22px 18px 64px}.eligHero h2{font-size:22px}.eligTopGrid,.eligPanel{margin-left:10px;margin-right:10px}.eligResult{padding:22px 16px}.eligScoreCircle{width:96px;height:96px;flex-basis:96px;border-width:9px}.eligScoreCircle strong{font-size:19px}.eligCriterion{grid-template-columns:32px 1fr;gap:10px;padding:14px 6px}.eligInputArea,.eligScoreBox{grid-column:2}.eligFooter{flex-wrap:wrap}.eligFooter button{flex:1}}
