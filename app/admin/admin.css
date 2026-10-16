@@ -393,3 +393,56 @@
 .eligFootNote{margin:8px 28px 0;color:#6d7c89;font-size:8px;line-height:1.45}
 @media(max-width:1100px){.eligTopGrid{grid-template-columns:1fr}.eligCriterion{grid-template-columns:34px 1fr}.eligInputArea{grid-column:2}.eligScoreBox{grid-column:2;justify-self:start;min-width:84px}}
 @media(max-width:760px){.eligibilityView{margin:0 10px 14px}.eligHero{padding:22px 18px 64px}.eligHero h2{font-size:22px}.eligTopGrid,.eligPanel{margin-left:10px;margin-right:10px}.eligResult{padding:22px 16px}.eligScoreCircle{width:96px;height:96px;flex-basis:96px;border-width:9px}.eligScoreCircle strong{font-size:19px}.eligCriterion{grid-template-columns:32px 1fr;gap:10px;padding:14px 6px}.eligInputArea,.eligScoreBox{grid-column:2}.eligFooter{flex-wrap:wrap}.eligFooter button{flex:1}}
+
+
+/* Override global .dark styles inside the eligibility action bar */
+.eligibilityView .eligPanel .eligFooter{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  width:100%!important;
+  min-height:72px!important;
+  padding:15px 16px!important;
+  box-sizing:border-box!important;
+}
+.eligibilityView .eligPanel .eligFooter button{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  position:static!important;
+  width:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  height:36px!important;
+  margin:0!important;
+  padding:8px 13px!important;
+  border-radius:6px!important;
+  box-sizing:border-box!important;
+  transform:none!important;
+}
+.eligibilityView .eligPanel .eligFooter button.dark{
+  background:#102c4d!important;
+  color:#fff!important;
+  border:1px solid #102c4d!important;
+  padding:8px 13px!important;
+  position:static!important;
+  overflow:visible!important;
+  width:auto!important;
+  height:36px!important;
+}
+.eligibilityView .eligPanel .eligFooter button:first-child{
+  background:#fff!important;
+  color:#18334d!important;
+  border:1px solid #c9d5df!important;
+}
+@media(max-width:760px){
+  .eligibilityView .eligPanel .eligFooter{
+    justify-content:stretch!important;
+    align-items:stretch!important;
+  }
+  .eligibilityView .eligPanel .eligFooter button{
+    flex:1 1 0!important;
+    width:auto!important;
+  }
+}
