@@ -233,6 +233,15 @@ function WarehouseTextArea({label,value,onChange,placeholder='',wide=false}){
     <textarea value={value||''} placeholder={placeholder} onChange={e=>onChange(e.target.value)}/>
   </label>;
 }
+function WarehouseSelect({label,value,onChange,options,placeholder='Seleccione'}){
+  return <label className="whField">
+    <span>{label}</span>
+    <select value={value||''} onChange={e=>onChange(e.target.value)}>
+      <option value="">{placeholder}</option>
+      {options.map(option=><option key={option} value={option}>{option}</option>)}
+    </select>
+  </label>;
+}
 function WarehouseCheck({label,checked,onChange}){
   return <label className="whCheck"><input type="checkbox" checked={Boolean(checked)} onChange={e=>onChange(e.target.checked)}/><span>{label}</span></label>;
 }
@@ -292,7 +301,7 @@ function WarehouseInitialForm({data,set}){
       <aside className="whLocalNav">
         <div className="whProgressLabel"><span>Avance</span><b>{progress}%</b></div>
         <div className="whProgressTrack"><i style={{width:progress+'%'}} /></div>
-        {WAREHOUSE_SECTIONS.map(s=><button key={s.no} onClick={()=>document.getElementById('wh-'+s.kind)?.scrollIntoView({behavior:'smooth',block:'start'})}><b>{s.no}</b>{s.no===1?'Información general':s.no===2?'Tipo de operación':s.no===3?'Volumen y recursos':s.no===4?'Uso y flujo':s.no===5?'Eficiencia':s.no===6?'Infraestructura':s.no===7?'Objetivos':'Cierre'}</button>)}
+        {WAREHOUSE_SECTIONS.map(item=><button key={item.no} aria-label={item.no+' '+item.title} onClick={()=>document.getElementById('wh-'+item.kind)?.scrollIntoView({behavior:'smooth',block:'start'})}><b>{item.no}</b><span>{item.no===1?'Información general':item.no===2?'Tipo de operación':item.no===3?'Volumen y recursos':item.no===4?'Uso y flujo':item.no===5?'Eficiencia':item.no===6?'Infraestructura':item.no===7?'Objetivos':'Cierre'}</span></button>)}
       </aside>
 
       <div className="whContent">
@@ -321,7 +330,7 @@ function WarehouseInitialForm({data,set}){
               <WarehouseField label="Número de SKUs activos" type="number" value={get('tote_sku_count')} onChange={v=>set('tote_sku_count',v)}/>
               <WarehouseField label="Totes disponibles" type="number" value={get('totes_available')} onChange={v=>set('totes_available',v)}/>
               <WarehouseField label="Unidades / piezas procesadas" type="number" value={get('pieces_processed')} onChange={v=>set('pieces_processed',v)}/>
-              <WarehouseField label="Periodo del volumen anterior" type="text" value={get('volume_period')} onChange={v=>set('volume_period',v)} placeholder="Ej. mes, semana o año"/>
+              <WarehouseSelect label="Periodo del volumen anterior" value={get('volume_period')} onChange={v=>set('volume_period',v)} options={['Diario','Mensual','Anual','Otro']}/>
             </div>
           </>}
           {operationType==='pallet' && <>
