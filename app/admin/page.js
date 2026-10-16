@@ -253,6 +253,7 @@ function WarehouseCard({section,children,anchor}){
 
 function WarehouseInitialForm({data,set}){
   const get=(key)=>data[key]??'';
+  const operationType=data.operationType||'pallet';
   const setMany=(obj)=>Object.entries(obj).forEach(([k,v])=>set(k,v));
   const completedFields=[
     'client','site','date',
@@ -308,12 +309,12 @@ function WarehouseInitialForm({data,set}){
 
         <WarehouseCard section={sectionByKind('operation')} anchor="wh-operation">
           <div className="whInfoBox">{sectionByKind('operation').intro}</div>
-          <div className="whRadioGrid">{sectionByKind('operation').options.map(item=><WarehouseRadioCard key={item[0]} item={item} selected={get('operationType')||'pallet'} onChange={v=>set('operationType',v)}/>)}</div>
-          {data.operationType==='other'&&<div className="whOtherOperation"><WarehouseField label="Describa la unidad de manejo principal" type="text" value={get('other_operation_description')} onChange={v=>set('other_operation_description',v)} placeholder="Ej. cajas, piezas, prendas colgadas, rollos"/></div>}
+          <div className="whRadioGrid">{sectionByKind('operation').options.map(item=><WarehouseRadioCard key={item[0]} item={item} selected={operationType} onChange={v=>set('operationType',v)}/>)}</div>
+          {operationType==='other'&&<div className="whOtherOperation"><WarehouseField label="Describa la unidad de manejo principal" type="text" value={get('other_operation_description')} onChange={v=>set('other_operation_description',v)} placeholder="Ej. cajas, piezas, prendas colgadas, rollos"/></div>}
         </WarehouseCard>
 
         <WarehouseCard section={sectionByKind('volume')} anchor="wh-volume">
-          {data.operationType==='tote' && <>
+          {operationType==='tote' && <>
             <h4 className="whSubhead">3.1 Operación basada en totes / contenedores</h4>
             <div className="whInfoBox">El árbol menciona más de 5 millones de unidades y capacidad para 3,000 totes como referencia. Confirme si “5m” corresponde a piezas, líneas o movimientos anuales.</div>
             <div className="whGrid4">
@@ -323,7 +324,7 @@ function WarehouseInitialForm({data,set}){
               <WarehouseField label="Periodo del volumen anterior" type="text" value={get('volume_period')} onChange={v=>set('volume_period',v)} placeholder="Ej. mes, semana o año"/>
             </div>
           </>}
-          {data.operationType==='pallet' && <>
+          {operationType==='pallet' && <>
             <h4 className="whSubhead">3.1 Operación basada en tarimas</h4>
             <div className="whInfoBox">El árbol utiliza 2,500 tarimas como referencia inicial para identificar operaciones con mayor potencial de automatización; no es un requisito excluyente.</div>
             <div className="whGrid4">
@@ -333,7 +334,7 @@ function WarehouseInitialForm({data,set}){
               <WarehouseField label="Tarimas pico en inventario" type="number" value={get('peak_inventory')} onChange={v=>set('peak_inventory',v)}/>
             </div>
           </>}
-          {data.operationType==='mixed' && <>
+          {operationType==='mixed' && <>
             <h4 className="whSubhead">3.1 Operación basada en tarimas</h4>
             <div className="whInfoBox">El árbol utiliza 2,500 tarimas como referencia inicial para identificar operaciones con mayor potencial de automatización; no es un requisito excluyente.</div>
             <div className="whGrid4">
