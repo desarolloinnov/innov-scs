@@ -308,18 +308,69 @@ function WarehouseInitialForm({data,set}){
 
         <WarehouseCard section={sectionByKind('operation')} anchor="wh-operation">
           <div className="whInfoBox">{sectionByKind('operation').intro}</div>
-          <div className="whRadioGrid">{sectionByKind('operation').options.map(item=><WarehouseRadioCard key={item[0]} item={item} selected={get('operationType')} onChange={v=>set('operationType',v)}/>)}</div>
+          <div className="whRadioGrid">{sectionByKind('operation').options.map(item=><WarehouseRadioCard key={item[0]} item={item} selected={get('operationType')||'pallet'} onChange={v=>set('operationType',v)}/>)}</div>
+          {data.operationType==='other'&&<div className="whOtherOperation"><WarehouseField label="Describa la unidad de manejo principal" type="text" value={get('other_operation_description')} onChange={v=>set('other_operation_description',v)} placeholder="Ej. cajas, piezas, prendas colgadas, rollos"/></div>}
         </WarehouseCard>
 
         <WarehouseCard section={sectionByKind('volume')} anchor="wh-volume">
-          <h4 className="whSubhead">3.1 Operación basada en tarimas</h4>
-          <div className="whInfoBox">El árbol utiliza 2,500 tarimas como referencia inicial para identificar operaciones con mayor potencial de automatización; no es un requisito excluyente.</div>
-          <div className="whGrid4">
-            {sectionByKind('volume').palletFields.map(([label,type])=><WarehouseField key={label} label={label} type={type} value={get(getKey(label))} onChange={v=>set(getKey(label),v)}/>)}
-          </div>
+          {data.operationType==='tote' && <>
+            <h4 className="whSubhead">3.1 Operación basada en totes / contenedores</h4>
+            <div className="whInfoBox">El árbol menciona más de 5 millones de unidades y capacidad para 3,000 totes como referencia. Confirme si “5m” corresponde a piezas, líneas o movimientos anuales.</div>
+            <div className="whGrid4">
+              <WarehouseField label="Número de SKUs activos" type="number" value={get('tote_sku_count')} onChange={v=>set('tote_sku_count',v)}/>
+              <WarehouseField label="Totes disponibles" type="number" value={get('totes_available')} onChange={v=>set('totes_available',v)}/>
+              <WarehouseField label="Unidades / piezas procesadas" type="number" value={get('pieces_processed')} onChange={v=>set('pieces_processed',v)}/>
+              <WarehouseField label="Periodo del volumen anterior" type="text" value={get('volume_period')} onChange={v=>set('volume_period',v)} placeholder="Ej. mes, semana o año"/>
+            </div>
+          </>}
+          {data.operationType==='pallet' && <>
+            <h4 className="whSubhead">3.1 Operación basada en tarimas</h4>
+            <div className="whInfoBox">El árbol utiliza 2,500 tarimas como referencia inicial para identificar operaciones con mayor potencial de automatización; no es un requisito excluyente.</div>
+            <div className="whGrid4">
+              <WarehouseField label="Número de SKUs activos" type="number" value={get('pallet_sku_count')} onChange={v=>set('pallet_sku_count',v)}/>
+              <WarehouseField label="Posiciones de tarima instaladas" type="number" value={get('pallet_positions')} onChange={v=>set('pallet_positions',v)}/>
+              <WarehouseField label="Tarimas promedio en inventario" type="number" value={get('avg_inventory')} onChange={v=>set('avg_inventory',v)}/>
+              <WarehouseField label="Tarimas pico en inventario" type="number" value={get('peak_inventory')} onChange={v=>set('peak_inventory',v)}/>
+            </div>
+          </>}
+          {data.operationType==='mixed' && <>
+            <h4 className="whSubhead">3.1 Operación basada en tarimas</h4>
+            <div className="whInfoBox">El árbol utiliza 2,500 tarimas como referencia inicial para identificar operaciones con mayor potencial de automatización; no es un requisito excluyente.</div>
+            <div className="whGrid4">
+              <WarehouseField label="Número de SKUs activos" type="number" value={get('mixed_pallet_sku')} onChange={v=>set('mixed_pallet_sku',v)}/>
+              <WarehouseField label="Posiciones de tarima instaladas" type="number" value={get('mixed_pallet_positions')} onChange={v=>set('mixed_pallet_positions',v)}/>
+              <WarehouseField label="Tarimas promedio en inventario" type="number" value={get('mixed_avg_inventory')} onChange={v=>set('mixed_avg_inventory',v)}/>
+              <WarehouseField label="Tarimas pico en inventario" type="number" value={get('mixed_peak_inventory')} onChange={v=>set('mixed_peak_inventory',v)}/>
+            </div>
+            <h4 className="whSubhead">3.1 Operación basada en totes / contenedores</h4>
+            <div className="whInfoBox">El árbol menciona más de 5 millones de unidades y capacidad para 3,000 totes como referencia. Confirme si “5m” corresponde a piezas, líneas o movimientos anuales.</div>
+            <div className="whGrid4">
+              <WarehouseField label="Número de SKUs activos" type="number" value={get('mixed_tote_sku')} onChange={v=>set('mixed_tote_sku',v)}/>
+              <WarehouseField label="Totes disponibles" type="number" value={get('mixed_totes')} onChange={v=>set('mixed_totes',v)}/>
+              <WarehouseField label="Unidades / piezas procesadas" type="number" value={get('mixed_pieces')} onChange={v=>set('mixed_pieces',v)}/>
+              <WarehouseField label="Periodo del volumen anterior" type="text" value={get('mixed_period')} onChange={v=>set('mixed_period',v)} placeholder="Ej. mes, semana o año"/>
+            </div>
+            <h4 className="whSubhead">3.1 Operación mixta</h4>
+            <div className="whGrid3">
+              <WarehouseField label="Número total de SKUs" type="number" value={get('mixed_total_skus')} onChange={v=>set('mixed_total_skus',v)}/>
+              <WarehouseTextArea label="Unidades de manejo utilizadas" value={get('mixed_handling_units')} onChange={v=>set('mixed_handling_units',v)} placeholder="Ej. tarimas, totes, cajas y piezas"/>
+              <WarehouseTextArea label="Participación aproximada por unidad" value={get('mixed_share')} onChange={v=>set('mixed_share',v)} placeholder="Ej. 60% tarimas, 30% totes, 10% cajas"/>
+            </div>
+          </>}
+          {data.operationType==='other' && <>
+            <h4 className="whSubhead">3.1 Otra unidad de manejo</h4>
+            <div className="whGrid3">
+              <WarehouseField label="Número de SKUs" type="number" value={get('other_sku_count')} onChange={v=>set('other_sku_count',v)}/>
+              <WarehouseField label="Número de unidades / carriers" type="number" value={get('other_units')} onChange={v=>set('other_units',v)}/>
+              <WarehouseTextArea label="Descripción del carrier o unidad" value={get('other_unit_description')} onChange={v=>set('other_unit_description',v)} placeholder="Ej. cajas, charolas, prendas, rollos"/>
+            </div>
+          </>}
           <h4 className="whSubhead">3.2 Superficie y personal</h4>
           <div className="whGrid4">
-            {sectionByKind('volume').peopleFields.map(([label,type])=><WarehouseField key={label} label={label} type={type} value={get(getKey(label))} onChange={v=>set(getKey(label),v)}/>)}
+            <WarehouseField label="Superficie ocupada por la operación" type="number" value={get('surface')} onChange={v=>set('surface',v)} placeholder="m²"/>
+            <WarehouseField label="Personal por turno" type="number" value={get('people_shift')} onChange={v=>set('people_shift',v)}/>
+            <WarehouseField label="Número de turnos" type="number" value={get('shifts')} onChange={v=>set('shifts',v)}/>
+            <WarehouseField label="Personal total de la operación" type="number" value={get('people_total')} onChange={v=>set('people_total',v)}/>
           </div>
           <small className="whUnitNote">Superficie en m².</small>
         </WarehouseCard>
