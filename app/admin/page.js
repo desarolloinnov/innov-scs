@@ -169,7 +169,7 @@ function EligibilityWixForm({data,set}){
      </div>
      <footer className="eligFooter"><button onClick={()=>set({})}>Restablecer</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={()=>window.print()}>PDF en inglés</button><button className="dark" onClick={()=>window.print()}>Descargar resumen</button></footer>
    </section>
-   <p className="eligFootNote">Base de puntuación: el libro original. Las categorías de fecha se evalúan por año calendario: 2026, 2027 y 2028 o posterior.</p>
+   <p className="eligFootNote">Base de puntuación: el libro original. Las categorías de fecha se evalúan por año calendario: 2026, 2027 y 2028 o posterior. La conversión presupuestal utiliza 7,10 RMB por USD únicamente para reproducir en dólares los rangos expresados originalmente en RMB.</p>
  </div>;
 }
 
