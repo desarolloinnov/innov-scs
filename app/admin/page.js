@@ -173,8 +173,229 @@ function EligibilityWixForm({data,set}){
  </div>;
 }
 
+
+const WAREHOUSE_SECTIONS = [
+  {
+    no:1,title:'Información general',subtitle:'Datos básicos de la visita.',kind:'general',
+    fields:[
+      ['Cliente','text','Cliente *'],['Centro de distribución / almacén','text','Centro de distribución / almacén *'],
+      ['Fecha','date','Fecha *'],['Responsable del cliente','text','Responsable del cliente'],
+      ['Puesto','text','Puesto'],['Consultor responsable','text','Consultor responsable']
+    ]
+  },
+  {
+    no:2,title:'Tipo de operación',subtitle:'Seleccione la unidad de manejo principal.',kind:'operation',
+    intro:'El árbol distingue operaciones basadas en tarimas, totes/contenedores, esquemas mixtos u otras unidades de manejo.',
+    options:[
+      ['pallet','Basada en tarimas','Almacenamiento y movimiento principalmente por pallet/tarima.'],
+      ['tote','Basada en totes','Operación de cajas plásticas, bins o contenedores pequeños.'],
+      ['mixed','Operación mixta','Combinación de tarimas, totes y/o otras unidades de manejo.'],
+      ['other','Otra','Cartones, racks móviles, prendas colgadas u otra unidad de manejo.']
+    ]
+  },
+  {
+    no:3,title:'Volumen, inventario y recursos',subtitle:'SKUs, unidades de manejo, superficie y personal.',kind:'volume',
+    palletFields:[
+      ['Número de SKUs activos','number'],['Posiciones de tarima instaladas','number'],
+      ['Tarimas promedio en inventario','number'],['Tarimas pico en inventario','number']
+    ],
+    peopleFields:[
+      ['Superficie ocupada por la operación','number'],['Personal por turno','number'],
+      ['Número de turnos','number'],['Personal total de la operación','number']
+    ]
+  },
+  {
+    no:4,title:'Uso del almacén y flujo logístico',subtitle:'Origen, destino y recorrido de la mercancía.',kind:'flow'
+  },
+  {
+    no:5,title:'Eficiencia de entrada y salida',subtitle:'Desempeño Inbound / Outbound.',kind:'efficiency'
+  },
+  {
+    no:6,title:'Infraestructura y evidencia',subtitle:'CAD, piso, flujo interno y fotografías.',kind:'infrastructure'
+  },
+  {
+    no:7,title:'Pain Points y objetivos de negocio',subtitle:'Problemas actuales y resultados esperados.',kind:'painpoints'
+  },
+  {
+    no:8,title:'Checklist de cierre',subtitle:'Información indispensable para continuar con la evaluación.',kind:'checklist'
+  }
+];
+
+function WarehouseField({label,type,value,onChange,placeholder='',required=false}){
+  return <label className="whField">
+    <span>{label}{required&&<em> *</em>}</span>
+    <input type={type} value={value||''} placeholder={placeholder} onChange={e=>onChange(e.target.value)} required={required}/>
+  </label>;
+}
+function WarehouseTextArea({label,value,onChange,placeholder='',wide=false}){
+  return <label className={wide?'whField whWide':'whField'}>
+    <span>{label}</span>
+    <textarea value={value||''} placeholder={placeholder} onChange={e=>onChange(e.target.value)}/>
+  </label>;
+}
+function WarehouseCheck({label,checked,onChange}){
+  return <label className="whCheck"><input type="checkbox" checked={Boolean(checked)} onChange={e=>onChange(e.target.checked)}/><span>{label}</span></label>;
+}
+function WarehouseRadioCard({item,selected,onChange}){
+  const [id,title,desc]=item;
+  return <label className={selected===id?'whRadioCard active':'whRadioCard'}>
+    <input type="radio" name="warehouse_operation_type" value={id} checked={selected===id} onChange={()=>onChange(id)}/>
+    <strong>{title}</strong>
+    <span>{desc}</span>
+  </label>;
+}
+function WarehouseCard({section,children,anchor}){
+  return <section className="whSection" id={anchor||undefined}>
+    <header className="whSectionHeader"><div className="whNumber">{section.no}</div><div><h3>{section.title}</h3><p>{section.subtitle}</p></div></header>
+    <div className="whSectionBody">{children}</div>
+  </section>;
+}
+
+function WarehouseInitialForm({data,set}){
+  const get=(key)=>data[key]??'';
+  const setMany=(obj)=>Object.entries(obj).forEach(([k,v])=>set(k,v));
+  const completedFields=[
+    'client','site','date',
+    'operationType','sku_count','pallet_positions','avg_inventory','peak_inventory',
+    'surface','people_shift','shifts','people_total','origin','destination',
+    'inbound_flow','outbound_flow','full_flow','equipment','in_volume','in_time',
+    'in_productivity','out_volume','out_time','out_productivity','floor_capacity',
+    'ceiling_height','automation_surface','physical_restrictions','pain_description',
+    'goals_description','observations_final'
+  ];
+  const completed=completedFields.filter(k=>String(get(k)).trim()!=='').length;
+  const boolGroups=['use_replenishment','use_direct','use_ecommerce','use_transfer','cad','floor_info','flow_diagram','site_photos',
+    'photo_receiving','photo_storage','photo_picking','photo_staging','photo_shipments','photo_equipment',
+    'pain_capacity','pain_space','pain_labor','pain_productivity','pain_errors','pain_trace','pain_damage','pain_other',
+    'goal_capacity','goal_productivity','goal_space','goal_cost','goal_service','goal_growth'
+  ];
+  const boolDone=boolGroups.filter(k=>get(k)).length;
+  const checklist=['check_operation','check_skus','check_capacity','check_surface','check_staff','check_use','check_inbound','check_outbound','check_cad','check_floor','check_flow','check_photos'];
+  const checklistDone=checklist.filter(k=>get(k)==='yes'||get(k)==='no').length;
+  const progress=Math.round((completed+boolDone+checklistDone)/(completedFields.length+boolGroups.length+checklist.length)*100);
+
+  const sectionByKind=(kind)=>WAREHOUSE_SECTIONS.find(s=>s.kind===kind);
+
+  return <div className="warehouseForm">
+    <section className="whHero">
+      <div className="whHeroIdentity"><div className="whIcon">WH</div><div><h2>Warehouse First Visit Assessment</h2><p>Instrumento de levantamiento · Primera visita</p></div></div>
+      <div className="whHeroActions"><button onClick={()=>alert(JSON.stringify(data,null,2))}>Exportar JSON</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={()=>window.print()}>PDF in English</button><button className="danger" onClick={()=>set({})}>Limpiar</button></div>
+    </section>
+
+    <section className="whTitleBand">
+      <div><h1>Levantamiento Inicial para Almacenes</h1><p>Instrumento para evaluar oportunidades de automatización en operaciones basadas en tarimas, totes/contenedores, esquemas mixtos u otras unidades de manejo.</p></div>
+      <div className="whMeta"><span>Documento<strong>Primera visita</strong></span><span>Tipo<strong>Warehouse</strong></span><span>Estado<strong>{progress<100?'En captura':'Completo'}</strong></span></div>
+    </section>
+
+    <div className="whWorkspace">
+      <aside className="whLocalNav">
+        <div className="whProgressLabel"><span>Avance</span><b>{progress}%</b></div>
+        <div className="whProgressTrack"><i style={{width:progress+'%'}} /></div>
+        {WAREHOUSE_SECTIONS.map(s=><button key={s.no} onClick={()=>document.getElementById('wh-'+s.kind)?.scrollIntoView({behavior:'smooth',block:'start'})}><b>{s.no}</b>{s.no===1?'Información general':s.no===2?'Tipo de operación':s.no===3?'Volumen y recursos':s.no===4?'Uso y flujo':s.no===5?'Eficiencia':s.no===6?'Infraestructura':s.no===7?'Objetivos':'Cierre'}</button>)}
+      </aside>
+
+      <div className="whContent">
+        <WarehouseCard section={sectionByKind('general')} anchor="wh-general">
+          <div className="whGrid2">
+            <WarehouseField label="Cliente" type="text" value={get('client')} onChange={v=>set('client',v)} required/>
+            <WarehouseField label="Centro de distribución / almacén" type="text" value={get('site')} onChange={v=>set('site',v)} required/>
+            <WarehouseField label="Fecha" type="date" value={get('date')} onChange={v=>set('date',v)} required/>
+            <WarehouseField label="Responsable del cliente" type="text" value={get('client_owner')} onChange={v=>set('client_owner',v)}/>
+            <WarehouseField label="Puesto" type="text" value={get('position')} onChange={v=>set('position',v)}/>
+            <WarehouseField label="Consultor responsable" type="text" value={get('consultant')} onChange={v=>set('consultant',v)}/>
+          </div>
+        </WarehouseCard>
+
+        <WarehouseCard section={sectionByKind('operation')} anchor="wh-operation">
+          <div className="whInfoBox">{sectionByKind('operation').intro}</div>
+          <div className="whRadioGrid">{sectionByKind('operation').options.map(item=><WarehouseRadioCard key={item[0]} item={item} selected={get('operationType')} onChange={v=>set('operationType',v)}/>)}</div>
+        </WarehouseCard>
+
+        <WarehouseCard section={sectionByKind('volume')} anchor="wh-volume">
+          <h4 className="whSubhead">3.1 Operación basada en tarimas</h4>
+          <div className="whInfoBox">El árbol utiliza 2,500 tarimas como referencia inicial para identificar operaciones con mayor potencial de automatización; no es un requisito excluyente.</div>
+          <div className="whGrid4">
+            {sectionByKind('volume').palletFields.map(([label,type])=><WarehouseField key={label} label={label} type={type} value={get(getKey(label))} onChange={v=>set(getKey(label),v)}/>)}
+          </div>
+          <h4 className="whSubhead">3.2 Superficie y personal</h4>
+          <div className="whGrid4">
+            {sectionByKind('volume').peopleFields.map(([label,type])=><WarehouseField key={label} label={label} type={type} value={get(getKey(label))} onChange={v=>set(getKey(label),v)}/>)}
+          </div>
+          <small className="whUnitNote">Superficie en m².</small>
+        </WarehouseCard>
+
+        <WarehouseCard section={sectionByKind('flow')} anchor="wh-flow">
+          <h4 className="whSubhead">4.1 Uso de la operación</h4>
+          <div className="whGrid2">
+            <WarehouseTextArea label="¿De dónde proviene la mercancía?" value={get('origin')} onChange={v=>set('origin',v)} placeholder="Ej. plantas, proveedores nacionales, importaciones, otros CEDIS"/>
+            <WarehouseTextArea label="¿A dónde se envía la mercancía?" value={get('destination')} onChange={v=>set('destination',v)} placeholder="Ej. tiendas, clientes, distribuidores, otros CEDIS"/>
+          </div>
+          <div className="whCheckGrid four"><WarehouseCheck label="Reabasto a tiendas" checked={get('use_replenishment')} onChange={v=>set('use_replenishment',v)}/><WarehouseCheck label="Entrega directa a clientes" checked={get('use_direct')} onChange={v=>set('use_direct',v)}/><WarehouseCheck label="E-commerce" checked={get('use_ecommerce')} onChange={v=>set('use_ecommerce',v)}/><WarehouseCheck label="Transferencias entre almacenes" checked={get('use_transfer')} onChange={v=>set('use_transfer',v)}/></div>
+          <h4 className="whSubhead">4.2 Flujo interno de mercancía</h4>
+          <div className="whInfoBox">Describa cómo una tarima, tote u otra unidad pasa desde recibo hasta embarques.</div>
+          <div className="whGrid2">
+            <WarehouseTextArea label="Flujo de entrada (Inbound)" value={get('inbound_flow')} onChange={v=>set('inbound_flow',v)} placeholder="Ej. cita, andén, descarga, validación, recibo y ubicación"/>
+            <WarehouseTextArea label="Flujo de salida (Outbound)" value={get('outbound_flow')} onChange={v=>set('outbound_flow',v)} placeholder="Ej. liberación de pedido, surtido, consolidación, staging y embarque"/>
+            <WarehouseTextArea label="Flujo interno completo" value={get('full_flow')} onChange={v=>set('full_flow',v)} placeholder="Describa paso a paso el recorrido de la unidad de manejo"/>
+            <WarehouseTextArea label="Equipos de manejo utilizados" value={get('equipment')} onChange={v=>set('equipment',v)} placeholder="Ej. montacargas, patines, conveyors, AMR/AGV"/>
+          </div>
+        </WarehouseCard>
+
+        <WarehouseCard section={sectionByKind('efficiency')} anchor="wh-efficiency">
+          <div className="whInfoBox">“I/O Bound Efficiency” se interpreta como eficiencia de los procesos de entrada y salida. Capture el indicador que el cliente realmente utilice.</div>
+          <div className="whTableWrap"><table className="whTable"><thead><tr><th>Proceso</th><th>Volumen</th><th>Tiempo / periodo</th><th>Productividad</th><th>Unidad</th></tr></thead><tbody>
+            <tr><td>Recibo / Inbound</td><td><input value={get('in_volume')} onChange={e=>set('in_volume',e.target.value)}/></td><td><input value={get('in_time')} onChange={e=>set('in_time',e.target.value)}/></td><td><input value={get('in_productivity')} onChange={e=>set('in_productivity',e.target.value)}/></td><td><input placeholder="Tarimas/h, totes/h, líneas/h" value={get('in_unit')} onChange={e=>set('in_unit',e.target.value)}/></td></tr>
+            <tr><td>Embarque / Outbound</td><td><input value={get('out_volume')} onChange={e=>set('out_volume',e.target.value)}/></td><td><input value={get('out_time')} onChange={e=>set('out_time',e.target.value)}/></td><td><input value={get('out_productivity')} onChange={e=>set('out_productivity',e.target.value)}/></td><td><input placeholder="Tarimas/h, totes/h, pedidos/h" value={get('out_unit')} onChange={e=>set('out_unit',e.target.value)}/></td></tr>
+          </tbody></table></div>
+          <WarehouseTextArea label="Comentarios sobre cuellos de botella o tiempos de espera" value={get('efficiency_comments')} onChange={v=>set('efficiency_comments',v)} wide/>
+        </WarehouseCard>
+
+        <WarehouseCard section={sectionByKind('infrastructure')} anchor="wh-infrastructure">
+          <div className="whCheckGrid three"><WarehouseCheck label="Plano CAD actualizado" checked={get('cad')} onChange={v=>set('cad',v)}/><WarehouseCheck label="Información de capacidad del piso" checked={get('floor_info')} onChange={v=>set('floor_info',v)}/><WarehouseCheck label="Diagrama de flujo interno" checked={get('flow_diagram')} onChange={v=>set('flow_diagram',v)}/><WarehouseCheck label="Fotografías del sitio" checked={get('site_photos')} onChange={v=>set('site_photos',v)}/></div>
+          <div className="whGrid3">
+            <WarehouseField label="Capacidad de carga del piso" type="text" value={get('floor_capacity')} onChange={v=>set('floor_capacity',v)} placeholder="Ej. 5 t/m²"/>
+            <WarehouseField label="Altura libre" type="text" value={get('ceiling_height')} onChange={v=>set('ceiling_height',v)} placeholder="Ej. 10 m"/>
+            <WarehouseField label="Superficie disponible para automatización" type="text" value={get('automation_surface')} onChange={v=>set('automation_surface',v)} placeholder="Ej. 1,500 m²"/>
+          </div>
+          <WarehouseTextArea label="Restricciones físicas observadas" value={get('physical_restrictions')} onChange={v=>set('physical_restrictions',v)} placeholder="Ej. columnas, pasillos, andenes, rociadores, racks o desniveles" wide/>
+          <h4 className="whSubhead">6.1 Fotografías recomendadas</h4>
+          <div className="whCheckGrid three">
+            <WarehouseCheck label="Recibo y andenes" checked={get('photo_receiving')} onChange={v=>set('photo_receiving',v)}/><WarehouseCheck label="Área de almacenamiento" checked={get('photo_storage')} onChange={v=>set('photo_storage',v)}/><WarehouseCheck label="Surtido / picking" checked={get('photo_picking')} onChange={v=>set('photo_picking',v)}/><WarehouseCheck label="Consolidación / staging" checked={get('photo_staging')} onChange={v=>set('photo_staging',v)}/><WarehouseCheck label="Embarques" checked={get('photo_shipments')} onChange={v=>set('photo_shipments',v)}/><WarehouseCheck label="Equipos de manejo" checked={get('photo_equipment')} onChange={v=>set('photo_equipment',v)}/>
+          </div>
+        </WarehouseCard>
+
+        <WarehouseCard section={sectionByKind('painpoints')} anchor="wh-painpoints">
+          <h4 className="whSubhead">7.1 Principales problemas</h4>
+          <div className="whCheckGrid three">
+            <WarehouseCheck label="Capacidad insuficiente" checked={get('pain_capacity')} onChange={v=>set('pain_capacity',v)}/><WarehouseCheck label="Baja utilización del espacio" checked={get('pain_space')} onChange={v=>set('pain_space',v)}/><WarehouseCheck label="Alta dependencia de mano de obra" checked={get('pain_labor')} onChange={v=>set('pain_labor',v)}/><WarehouseCheck label="Baja productividad" checked={get('pain_productivity')} onChange={v=>set('pain_productivity',v)}/><WarehouseCheck label="Errores operativos" checked={get('pain_errors')} onChange={v=>set('pain_errors',v)}/><WarehouseCheck label="Falta de trazabilidad" checked={get('pain_trace')} onChange={v=>set('pain_trace',v)}/><WarehouseCheck label="Daños" checked={get('pain_damage')} onChange={v=>set('pain_damage',v)}/><WarehouseCheck label="Otro" checked={get('pain_other')} onChange={v=>set('pain_other',v)}/>
+          </div>
+          <WarehouseTextArea label="Descripción y prioridad de los Pain Points" value={get('pain_description')} onChange={v=>set('pain_description',v)} wide/>
+          <h4 className="whSubhead">7.2 Objetivos de negocio</h4>
+          <div className="whCheckGrid three">
+            <WarehouseCheck label="Aumentar capacidad" checked={get('goal_capacity')} onChange={v=>set('goal_capacity',v)}/><WarehouseCheck label="Mejorar productividad" checked={get('goal_productivity')} onChange={v=>set('goal_productivity',v)}/><WarehouseCheck label="Aprovechar mejor el espacio" checked={get('goal_space')} onChange={v=>set('goal_space',v)}/><WarehouseCheck label="Reducir costos" checked={get('goal_cost')} onChange={v=>set('goal_cost',v)}/><WarehouseCheck label="Mejorar nivel de servicio" checked={get('goal_service')} onChange={v=>set('goal_service',v)}/><WarehouseCheck label="Soportar crecimiento" checked={get('goal_growth')} onChange={v=>set('goal_growth',v)}/>
+          </div>
+          <WarehouseTextArea label="Metas o resultados esperados" value={get('goals_description')} onChange={v=>set('goals_description',v)} wide/>
+        </WarehouseCard>
+
+        <WarehouseCard section={sectionByKind('checklist')} anchor="wh-checklist">
+          <div className="whTableWrap"><table className="whTable whChecklist"><thead><tr><th>Información</th><th>Sí</th><th>No</th><th>Observación</th></tr></thead><tbody>
+            {[
+              ['Tipo de operación definido','check_operation'],['Número de SKUs','check_skus'],['Unidades de manejo / capacidad','check_capacity'],['Superficie ocupada','check_surface'],['Personal por turno','check_staff'],['Uso y destinos','check_use'],['Eficiencia Inbound','check_inbound'],['Eficiencia Outbound','check_outbound'],['Plano CAD','check_cad'],['Capacidad del piso','check_floor'],['Flujo interno documentado','check_flow'],['Fotografías del sitio','check_photos']
+            ].map(([label,key])=><tr key={key}><td>{label}</td><td><input type="radio" name={key} checked={get(key)==='yes'} onChange={()=>set(key,'yes')}/></td><td><input type="radio" name={key} checked={get(key)==='no'} onChange={()=>set(key,'no')}/></td><td><input className="noteInput" placeholder="Notas" value={get(key+'_note')} onChange={e=>set(key+'_note',e.target.value)}/></td></tr>)}
+          </tbody></table></div>
+          <div className="whClosureGrid"><div><strong>Completitud</strong><span>{checklistDone} de 12 elementos confirmados</span></div><div><strong>Estado de la visita</strong><span className={checklistDone===12?'ok':'warn'}>{checklistDone===12?'Completa':'Información incompleta'}</span></div></div>
+          <WarehouseTextArea label="Observaciones finales del consultor" value={get('observations_final')} onChange={v=>set('observations_final',v)} wide/>
+        </WarehouseCard>
+
+        <div className="whFooterActions"><span>Guardado local · {new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})}</span><button onClick={()=>window.print()}>Guardar avance</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={()=>window.print()}>PDF in English</button></div>
+      </div>
+    </div>
+  </div>;
+}
+
 function FormRenderer({formId,data,setData}){
   if(formId==='eligibility') return <EligibilityWixForm data={data} set={(key,value)=>setData(prev=>typeof key==='object'?key:{...prev,[key]:value})}/>;
+  if(formId==='warehouseInitial') return <WarehouseInitialForm data={data} set={(key,value)=>setData(prev=>({...prev,[key]:value}))}/>;
   const fields=fieldSets[formId]||fieldSets.sortingDetailed;
   const groups=[];
   for(let i=0;i<fields.length;i+=6)groups.push(fields.slice(i,i+6));
