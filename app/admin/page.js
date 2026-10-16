@@ -81,7 +81,100 @@ function Card({number,title,subtitle,children}){
   </section>;
 }
 
+
+const ELIGIBILITY_CRITERIA=[
+ {id:'loi',no:1,title:'Fecha objetivo de la LOI',desc:'Mes y año previstos para la emisión de la Carta de Intención (LOI).',weight:15,type:'date'},
+ {id:'goLive',no:2,title:'Fecha objetivo de puesta en operación',desc:'Mes y año en que el cliente espera que la solución entre en operación.',weight:15,type:'date'},
+ {id:'budget',no:3,title:'Nivel de presupuesto del proyecto',desc:'Precio estimado del proyecto o presupuesto disponible del cliente.',weight:15,type:'budget'},
+ {id:'relationship',no:4,title:'Relación con el cliente',desc:'Calidad de la relación comercial y nivel de acceso a los principales responsables de decisión.',weight:10,options:[['Negativa',1],['Normal',3],['Buena',5],['Sólida',10]]},
+ {id:'importance',no:5,title:'Importancia del cliente',desc:'Importancia del cliente por reputación, escala de negocio o relevancia estratégica regional.',weight:5,options:[['Pequeño',1],['Normal',3],['Grande',5],['Cuenta clave / C20',10]]},
+ {id:'urgency',no:6,title:'Urgencia de la propuesta',desc:'Plazo esperado para desarrollar y presentar la propuesta de preventa.',weight:5,options:[['Desconocida',0],['Largo plazo',3],['Mediano plazo',5],['Urgente',10]]},
+ {id:'bid',no:7,title:'Estrategia de licitación o compra',desc:'Tipo de proceso de compra, criterios de selección y posición en la lista larga o corta de proveedores.',weight:5,options:[['Desconocida',0],['Licitación pública',3],['Comparación de precios',5],['Adjudicación directa',10]]},
+ {id:'definition',no:8,title:'Nivel de definición de los requerimientos',desc:'Grado de integridad del RFP/RFI, formularios, datos, SOP y parámetros de diseño disponibles.',weight:15,options:[['Por aclarar',1],['Parcialmente identificados',3],['Completamente identificados',5],['Solución definida',10]]},
+ {id:'product',no:9,title:'Tipo de producto o solución',desc:'Tipo previsto de equipamiento, personalización y modalidad de suministro.',weight:10,options:[['Personalizado + subcontratado',1],['Estándar + subcontratado',5],['Personalizado + desarrollo interno',7],['Estándar + desarrollo interno',10]]},
+ {id:'competitors',no:10,title:'Información de competidores',desc:'Nombres de competidores, relación con el cliente e información relevante disponible.',weight:5,options:[['No identificados',1],['Parcialmente identificada',5],['Completamente identificada',10]]}
+];
+
+function eligibilityScore(c,data){
+ const v=data['eligibility_'+c.id];
+ if(!v)return 0;
+ if(c.type==='date'){
+   const y=Number(String(v).slice(0,4));
+   if(y===2026)return 10;
+   if(y===2027)return 5;
+   return 1;
+ }
+ if(c.type==='budget'){
+   const usd=Number(v);
+   const rmb=usd*7.10;
+   if(rmb>=127800000)return 10;
+   if(rmb>=63900000)return 5;
+   if(rmb>=21300000)return 3;
+   return 1;
+ }
+ return Number(c.options.find(x=>x[0]===v)?.[1]||0);
+}
+
+function EligibilityWixForm({data,set}){
+ const scored=ELIGIBILITY_CRITERIA.map(c=>({c,score:eligibilityScore(c,data)}));
+ const completed=scored.filter(x=>Boolean(data['eligibility_'+x.c.id])).length;
+ const total=scored.reduce((sum,x)=>sum+x.score*x.c.weight/100,0);
+ const progress=Math.round(completed/10*100);
+ const getStatus=()=>completed<10?'Evaluación incompleta':total<=5?'Prioridad baja':total<8?'Seguimiento normal':'Prioridad alta';
+
+ const inputFor=(c)=>{
+   const key='eligibility_'+c.id;
+   if(c.type==='date')return <input className="eligYellow" type="month" value={data[key]||''} onChange={e=>set(key,e.target.value)} />;
+   if(c.type==='budget')return <input className="eligYellow" type="number" min="0" step="1000" value={data[key]||''} placeholder="Ejemplo: 1500000" onChange={e=>set(key,e.target.value)} />;
+   return <select className="eligYellow" value={data[key]||''} onChange={e=>set(key,e.target.value)}><option value="">Seleccione...</option>{c.options.map(([label,score])=><option key={label} value={label}>{label} — {score} pts</option>)}</select>;
+ };
+
+ return <div className="eligibilityView">
+   <section className="eligHero">
+     <div>
+       <p className="eligEyebrow">SOP DE COOPERACIÓN PARA SOLUCIONES DE AUTOMATIZACIÓN</p>
+       <h2>Evaluación de Elegibilidad del Proyecto</h2>
+       <p>Capture la información del cliente. La evaluación reproduce la lógica de puntuación y ponderación de la hoja de evaluación.</p>
+     </div>
+   </section>
+   <div className="eligTopGrid">
+     <section className="eligResult">
+       <div className="eligScoreCircle"><strong>{total.toFixed(2)}</strong><span>de 10</span></div>
+       <div className="eligResultCopy"><h3>{getStatus()}</h3><p>{completed===10?'Todos los criterios están completados.':'Complete todos los campos amarillos para obtener el resultado final de elegibilidad.'}</p><span>{completed} de 10 criterios completados</span></div>
+     </section>
+     <section className="eligThresholds">
+       <h3>Umbrales de prioridad</h3>
+       <div><b className="red">≤ 5.0</b><span><strong>Prioridad baja</strong>Se recomienda descartar o despriorizar cuando los recursos sean limitados.</span></div>
+       <div><b className="amber">5.0–8.0</b><span><strong>Seguimiento normal</strong>Continuar con la calificación y el desarrollo de la oportunidad.</span></div>
+       <div><b className="green">≥ 8.0</b><span><strong>Prioridad alta</strong>Priorizar recursos de preventa y comerciales.</span></div>
+     </section>
+   </div>
+   <section className="eligPanel">
+     <header className="eligPanelHead"><div><h3>Información del cliente</h3><p>Los campos amarillos son editables. Las puntuaciones y la elegibilidad ponderada se calculan automáticamente.</p></div><b>{progress}% completado</b></header>
+     <div className="eligCriteria">
+       {scored.map(({c,score})=>{
+         const key='eligibility_'+c.id;
+         return <article className="eligCriterion" key={c.id}>
+           <div className="eligNo">{c.no}</div>
+           <div className="eligDescription"><h4>{c.title}</h4><p>{c.desc}</p><span>Ponderación {c.weight}%</span></div>
+           <div className="eligInputArea">
+             <label>{c.type==='date'?'Fecha prevista':c.type==='budget'?'Presupuesto estimado (USD)':'Seleccione el nivel aplicable'}</label>
+             {inputFor(c)}
+             <textarea placeholder={c.type==='budget'?'Supuestos comerciales o fuente del presupuesto (opcional)':'Información de respaldo (recomendada)'} value={data[key+'_note']||''} onChange={e=>set(key+'_note',e.target.value)} />
+             {c.type==='budget'&&<small>La conversión utiliza 7.10 RMB por USD para reproducir los rangos expresados originalmente.</small>}
+           </div>
+           <div className="eligScoreBox"><strong>{score}</strong><span>puntuación / 10</span><small>{(score*c.weight/100).toFixed(2)}<br/>ponderado</small></div>
+         </article>
+       })}
+     </div>
+     <footer className="eligFooter"><button onClick={()=>set({})}>Restablecer</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={()=>window.print()}>PDF en inglés</button><button className="dark" onClick={()=>window.print()}>Descargar resumen</button></footer>
+   </section>
+   <p className="eligFootNote">Base de puntuación: el libro original. Las categorías de fecha se evalúan por año calendario: 2026, 2027 y 2028 o posterior.</p>
+ </div>;
+}
+
 function FormRenderer({formId,data,setData}){
+  if(formId==='eligibility') return <EligibilityWixForm data={data} set={(key,value)=>setData(prev=>typeof key==='object'?key:{...prev,[key]:value})}/>;
   const fields=fieldSets[formId]||fieldSets.sortingDetailed;
   const groups=[];
   for(let i=0;i<fields.length;i+=6)groups.push(fields.slice(i,i+6));
