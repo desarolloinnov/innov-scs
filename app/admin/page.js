@@ -424,6 +424,9 @@ function FormWorkspace(){
   const [clientForm,setClientForm]=useState({name:'',company:'',notes:''});
   const [clientLoading,setClientLoading]=useState(false);
   const current=useMemo(()=>FORMS.find(x=>x.id===selected)||FORMS[0],[selected]);
+  const isWarehouse=selected==='warehouseInitial';
+  const workspaceTitle=isWarehouse?'Warehouse First Visit Assessment':current.title;
+  const workspaceSubtitle=isWarehouse?'Instrumento de levantamiento · Primera visita':current.subtitle;
 
   async function loadClients(){
     try{
@@ -538,7 +541,7 @@ function FormWorkspace(){
 
     <div className="wfMain">
       <div className="wfTop">
-        <div><b>{current.title}</b><span>{current.subtitle}</span></div>
+        <div><b>{workspaceTitle}</b><span>{workspaceSubtitle}</span></div>
         <div className="wfTopActions">
           <button className="clientAddButton" onClick={()=>setClientModal(true)}>+ AGREGAR CLIENTE</button>
           <button onClick={save} disabled={!clientId}>GUARDAR</button>
@@ -557,21 +560,21 @@ function FormWorkspace(){
         {!clients.length&&<span className="clientBarEmpty">Aún no hay clientes. Usa “+ AGREGAR CLIENTE”.</span>}
       </div>
 
-      <div className="wfTitleBand">
+      {!isWarehouse&&<div className="wfTitleBand">
         <div><h1>{current.title}</h1><p>{current.subtitle} Captura la información mínima necesaria para evaluar la operación, la factibilidad técnica y las oportunidades de automatización.</p></div>
         <div className="wfMeta"><span>Cliente<strong>{activeClient?.name||'Sin seleccionar'}</strong></span><span>Tipo<strong>{selected.includes('sorting')?'Sorting':selected==='amr'?'AMR / AGV':'Warehouse'}</strong></span><span>Estado<strong>{clientId?'En captura':'Selecciona cliente'}</strong></span></div>
-      </div>
+      </div>}
 
-      {!clientId&&<div className="clientRequiredNotice">Selecciona un cliente para cargar o guardar la información de este formulario.</div>}
+      {!clientId&&!isWarehouse&&<div className="clientRequiredNotice">Selecciona un cliente para cargar o guardar la información de este formulario.</div>}
 
-      <nav className="wfProgress">{['Información general','Operación','Infraestructura','Sistemas','Recorrido','Cierre'].map((item,index)=><button key={item}><b>{index+1}</b>{item}</button>)}</nav>
+      {!isWarehouse&&<nav className="wfProgress">{['Información general','Operación','Infraestructura','Sistemas','Recorrido','Cierre'].map((item,index)=><button key={item}><b>{index+1}</b>{item}</button>)}</nav>}
       <FormRenderer formId={selected} data={data} setData={setData}/>
-      <div className="wfBottom">
+      {!isWarehouse&&<div className="wfBottom">
         <span>{saved||'Listo para capturar'}</span>
         <button onClick={save} disabled={!clientId}>GUARDAR AVANCE</button>
         <button onClick={print}>PDF EN ESPAÑOL</button>
         <button onClick={print}>PDF IN ENGLISH</button>
-      </div>
+      </div>}
 
       {clientModal&&<div className="clientModalBackdrop" role="dialog" aria-modal="true">
         <form className="clientModal" onSubmit={createClient}>
