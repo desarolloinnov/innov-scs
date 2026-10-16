@@ -358,7 +358,7 @@ function WarehouseInitialForm({data,set}){
               <WarehouseField label="Número de SKUs activos" type="number" value={get('mixed_tote_sku')} onChange={v=>set('mixed_tote_sku',v)}/>
               <WarehouseField label="Totes disponibles" type="number" value={get('mixed_totes')} onChange={v=>set('mixed_totes',v)}/>
               <WarehouseField label="Unidades / piezas procesadas" type="number" value={get('mixed_pieces')} onChange={v=>set('mixed_pieces',v)}/>
-              <WarehouseField label="Periodo del volumen anterior" type="text" value={get('mixed_period')} onChange={v=>set('mixed_period',v)} placeholder="Ej. mes, semana o año"/>
+              <WarehouseSelect label="Periodo del volumen anterior" value={get('mixed_period')} onChange={v=>set('mixed_period',v)} options={['Diario','Mensual','Anual','Otro']}/>
             </div>
             <h4 className="whSubhead">3.1 Operación mixta</h4>
             <div className="whGrid3">
