@@ -484,3 +484,22 @@
 @media(max-width:1100px){.whWorkspace{grid-template-columns:1fr}.whLocalNav{position:relative;top:auto}.whGrid4{grid-template-columns:repeat(2,1fr)}.whRadioGrid{grid-template-columns:repeat(2,1fr)}.whCheckGrid,.whCheckGrid.four{grid-template-columns:repeat(2,1fr)}.whMeta{min-width:250px}}
 @media(max-width:760px){.whHero{align-items:flex-start;flex-direction:column}.whTitleBand{margin:14px 10px;padding:18px}.whWorkspace{padding:0 10px}.whTitleBand{flex-direction:column}.whMeta{border-left:0;border-top:1px solid rgba(255,255,255,.18);padding:12px 0 0;min-width:0}.whGrid2,.whGrid3,.whGrid4,.whRadioGrid,.whCheckGrid,.whCheckGrid.four{grid-template-columns:1fr}.whFooterActions{flex-wrap:wrap}.whFooterActions span{width:100%;margin:0}.whFooterActions button{flex:1}.whSectionBody{padding:12px}.whHeroActions{width:100%}
 }
+
+/* Warehouse select styling and persistent section numbering */
+.whField select{
+  width:100%;
+  height:38px;
+  box-sizing:border-box;
+  border:1px solid #ccd8e2;
+  border-radius:7px;
+  background:#fff8d9;
+  padding:0 10px;
+  color:#314e67;
+  font:inherit;
+  font-size:10px;
+  outline:none;
+}
+.whField select:focus{border-color:#2d6b99;box-shadow:0 0 0 2px rgba(45,107,153,.08)}
+.whLocalNav button span{display:block;min-width:0}
+.whLocalNav button b{flex:0 0 23px}
+.whSectionHeader .whNumber{flex:0 0 31px}
