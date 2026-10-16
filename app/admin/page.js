@@ -206,12 +206,17 @@ function FormWorkspace(){
 
   async function loadClients(){
     try{
-      const response=await fetch('/api/admin/clients',{cache:'no-store'});
-      if(!response.ok)return;
-      const payload=await response.json();
+      const response=await fetch('/api/admin/messages',{cache:'no-store'});
+      const payload=await response.json().catch(()=>({}));
+      if(!response.ok){
+        setSaved(payload.error||'No fue posible cargar los clientes');
+        return;
+      }
       setClients(payload.clients||[]);
       if(!clientId && payload.clients?.[0]?.id)setClientId(payload.clients[0].id);
-    }catch{}
+    }catch{
+      setSaved('No fue posible cargar los clientes');
+    }
   }
 
   async function loadForm(clientOverride=clientId,formOverride=selected){
@@ -266,7 +271,7 @@ function FormWorkspace(){
     if(!clientForm.name.trim())return;
     setClientLoading(true);
     try{
-      const response=await fetch('/api/admin/clients',{
+      const response=await fetch('/api/admin/messages',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify(clientForm)
