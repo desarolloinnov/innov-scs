@@ -567,9 +567,10 @@ function sortingSectionProgress(section,data){
     }else if(block.kind==='checklist'){
       block.items.forEach((_,index)=>values.push(Boolean(data[`${block.key}_${index}_answer`])));
     }else if(block.kind==='table'){
-      const rows=data['sorting_'+block.key]||[];
+      const storedRows=data['sorting_'+block.key];
+      const rows=Array.isArray(storedRows)?storedRows.filter(Array.isArray):[];
       const editableColumns=block.columns.filter(column=>!column.readOnly).length;
-      const activeRows=rows.filter(row=>Array.isArray(row)&&row.some(Boolean));
+      const activeRows=rows.filter(row=>row.some(Boolean));
       const filled=activeRows.reduce((sum,row)=>sum+row.filter(Boolean).length,0);
       values.push(editableColumns&&activeRows.length?Math.min(1,filled/(activeRows.length*editableColumns)):0);
     }else if(block.kind!=='note'){
@@ -581,7 +582,13 @@ function sortingSectionProgress(section,data){
 
 function SortingTable({block,data,set}){
   const key='sorting_'+block.key;
-  const rows=data[key]||block.initialRows||Array.from({length:block.rows||1},()=>block.columns.map(()=>''));
+  const storedRows=data[key];
+  const defaultRows=block.initialRows||Array.from({length:block.rows||1},()=>block.columns.map(()=>''));
+  const rows=Array.isArray(storedRows)
+    ? storedRows.map(row=>Array.isArray(row)
+      ? block.columns.map((_,index)=>row[index]??'')
+      : block.columns.map(column=>row&&typeof row==='object'?(row[column.key]??row[column.label]??''):'') )
+    : defaultRows;
   const change=(r,c,value)=>set(key,rows.map((row,i)=>i===r?row.map((cell,j)=>j===c?value:cell):row));
   const add=(amount)=>set(key,[...rows,...Array.from({length:amount},()=>block.columns.map(()=>''))]);
   const clear=()=>set(key,block.initialRows||Array.from({length:block.rows||1},()=>block.columns.map(()=>'')));
@@ -596,7 +603,7 @@ function SortingChecklist({block,data,set}){
 }
 
 function SortingFormSections({formId,data,setData,onSave}){
-  const form=SORTING_FORMS[formId];
+  const form=SORTING_FORMS[formId]||SORTING_FORMS.sortingDetailed;
   const [activeSection,setActiveSection]=useState(0);
   const set=(key,value)=>setData(prev=>({...prev,[key]:value}));
   const progress=Math.min(100,Math.round(Object.values(data).filter(value=>Array.isArray(value)?value.some(row=>Array.isArray(row)?row.some(Boolean):Boolean(row)):Boolean(value)).length/Math.max(1,Object.keys(data).length+8)*100));
