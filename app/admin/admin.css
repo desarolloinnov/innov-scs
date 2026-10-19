@@ -629,3 +629,10 @@
   .sortingExperience>.sortingLayout{grid-template-columns:1fr;grid-template-rows:minmax(88px,auto) minmax(0,1fr)}
   .sortingExperience .sortingProgress{max-height:140px;overflow-y:auto}
 }
+
+
+/* Fix flex/grid sizing so Sorting section cards keep a visible scroll viewport. */
+.wfMain:has(.sortingExperience){height:100%}
+.wfMain:has(.sortingExperience)>.sortingExperience{flex:1 1 0;min-height:0}
+.sortingExperience>.sortingLayout{grid-template-rows:minmax(0,1fr)}
+.sortingExperience .sortingSections{height:auto;min-height:0;align-self:stretch}
