@@ -677,3 +677,69 @@
   .sortingExperience>.sortingLayout{grid-template-columns:1fr;grid-template-rows:auto auto}
   .sortingExperience .sortingProgress{position:sticky;top:74px;max-height:140px;overflow-y:auto;z-index:15}
 }
+
+/* Wix-matched layouts for warehouse engineering and AMR pre-scope */
+.domainExperience{padding-bottom:18px}
+.domainExperience .sortingHero{align-items:center}
+.domainExperience .sortingLayout{align-items:start}
+.domainExperience .sortingProgress{position:sticky;top:14px;max-height:calc(100vh - 135px);overflow-y:auto}
+.domainExperience .sortingSection{scroll-margin-top:18px}
+.domainExperience .sortingSection .wfBody{padding:20px}
+.domainExperience .sortingSection .wfGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px}
+.domainExperience .wfField{min-width:0}
+.domainExperience .wfField>span{display:block}
+.domainExperience .domainHelp{display:block;margin-top:6px;color:#5d7690;font-size:12px;line-height:1.45}
+.domainExperience .domainCheckGroup{display:flex;flex-wrap:wrap;gap:9px 18px;padding:12px;border:1px solid #d2deea;border-radius:9px;background:#f8fbfd}
+.domainExperience .domainCheckGroup label{display:flex;align-items:center;gap:7px;font-weight:400}
+.domainExperience .domainCheckGroup input{accent-color:#1462aa}
+.domainExperience .domainFile{padding:10px;border:1px dashed #9fb8cf;border-radius:8px;background:#f6fafe}
+.domainExperience .domainFile input{width:100%;font-size:13px}
+.domainExperience .domainFile small{display:block;margin-top:6px;color:#315b7e}
+.domainExperience .domainTableWrap{width:100%;overflow-x:auto}
+.domainExperience .domainTable{width:100%;border-collapse:collapse;background:#fff;border:1px solid #ccd9e6;border-radius:10px;overflow:hidden;font-size:13px}
+.domainExperience .domainTable th,.domainExperience .domainTable td{padding:10px 12px;border:1px solid #d4dfeb;text-align:left;vertical-align:middle}
+.domainExperience .domainTable thead th{background:#1477b8;color:#fff;font-weight:700}
+.domainExperience .domainTable tbody th{background:#f1f6fa;color:#163e60;font-weight:600}
+.domainExperience .domainTable td input,.domainExperience .domainTable td select{width:100%;min-width:150px;height:38px;padding:7px 10px;background:#fffdf0;border:1px solid #ccd8e2;border-radius:7px;color:#173a59}
+.domainExperience .amrInputTable{table-layout:fixed}
+.domainExperience .amrInputTable th:first-child{width:30%}
+.domainExperience .amrInputTable td:nth-child(2){width:28%}
+.domainExperience .amrInputTable td:nth-child(3){width:42%;color:#526f8c}
+.amrQuickGuide{margin:14px 0;padding:18px 22px;border:1px solid #d4dfeb;border-radius:12px;background:#fff}
+.amrQuickGuide>strong{font-size:16px;color:#153d60}
+.amrQuickGuide ol{margin:10px 0 0;padding-left:22px;color:#526f8c}
+.amrQuickGuide li{padding:3px 0;line-height:1.5}
+.amrKpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0}
+.amrMetric{display:flex;flex-direction:column;gap:8px;padding:16px;border:1px solid #cddbe9;border-radius:12px;background:#fff}
+.amrMetric span{font-size:13px;color:#58728b}
+.amrMetric strong{font-size:22px;color:#103c60}
+.amrCapture .sortingSectionCompletion{align-self:center;padding:6px 10px;border-radius:999px;background:#edf4fa;color:#3d5f7a;font-size:12px}
+.amrResults .wfBody{padding:20px}
+.amrResultTables{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.amrResultTables>div{padding:16px;border:1px solid #cddbe9;border-radius:10px;background:#f9fbfd}
+.amrResultTables h4{margin:0 0 10px;color:#153d60}
+.amrResultTables dl{margin:0}
+.amrResultTables dl>div{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px solid #dce5ed}
+.amrResultTables dt{color:#52677e}
+.amrResultTables dd{margin:0;text-align:right;font-weight:700;color:#173e60}
+.amrStatus,.amrRecommendation{padding:8px 12px;border-radius:9px;font-size:13px;font-weight:800;background:#edf2f5;color:#52677e}
+.amrStatus.viable,.amrRecommendation.viable{background:#e5f6ec;color:#14733d}
+.amrStatus.revisar,.amrRecommendation.revisar{background:#fff4d7;color:#946400}
+.amrStatus.no-avanzar,.amrRecommendation.no-avanzar{background:#fde9e7;color:#a6332a}
+.amrRecommendation{margin-top:14px;padding:14px}
+.amrRecommendation p{margin:6px 0 0;font-weight:400;line-height:1.45}
+@media(max-width:1000px){
+ .domainExperience .sortingLayout{grid-template-columns:1fr;grid-template-rows:auto auto}
+ .domainExperience .sortingProgress{position:static;max-height:none}
+ .domainExperience .amrKpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .domainExperience .amrResultTables{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+ .domainExperience .sortingSection .wfGrid{grid-template-columns:1fr}
+ .domainExperience .amrKpis{grid-template-columns:1fr 1fr}
+ .domainExperience .amrInputTable,.domainExperience .amrInputTable tbody,.domainExperience .amrInputTable tr,.domainExperience .amrInputTable th,.domainExperience .amrInputTable td{display:block;width:100%!important}
+ .domainExperience .amrInputTable thead{display:none}
+ .domainExperience .amrInputTable tbody tr{padding:10px;border-bottom:1px solid #cad8e5}
+ .domainExperience .amrInputTable tbody th{border:0;padding:5px;background:transparent}
+ .domainExperience .amrInputTable tbody td{border:0;padding:5px}
+}

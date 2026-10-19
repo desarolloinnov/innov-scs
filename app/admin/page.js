@@ -610,9 +610,207 @@ function SortingFormSections({formId,data,setData,onSave}){
 
 function downloadSortingFile(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=name;link.click();URL.revokeObjectURL(url);}
 
+
+const WAREHOUSE_DETAIL_SECTIONS=[
+ {title:'Información clave',subtitle:'Documentación indispensable para entender y diseñar el proyecto.',fields:[
+  {label:'SOP (Standard Operating Procedure) del proceso',type:'file',help:'Procedimiento operativo estándar actualizado. Puede cargarse al repositorio del proyecto.'},
+  {label:'Comentarios sobre SOP',type:'textarea'},
+  {label:'Planos arquitectónicos del almacén (DWG)',type:'file',help:'Plano general del inmueble en formato CAD.'},
+  {label:'Comentarios sobre planos arquitectónicos',type:'textarea'},
+  {label:'Diagrama de flujo de operación, sistemas y equipos',type:'file',help:'Indique entradas, almacenamiento, procesos y salidas.'},
+  {label:'Comentarios sobre el diagrama de flujo',type:'textarea'}
+ ]},
+ {title:'Información general',subtitle:'Perfil, ubicación, uso y fechas objetivo del centro.',fields:[
+  {label:'Industria / categorías de SKU',type:'checks',options:['Moda','Cosméticos','Electrodomésticos','Maquinado','Electrónica','Productos de consumo diario','Tabaco','Farmacéutica','Automotriz','Otra']},
+  {label:'Especifique otra industria',type:'text'},
+  {label:'Ubicación del proyecto',type:'textarea'},
+  {label:'Uso previsto del almacén',type:'checks',options:['Almacenamiento','Fulfillment','Distribución','Cross-dock','Manufactura','Otro']},
+  {label:'Fecha objetivo de inicio del proyecto',type:'date'},
+  {label:'Fecha objetivo de entrega / puesta en marcha',type:'date'}
+ ]},
+ {title:'Operación actual',subtitle:'Calendario, equipos, unidades de manejo, volúmenes y recursos.',fields:[
+  {label:'Días de operación por semana (normal)',type:'number'},
+  {label:'Días de operación por semana (pico)',type:'number'},
+  {label:'Turnos por día (normal)',type:'number'},
+  {label:'Turnos por día (pico)',type:'number'},
+  {label:'Horas efectivas por turno (normal)',type:'number'},
+  {label:'Horas efectivas por turno (pico)',type:'number'},
+  {label:'Equipos utilizados en recibo',type:'checks',options:['Montacargas','Patín','Transportador','Equipo manual','Otro']},
+  {label:'Cantidad de equipos de recibo',type:'number'},
+  {label:'Equipos utilizados en embarque',type:'checks',options:['Montacargas','Patín','Transportador','Equipo manual','Otro']},
+  {label:'Cantidad de equipos de embarque',type:'number'},
+  {label:'Sistemas actuales de almacenamiento',type:'checks',options:['Rack selectivo','Rack dinámico','Estantería','Piso','Mezzanine','Otro']},
+  {label:'Unidades manejadas en recibo',type:'text',help:'Especifique tarimas, cajas, totes u otras unidades y el volumen.'},
+  {label:'Unidades manejadas en embarque',type:'text'},
+  {label:'Tipo de vehículo de recibo y longitud',type:'text'},
+  {label:'Tipo de vehículo de embarque y longitud',type:'text'},
+  {label:'Operadores en recibo',type:'number'},
+  {label:'Operadores en embarque',type:'number'},
+  {label:'Operadores totales en la operación',type:'number'}
+ ]},
+ {title:'Necesidades principales',subtitle:'Resultados de negocio que el proyecto debe alcanzar.',fields:[
+  {label:'Objetivos principales del proyecto',type:'checks',options:['Aumentar capacidad','Mejorar productividad','Reducir costos','Mejorar nivel de servicio','Aprovechar espacio','Mejorar seguridad','Soportar crecimiento','Reducir errores','Otro']},
+  {label:'Prioridades y criterios de éxito',type:'textarea'}
+ ]},
+ {title:'Condiciones del inmueble',subtitle:'Configuración física, planos y sistemas de protección.',fields:[
+  {label:'Tipo de almacén',type:'select',options:['Nuevo','Existente']},
+  {label:'Plano arquitectónico general',type:'file'},
+  {label:'Comentarios del plano',type:'textarea'},
+  {label:'Área designada para el proyecto en CAD',type:'file'},
+  {label:'Comentarios sobre el área del proyecto',type:'textarea'},
+  {label:'Requisitos de rociadores (sprinklers)',type:'select',options:['Sí','No','Por confirmar']},
+  {label:'Clasificación de protección contra incendio',type:'text'},
+  {label:'Dimensiones del área del proyecto: ancho (m)',type:'number'},
+  {label:'Dimensiones del área del proyecto: largo (m)',type:'number'},
+  {label:'Dimensiones del área del proyecto: altura (m)',type:'number'},
+  {label:'Área total del proyecto incluyendo periféricos (m²)',type:'number'},
+  {label:'Número de niveles del edificio',type:'number'},
+  {label:'Capacidad de carga del piso (kg/m²)',type:'number'},
+  {label:'Altura libre disponible (m)',type:'number'}
+ ]},
+ {title:'Condiciones básicas',subtitle:'Unidades de manejo, capacidades, productos y flujos.',fields:[
+  {label:'¿Se utilizarán unidades de manejo existentes?',type:'select',options:['Existentes','Nuevas','Por definir']},
+  {label:'Tipos de unidades existentes',type:'checks',options:['Tarima','Tote','Caja','Otra']},
+  {label:'Fotografías de las unidades existentes',type:'file'},
+  {label:'Ruta de circulación requerida',type:'select',options:['Sólo almacenamiento','Dentro del almacén','De extremo a extremo']},
+  {label:'Número esperado de SKU',type:'number'},
+  {label:'Capacidad total de almacenamiento requerida',type:'number'},
+  {label:'Unidad de capacidad',type:'select',options:['Tarimas','Totes','Cajas','Ubicaciones','Otra']},
+  {label:'Tipos de unidades de salida / embarque',type:'checks',options:['Tarima','Caja','Tote','Paquete','Otro']},
+  {label:'¿Se conserva el empaque original o se usan totes?',type:'select',options:['Empaque original','Totes','Ambos','Por definir']},
+  {label:'Material del tote',type:'text'},
+  {label:'Dimensiones del tote (L × A × H)',type:'text'},
+  {label:'Peso bruto y carga útil del tote',type:'text'},
+  {label:'Apilable / encajable',type:'select',options:['Apilable','Encajable','Ambos','Ninguno']},
+  {label:'Listado detallado de SKU / totes',type:'file'},
+  {label:'Fotografías de producto, tote y empaque',type:'file'},
+  {label:'Características del producto y manejo especial',type:'textarea'},
+  {label:'Días de inventario por SKU / ciclo',type:'textarea'},
+  {label:'Requerimientos de zonificación',type:'textarea'},
+  {label:'Flujo de recibo (unidades por hora y por día)',type:'textarea'},
+  {label:'Flujo de embarque (unidades por hora y por día)',type:'textarea'},
+  {label:'Flujo de reabastecimiento (unidades por hora y por día)',type:'textarea'},
+  {label:'Flujo de picking (unidades por hora y por día)',type:'textarea'}
+ ]},
+ {title:'Sistemas de control e información',subtitle:'Identificación, calidad de datos e integración con sistemas.',fields:[
+  {label:'¿Se utilizan códigos de barras o QR?',type:'select',options:['Sí','No','Por confirmar']},
+  {label:'Tipo de código',type:'select',options:['Código de barras','QR','Ambos','Otro']},
+  {label:'Ubicación de etiqueta en la unidad',type:'text'},
+  {label:'¿Se requiere integración con ERP/WMS u otros sistemas?',type:'select',options:['Sí','No','Por confirmar']},
+  {label:'¿El sistema fuente proporciona un código único?',type:'select',options:['Sí','No','Por confirmar']},
+  {label:'WMS actual y versión',type:'text'},
+  {label:'Requisitos de integración WMS / ERP / solución automatizada',type:'textarea'},
+  {label:'Comentarios sobre datos e interfaces',type:'textarea'}
+ ]},
+ {title:'Condiciones del ambiente de operación',subtitle:'Entorno, temperatura, humedad y calendario anual.',fields:[
+  {label:'Clasificación del ambiente',type:'checks',options:['Normal','GMP','Libre de polvo','A prueba de explosión','Otro']},
+  {label:'Especifique condiciones especiales',type:'textarea'},
+  {label:'Rango de temperatura',type:'select',options:['0–40 °C','Otro']},
+  {label:'Rango de temperatura (otro)',type:'text'},
+  {label:'Rango de humedad relativa',type:'select',options:['10–90 %','Otro']},
+  {label:'Rango de humedad (otro)',type:'text'},
+  {label:'Horas por turno',type:'number'},
+  {label:'Turnos por día',type:'number'},
+  {label:'Días por semana',type:'number'},
+  {label:'Días por año',type:'number'}
+ ]},
+ {title:'Otras condiciones especiales',subtitle:'Normativa aplicable, seguridad y requisitos adicionales.',fields:[
+  {label:'Normativa local aplicable',type:'checks',options:['Seguridad','Protección contra incendios','Sanitaria','Ambiental','Construcción','Otra']},
+  {label:'Describa normas, estándares o certificaciones',type:'textarea'},
+  {label:'Otras condiciones especiales del proyecto',type:'textarea'},
+  {label:'Comentarios finales',type:'textarea'}
+ ]}
+];
+
+const AMR_INPUTS=[
+ {key:'process_type',label:'Tipo de proceso',type:'select',options:['Picking AMR','Goods-to-person','Pallets/AGV','Totes/Bins','Mixta'],guide:'Opciones sugeridas: Picking AMR, Goods-to-person, Pallets/AGV, Totes/Bins, Mixta'},
+ {key:'industry',label:'Industria / perfil',guide:'Ej. e-commerce, retail, CPG, pharma, manufactura, 3PL'},
+ {key:'warehouse_size',label:'Tamaño aproximado del almacén (m²)',type:'number',guide:'Escala física; no determina por sí sola el dimensionamiento'},
+ {key:'shifts_day',label:'Turnos por día',type:'number',guide:'Una mayor utilización mejora el ROI'},
+ {key:'hours_shift',label:'Horas efectivas por turno',type:'number',guide:'Excluye comidas, juntas y paros'},
+ {key:'days_month',label:'Días de operación por mes',type:'number',guide:'Se utiliza para anualizar beneficios'},
+ {key:'avg_daily_volume',label:'Volumen promedio por día',type:'number',guide:'Picks, tarimas, cajas o misiones según el proceso'},
+ {key:'peak_factor',label:'Factor pico vs. promedio',type:'number',guide:'1.1 bajo, 1.3 medio, 1.6 o más alto'},
+ {key:'current_people',label:'Personas actuales en la actividad',type:'number',guide:'Personas directamente asociadas al proceso'},
+ {key:'monthly_cost_person',label:'Costo mensual por persona',type:'number',guide:'Costo total o costo cargado, cuando se conozca'},
+ {key:'capturable_labor',label:'Porcentaje de beneficio laboral capturable (%)',type:'number',guide:'Parte del costo que puede ahorrarse o reasignarse de forma defendible'},
+ {key:'overtime_cost',label:'Horas extra / costo mensual actual',type:'number',guide:'Ahorro potencial por picos o falta de capacidad'},
+ {key:'monthly_errors',label:'Merma, errores y retrabajo mensual',type:'number',guide:'Valor mensual estimado del problema'},
+ {key:'error_reduction',label:'Porcentaje de reducción de merma y errores (%)',type:'number',guide:'Supuesto conservador en etapa Pre Scope'},
+ {key:'monthly_sla_benefit',label:'Beneficio mensual por capacidad / SLA',type:'number',guide:'Ingresos retenidos, crecimiento o penalizaciones evitadas'},
+ {key:'available_budget',label:'Presupuesto disponible',type:'number',guide:'Monto máximo preliminar del cliente'},
+ {key:'target_roi',label:'ROI objetivo (meses)',type:'number',guide:'Política InnOv: ROI de 16 meses como referencia'},
+ {key:'robot_productivity',label:'Productividad conservadora por robot/h',type:'number',guide:'Utilice rangos prudentes según el caso'},
+ {key:'station_productivity',label:'Productividad conservadora por estación/h',type:'number',guide:'Sólo aplica para picking y Goods-to-Person'},
+ {key:'robot_cost',label:'Costo unitario por robot',type:'number',guide:'USD u otra moneda; mantener la misma moneda en todo el modelo'},
+ {key:'station_cost',label:'Costo unitario por estación',type:'number',guide:'Incluye estación, periféricos básicos y montaje'},
+ {key:'software_cost',label:'Software / Fleet Manager / WCS',type:'number',guide:'Monto preliminar'},
+ {key:'integration_cost',label:'Integración WMS / ERP',type:'number',guide:'APIs, pruebas y parametrización'},
+ {key:'infrastructure_cost',label:'Infraestructura y adecuaciones',type:'number',guide:'WiFi, seguridad, señalización y ajustes menores al layout'},
+ {key:'annual_maintenance',label:'Mantenimiento anual',type:'number',guide:'Estimación del costo anual posterior al proyecto'},
+ {key:'contingency',label:'Contingencia (%)',type:'number',guide:'Riesgos de alcance en etapa Pre Scope'},
+ {key:'wms_available',label:'WMS disponible',type:'select',options:['Sí','Básico','No'],guide:'Sí / Básico / No'},
+ {key:'data_quality',label:'Calidad de datos',type:'select',options:['Alta','Media','Baja'],guide:'Alta / Media / Baja'},
+ {key:'executive_urgency',label:'Urgencia ejecutiva',type:'select',options:['Alta','Media','Baja'],guide:'Alta / Media / Baja'}
+];
+
+function WarehouseDetailedForm({data,setData}){
+ const [active,setActive]=useState(0);
+ const set=(key,value)=>setData(prev=>({...prev,[key]:value}));
+ const allFields=WAREHOUSE_DETAIL_SECTIONS.flatMap(s=>s.fields);
+ const progress=Math.round(allFields.filter(f=>{const v=data['whd_'+getKey(f.label)];return Array.isArray(v)?v.length>0:Boolean(v)}).length/Math.max(1,allFields.length)*100);
+ const go=i=>{setActive(i);document.getElementById('whd-section-'+i)?.scrollIntoView({behavior:'smooth',block:'start'})};
+ return <div className="sortingExperience domainExperience warehouseDetailedExperience">
+  <div className="sortingAppHeader"><div className="sortingAppMark">WH</div><div><strong>Warehouse Engineering Input</strong><span>Cuestionario para Soluciones de Almacén Inteligente · Levantamiento detallado</span></div><div className="sortingAppActions"><button type="button" onClick={()=>downloadSortingFile('warehouse-engineering-input.json',JSON.stringify({form:'Cuestionario de Ingeniería y Automatización',data},null,2),'application/json')}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button><button type="button" onClick={()=>window.print()}>Repositorio</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos capturados?')&&setData({})}>Limpiar</button></div></div>
+  <div className="sortingHero"><div><h2>Cuestionario de Ingeniería y Automatización</h2><p>Capture la información operativa, física y tecnológica necesaria para evaluar y diseñar una solución de automatización de almacén.</p></div><div className="sortingHeroMeta"><span>Secciones<strong>9</strong></span><span>Documentos solicitados<strong>8</strong></span><span>Estado<strong>{progress===100?'Completo':'En captura'}</strong></span></div></div>
+  <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del formulario"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:progress+'%'}}/></div>{WAREHOUSE_DETAIL_SECTIONS.map((s,i)=><button type="button" key={s.title} className={active===i?'active':''} onClick={()=>go(i)}><b>{i===0?'K':i}</b>{s.title}</button>)}</nav>
+   <div className="sortingSections">{WAREHOUSE_DETAIL_SECTIONS.map((section,i)=><section className="wfCard sortingSection" id={'whd-section-'+i} key={section.title}><header><b>{i===0?'K':i}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div><span className="sortingSectionCompletion">{Math.round(section.fields.filter(f=>{const v=data['whd_'+getKey(f.label)];return Array.isArray(v)?v.length>0:Boolean(v)}).length/section.fields.length*100)}%</span></header><div className="wfBody"><div className="wfGrid">{section.fields.map(field=>{const key='whd_'+getKey(field.label),value=data[key]??'';return <label className={'wfField'+(['textarea','checks'].includes(field.type)?' wide':'')} key={field.label}><span>{field.label}</span>{field.type==='select'?<select value={value} onChange={e=>set(key,e.target.value)}><option value="">Seleccione</option>{field.options.map(o=><option key={o}>{o}</option>)}</select>:field.type==='checks'?<div className="domainCheckGroup">{field.options.map(o=><label key={o}><input type="checkbox" checked={Array.isArray(value)&&value.includes(o)} onChange={e=>set(key,e.target.checked?[...(Array.isArray(value)?value:[]),o]:(value||[]).filter(x=>x!==o))}/>{o}</label>)}</div>:field.type==='file'?<div className="domainFile"><input type="file" onChange={e=>set(key,e.target.files?.[0]?.name||'')}/>{value&&<small>{value}</small>}</div>:field.type==='textarea'?<textarea rows={3} value={value} onChange={e=>set(key,e.target.value)}/>:<input type={field.type||'text'} value={value} onChange={e=>set(key,e.target.value)}/>}{field.help&&<small className="domainHelp">{field.help}</small>}</label>})}</div></div></section>)}</div>
+  </div>
+ </div>
+}
+
+function calculateAMR(data){
+ const n=k=>Number(String(data[k]??'').replace(',','.'))||0;
+ const volume=n('avg_daily_volume'),hours=n('hours_shift')*n('shifts_day'),peakHourly=hours?volume/hours*n('peak_factor'):0;
+ const process=String(data.process_type||'');
+ const robots=peakHourly&&n('robot_productivity')?Math.ceil(peakHourly/n('robot_productivity')):0;
+ const stations=/Picking|Goods-to-person/i.test(process)&&peakHourly&&n('station_productivity')?Math.ceil(peakHourly/n('station_productivity')):0;
+ const robotHardware=robots*n('robot_cost'),stationHardware=stations*n('station_cost');
+ const subtotal=robotHardware+stationHardware+n('software_cost')+n('integration_cost')+n('infrastructure_cost');
+ const contingency=subtotal*n('contingency')/100,total=subtotal+contingency;
+ const monthlyBenefit=n('current_people')*n('monthly_cost_person')*n('capturable_labor')/100+n('overtime_cost')+n('monthly_errors')*n('error_reduction')/100+n('monthly_sla_benefit');
+ const monthlyNet=monthlyBenefit-n('annual_maintenance')/12,payback=monthlyNet>0?total/monthlyNet:0,budgetGap=total-n('available_budget');
+ const complete=Boolean(process&&volume&&hours&&n('robot_productivity')&&n('robot_cost'));
+ const roiScore=payback?Math.max(0,Math.min(100,Math.round(100*(1-payback/Math.max(1,n('target_roi')||16))))):0;
+ const budgetScore=total&&n('available_budget')?Math.max(0,Math.min(100,Math.round(100*n('available_budget')/total))):0;
+ const volumeScore=volume?Math.min(100,Math.round(volume/100)):0;
+ const dataScore=(data.wms_available==='Sí'?40:data.wms_available==='Básico'?25:0)+(data.data_quality==='Alta'?35:data.data_quality==='Media'?20:0)+(data.executive_urgency==='Alta'?25:data.executive_urgency==='Media'?15:0);
+ const score=Math.round((roiScore+budgetScore+volumeScore+dataScore)/4);
+ return {peakHourly,robots,stations,robotHardware,stationHardware,subtotal,contingency,total,monthlyBenefit,payback,budgetGap,roiScore,budgetScore,volumeScore,dataScore,score,complete};
+}
+function money(v){return v?new Intl.NumberFormat('es-MX',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(v):'—'}
+function AMRCalculator({data,setData}){
+ const result=calculateAMR(data),set=(key,value)=>setData(prev=>({...prev,[key]:value}));
+ const missing=['process_type','avg_daily_volume','hours_shift','shifts_day','robot_productivity','robot_cost'].filter(k=>!data[k]).length;
+ const status=!result.complete?'INCOMPLETO':result.score>=70?'VIABLE':result.score>=40?'REVISAR':'NO AVANZAR';
+ const statusText=!result.complete?'Capture los datos mínimos requeridos para calcular la viabilidad preliminar.':result.score>=70?'Oportunidad atractiva para avanzar a un levantamiento Full Scope.':result.score>=40?'Solicite entre 3 y 5 datos críticos antes de decidir.':'Evite invertir en un levantamiento profundo hasta resolver las brechas.';
+ const metric=(title,value)=> <article className="amrMetric"><span>{title}</span><strong>{value}</strong></article>;
+ return <div className="sortingExperience domainExperience amrExperience">
+  <div className="sortingAppHeader"><div className="sortingAppMark">AMR</div><div><strong>Calculadora AMR / AGV Pre Scope</strong><span>Calificación comercial rápida · Captura desde cero</span></div><div className="sortingAppActions"><button type="button" onClick={()=>downloadSortingFile('amr-pre-scope.json',JSON.stringify({form:'Calculadora AMR / AGV Pre Scope',data,result},null,2),'application/json')}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>Exportar PDF</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Restablecer la calculadora?')&&setData({})}>Restablecer</button></div></div>
+  <div className="sortingHero"><div><h2>AMR / AGV Pre-Scope Calculator</h2><p>Capture la información del prospecto para estimar viabilidad, presupuesto, ROI y semáforo antes de invertir en un levantamiento profundo.</p></div><div className="sortingHeroMeta"><span>Modelo<strong>Pre Scope</strong></span><span>Tipo<strong>{data.process_type||'AMR / AGV'}</strong></span><span>Estado<strong>{result.complete?'Calculado':'En captura'}</strong></span></div></div>
+  <div className="amrQuickGuide"><strong>Instructivo de uso rápido</strong><ol><li>Capture únicamente los datos que el cliente pueda compartir en una etapa temprana.</li><li>Utilice valores conservadores de productividad; no use máximos de ficha técnica.</li><li>El resultado no sustituye la ingeniería de detalle: ayuda a decidir si avanzar, rediseñar o descartar la oportunidad.</li><li>Si el semáforo es verde, avance a Full Scope. Si es amarillo, solicite entre 3 y 5 datos críticos. Si es rojo, evite invertir en un levantamiento profundo.</li></ol></div>
+  <div className="amrKpis">{metric('Robots estimados',result.robots||'—')}{metric('Estaciones estimadas',result.stations||'—')}{metric('Inversión total estimada',money(result.total))}{metric('Payback estimado',result.payback?result.payback.toFixed(1)+' meses':'—')}</div>
+  <section className="wfCard amrCapture"><header><b>1</b><div><h3>Formulario de captura mínima</h3><p>Dato, valor editable y guía para la estimación preliminar.</p></div><span className="sortingSectionCompletion">{missing} datos mínimos pendientes</span></header><div className="wfBody"><div className="domainTableWrap"><table className="domainTable amrInputTable"><thead><tr><th>Dato</th><th>Valor editable</th><th>Guía / comentario</th></tr></thead><tbody>{AMR_INPUTS.map(field=>{const value=data[field.key]??'';return <tr key={field.key}><th>{field.label}</th><td>{field.type==='select'?<select value={value} onChange={e=>set(field.key,e.target.value)}><option value="">Seleccione</option>{field.options.map(x=><option key={x}>{x}</option>)}</select>:<input type={field.type||'text'} value={value} onChange={e=>set(field.key,e.target.value)}/>}</td><td className="amrGuide">{field.guide}</td></tr>})}</tbody></table></div></div></section>
+  <section className="wfCard amrResults"><header><b>2</b><div><h3>Resultado automático / Semáforo</h3><p>Estimación preliminar con supuestos editables y productividad conservadora.</p></div><span className={'amrStatus '+status.toLowerCase().replaceAll(' ','-')}>{status}</span></header><div className="wfBody"><div className="amrResultTables"><div><h4>Métrica</h4><dl>{[['Volumen pico por hora',result.peakHourly?Math.ceil(result.peakHourly).toLocaleString('es-MX'):'—'],['Robots estimados',result.robots||'—'],['Estaciones de picking estimadas',result.stations||'—'],['Inversión en hardware de robots',money(result.robotHardware)],['Inversión en estaciones',money(result.stationHardware)],['Inversión subtotal',money(result.subtotal)],['Contingencia',money(result.contingency)],['Inversión total estimada',money(result.total)],['Beneficio mensual estimado',money(result.monthlyBenefit)],['Payback estimado (meses)',result.payback?result.payback.toFixed(1):'—'],['Brecha contra presupuesto',result.budgetGap?money(result.budgetGap):'—']].map(x=><div key={x[0]}><dt>{x[0]}</dt><dd>{x[1]}</dd></div>)}</dl></div><div><h4>Score de oportunidad</h4><dl>{[['Score ROI',result.roiScore],['Score presupuesto',result.budgetScore],['Score volumen',result.volumeScore],['Score datos / WMS / urgencia',result.dataScore],['Score total de la oportunidad',result.score]].map(x=><div key={x[0]}><dt>{x[0]}</dt><dd>{result.complete?x[1]:'0'}</dd></div>)}</dl><div className={'amrRecommendation '+status.toLowerCase().replaceAll(' ','-')}><strong>{status}</strong><p>{statusText}</p></div></div></div></div></section>
+  <section className="wfCard"><header><b>3</b><div><h3>Rangos conservadores para Pre Scope</h3><p>Referencias iniciales que deben validarse para cada caso de uso.</p></div></header><div className="wfBody"><div className="domainTableWrap"><table className="domainTable"><thead><tr><th>Caso de uso</th><th>Unidad</th><th>Rango conservador</th><th>Notas</th></tr></thead><tbody><tr><td>AMR colaborativo para picking</td><td>picks/robot/h</td><td>80–150</td><td>Depende del picker, batch y layout</td></tr><tr><td>Goods-to-Person</td><td>picks/estación/h</td><td>250–500</td><td>El cuello de botella puede ser la estación</td></tr><tr><td>AMR para totes/bins</td><td>misiones/robot/h</td><td>15–30</td><td>Depende de distancias y estaciones</td></tr><tr><td>AMR/AGV para movimiento de tarimas</td><td>tarimas/robot/h</td><td>8–18</td><td>Validar carga, descarga y tráfico</td></tr><tr><td>Fork AMR</td><td>tarimas/robot/h</td><td>6–14</td><td>Más lento por seguridad y maniobras</td></tr></tbody></table></div></div></section>
+ </div>
+}
+
 function FormRenderer({formId,data,setData,saveForm}){
   if(formId==='eligibility') return <EligibilityWixForm data={data} set={(key,value)=>setData(prev=>typeof key==='object'?key:{...prev,[key]:value})}/>;
   if(formId==='warehouseInitial') return <WarehouseInitialForm data={data} set={(key,value)=>setData(prev=>({...prev,[key]:value}))}/>;
+  if(formId==='warehouseDetailed') return <WarehouseDetailedForm data={data} setData={setData}/>;
+  if(formId==='amr') return <AMRCalculator data={data} setData={setData}/>;
   if(formId==='sortingInitial'||formId==='sortingDetailed') return <SortingFormSections formId={formId} data={data} setData={setData} onSave={saveForm}/>;
   const fields=fieldSets[formId]||fieldSets.sortingDetailed;
   const groups=[];
