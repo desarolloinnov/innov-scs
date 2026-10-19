@@ -323,7 +323,7 @@
 @media(max-width:1100px){.wfApp{grid-template-columns:180px 1fr}.wfProgress{grid-template-columns:repeat(3,1fr)}.wfGrid.four,.checkGrid{grid-template-columns:1fr 1fr}.metricTiles{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){.wfApp{display:block}.wfSide{min-height:auto}.wfTitleBand{margin:0;padding:15px;border-radius:0}.wfMeta{display:none}.wfProgress{margin:0 10px 10px;grid-template-columns:1fr 1fr}.wfContent{padding:0 10px 12px}.wfGrid,.wfGrid.three,.wfGrid.four,.checkGrid,.metricTiles,.wfSummary{grid-template-columns:1fr}.wfBottom{padding:9px 10px;flex-wrap:wrap}.wfBottom span{width:100%}}
 
-.sortingProgress button.active{border-color:#1b5c93;background:#e9f3fc;color:#123e66}.sortingProgress button.active b{background:#15558c;color:#fff}.sortingSection{scroll-margin-top:16px}
+.sortingProgress button.active{border-color:#1b5c93;background:#e9f3fc;color:#123e66}.sortingProgress button.active b{background:#15558c;color:#fff}.sortingProgress button{justify-content:flex-start;line-height:1.25}.sortingSection{scroll-margin-top:16px}.sortingStepActions{margin:0 24px 14px;padding:10px 14px;background:#fff;border:1px solid #d7e0ea;border-radius:9px;display:flex;align-items:center;justify-content:space-between;color:#536b80;font-size:11px}.sortingStepActions button{border:1px solid #c9d5e0;border-radius:6px;background:#fff;color:#17456d;padding:9px 14px;font-size:10px;font-weight:800;cursor:pointer}.sortingStepActions button:disabled{opacity:.4;cursor:not-allowed}
 
 .clientBar{margin:0 24px 14px;background:#fff;border:1px solid #d5dee8;border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .clientBarLabel{font-size:9px;font-weight:800;letter-spacing:.12em;color:#35506b}
