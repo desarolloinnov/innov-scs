@@ -9,7 +9,8 @@ const FORMS = [
   { id:'warehouseDetailed', title:'Cuestionario detallado para: Almacén', subtitle:'Levantamiento técnico y operativo.' },
   { id:'sortingDetailed', title:'Cuestionario detallado para: Sorting', subtitle:'Assessment técnico del centro de clasificación.' },
   { id:'amr', title:"Cálculo inicial de AMR's", subtitle:'Captura inicial de datos para pre-scope.' },
-  { id:'fiberVolumetry', title:'Volumetría de Fibra Óptica', subtitle:'Levantamiento y estimación de infraestructura óptica para almacenes y edificios.' }
+  { id:'fiberVolumetry', title:'Volumetría de Fibra Óptica', subtitle:'Levantamiento y estimación de infraestructura óptica para almacenes y edificios.' },
+  { id:'electricalSurvey', title:'Levantamiento Eléctrico', subtitle:'Captura y estimación preliminar de cargas para almacenes y edificios.' }
 ];
 
 const CONTACT_STATUS = { new:'Nuevo', read:'Leído', contacted:'Contactado', closed:'Cerrado' };
@@ -908,11 +909,12 @@ function FiberVolumetryTable({data,setData}){
  </div>
 }
 
-function FiberField({field,data,set}){
- const key='fiber_'+field.key,value=data[key]??'';
- return <label className={'wfField'+(['textarea','checks'].includes(field.type)?' wide':'')}>
+function FiberField({field,data,set,prefix='fiber_'}){
+ const key=prefix+field.key,value=data[key]??'';
+ if(field.type==='checks')return <fieldset className="wfField wide fiberFieldset"><legend>{field.label}</legend><div className="domainCheckGroup">{field.options.map(option=><label key={option}><input type="checkbox" checked={Array.isArray(value)&&value.includes(option)} onChange={e=>set(key,e.target.checked?[...(Array.isArray(value)?value:[]),option]:(Array.isArray(value)?value:[]).filter(v=>v!==option))}/>{option}</label>)}</div>{field.help&&<small className="domainHelp">{field.help}</small>}</fieldset>;
+ return <label className={'wfField'+(field.type==='textarea'?' wide':'')}>
   <span>{field.label}{field.required?' *':''}</span>
-  {field.type==='select'?<select value={value} required={field.required} onChange={e=>set(key,e.target.value)}><option value="">Seleccione</option>{(field.options||[]).map(option=><option key={option}>{option}</option>)}</select>:field.type==='checks'?<div className="domainCheckGroup">{field.options.map(option=><label key={option}><input type="checkbox" checked={Array.isArray(value)&&value.includes(option)} onChange={e=>set(key,e.target.checked?[...(Array.isArray(value)?value:[]),option]:(Array.isArray(value)?value:[]).filter(v=>v!==option))}/>{option}</label>)}</div>:field.type==='textarea'?<textarea rows={3} value={value} onChange={e=>set(key,e.target.value)}/>:<input type={field.type||'text'} required={field.required} value={value} onChange={e=>set(key,e.target.value)}/>}
+  {field.type==='select'?<select value={value} required={field.required} onChange={e=>set(key,e.target.value)}><option value="">Seleccione</option>{(field.options||[]).map(option=><option key={option}>{option}</option>)}</select>:field.type==='textarea'?<textarea rows={3} value={value} onChange={e=>set(key,e.target.value)}/>:<input type={field.type||'text'} required={field.required} value={value} onChange={e=>set(key,e.target.value)}/>}
   {field.help&&<small className="domainHelp">{field.help}</small>}
  </label>
 }
@@ -934,12 +936,148 @@ function FiberOpticForm({data,setData}){
  </div>
 }
 
+
+const ELECTRICAL_SECTIONS=[
+ {title:'Información general',subtitle:'Identificación del proyecto, inmueble y responsables.',fields:[
+  {key:'client',label:'Cliente',type:'text',required:true},{key:'site',label:'Almacén / edificio / sitio',type:'text',required:true},
+  {key:'address',label:'Dirección del proyecto',type:'textarea'},{key:'building_type',label:'Tipo de inmueble',type:'select',options:['Almacén','Centro de distribución','Edificio corporativo','Planta industrial','Campus / varios edificios','Otro']},
+  {key:'project_stage',label:'Etapa del proyecto',type:'select',options:['Obra nueva','Ampliación','Modernización','Corrección / reemplazo','Levantamiento preliminar']},
+  {key:'date',label:'Fecha del levantamiento',type:'date'},{key:'client_contact',label:'Responsable del cliente',type:'text'},
+  {key:'consultant',label:'Responsable del levantamiento',type:'text'},{key:'scope',label:'Alcance eléctrico requerido',type:'checks',options:['Acometida / subestación','Distribución en media tensión','Distribución en baja tensión','Alumbrado','Contactos y fuerza','Equipos de almacén','Respaldo / UPS','Puesta a tierra','Otro']},
+  {key:'objective',label:'Objetivo y descripción del proyecto',type:'textarea'}
+ ]},
+ {title:'Acometida y suministro',subtitle:'Capacidad, configuración y condiciones del suministro eléctrico disponible.',fields:[
+  {key:'utility',label:'Compañía suministradora / fuente',type:'text'},
+  {key:'service_voltage',label:'Tensión nominal disponible',type:'select',options:['120/208 V','127/220 V','220/380 V','277/480 V','Otro / por confirmar']},
+  {key:'voltage_other',label:'Otra tensión nominal',type:'text'},
+  {key:'phase',label:'Fases y conductores',type:'select',options:['1 fase, 2 hilos','1 fase, 3 hilos','3 fases, 3 hilos','3 fases, 4 hilos','Por confirmar']},
+  {key:'frequency',label:'Frecuencia (Hz)',type:'number'},
+  {key:'contract_capacity',label:'Capacidad contratada / disponible (kW o kVA)',type:'number'},
+  {key:'transformer',label:'Transformador existente (kVA, tensión y ubicación)',type:'textarea'},
+  {key:'medium_voltage',label:'Acometida de media tensión y equipo asociado',type:'textarea'},
+  {key:'service_meter',label:'Medidor, demanda máxima y recibos disponibles',type:'textarea'},
+  {key:'source_reliability',label:'Confiabilidad del suministro / fallas conocidas',type:'textarea'}
+ ]},
+ {title:'Demanda y volumetría de cargas',subtitle:'Inventario de equipos y estimación preliminar de carga conectada y demanda.',fields:[
+  {key:'power_factor',label:'Factor de potencia global (0–1)',type:'number',help:'Utilizado sólo para estimar kVA a partir de kW demandados.'},
+  {key:'global_reserve',label:'Reserva de crecimiento de carga (%)',type:'number'},
+  {key:'load_profile',label:'Perfil de operación y simultaneidad',type:'textarea'}
+ ],table:'loads'},
+ {title:'Tableros y distribución',subtitle:'Tableros, alimentadores, espacios disponibles, protecciones y rutas principales.',fields:[
+  {key:'switchboards',label:'Inventario de tableros (ID, ubicación, tensión y capacidad)',type:'textarea'},
+  {key:'panel_capacity',label:'Capacidad nominal y carga actual por tablero',type:'textarea'},
+  {key:'spare_breakers',label:'Espacios / interruptores disponibles',type:'textarea'},
+  {key:'main_protection',label:'Interruptor principal y protecciones existentes',type:'textarea'},
+  {key:'feeders',label:'Alimentadores, calibres conocidos y recorridos',type:'textarea'},
+  {key:'riser',label:'Montantes, ductos verticales y distribución por nivel',type:'textarea'},
+  {key:'panel_balance',label:'Balance de fases o mediciones por tablero',type:'textarea'},
+  {key:'electrical_rooms',label:'Ubicación, dimensiones y acceso a cuartos eléctricos',type:'textarea'},
+  {key:'single_line',label:'Diagrama unifilar disponible (referencia / enlace)',type:'textarea'}
+ ]},
+ {title:'Canalizaciones y condiciones físicas',subtitle:'Rutas de cableado, ocupación, separaciones y restricciones en sitio.',fields:[
+  {key:'pathway_types',label:'Canalizaciones existentes / requeridas',type:'checks',options:['Charola tipo escalera','Charola malla','Conduit / tubería','Ducto subterráneo','Busway','Canaleta','Nueva canalización','Otra']},
+  {key:'pathway_capacity',label:'Capacidad y ocupación disponible',type:'textarea'},
+  {key:'route_lengths',label:'Recorridos horizontales y verticales principales',type:'textarea'},
+  {key:'separation',label:'Separación de datos, fibra y circuitos sensibles',type:'textarea'},
+  {key:'penetrations',label:'Muros, losas, pasos y sellos cortafuego',type:'textarea'},
+  {key:'environment',label:'Ambiente (polvo, humedad, corrosión, temperatura)',type:'textarea'},
+  {key:'physical_constraints',label:'Obstáculos, cruces, alturas y zonas restringidas',type:'textarea'},
+  {key:'access',label:'Acceso para instalación y mantenimiento',type:'textarea'}
+ ]},
+ {title:'Puesta a tierra y protección',subtitle:'Sistema de tierra, unión equipotencial, sobretensiones y seguridad eléctrica.',fields:[
+  {key:'grounding_system',label:'Sistema de puesta a tierra existente',type:'textarea'},
+  {key:'ground_resistance',label:'Resistencia de tierra medida (Ω) y fecha',type:'text'},
+  {key:'bonding',label:'Unión equipotencial de tableros, racks y estructuras',type:'textarea'},
+  {key:'surge_protection',label:'Supresores de sobretensión (SPD) instalados / requeridos',type:'textarea'},
+  {key:'lightning',label:'Pararrayos / protección contra descargas atmosféricas',type:'textarea'},
+  {key:'protection_coordination',label:'Coordinación, selectividad y estudios disponibles',type:'textarea'},
+  {key:'arc_flash',label:'Etiquetado / estudio de arco eléctrico disponible',type:'select',options:['Sí','No','Por confirmar']},
+  {key:'electrical_incidents',label:'Incidentes, disparos o protecciones que operan con frecuencia',type:'textarea'}
+ ]},
+ {title:'Calidad de energía y respaldo',subtitle:'Mediciones, continuidad del servicio, UPS y generación de emergencia.',fields:[
+  {key:'voltage_measurements',label:'Mediciones de tensión por fase y punto',type:'textarea'},
+  {key:'current_measurements',label:'Corriente por fase / demanda máxima medida',type:'textarea'},
+  {key:'power_quality',label:'Armónicos, factor de potencia y perturbaciones',type:'textarea'},
+  {key:'outages',label:'Interrupciones, microcortes o variaciones registradas',type:'textarea'},
+  {key:'ups',label:'UPS existente / requerida (kVA, autonomía y cargas)',type:'textarea'},
+  {key:'generator',label:'Generador existente / requerido (kW/kVA y transferencia)',type:'textarea'},
+  {key:'critical_loads',label:'Cargas críticas que no pueden perder alimentación',type:'textarea'},
+  {key:'measurement_docs',label:'Reportes de medición disponibles (referencia / enlace)',type:'textarea'}
+ ]},
+ {title:'Cargas de operación y controles',subtitle:'Equipos de proceso, automatización, IT, iluminación y crecimiento.',fields:[
+  {key:'warehouse_equipment',label:'Equipos de almacén (transportadores, sorter, elevadores, AMR)',type:'textarea'},
+  {key:'motors_drives',label:'Motores, variadores, corrientes de arranque y regeneración',type:'textarea'},
+  {key:'automation',label:'PLC, controles, redes industriales y fuentes 24 VDC',type:'textarea'},
+  {key:'it_cctv',label:'Racks IT, switches, Wi-Fi, CCTV y control de acceso',type:'textarea'},
+  {key:'lighting',label:'Alumbrado, niveles requeridos y controles',type:'textarea'},
+  {key:'hvac',label:'HVAC, ventilación y cargas mecánicas relevantes',type:'textarea'},
+  {key:'expansion',label:'Expansiones o cargas futuras previstas',type:'textarea'},
+  {key:'load_priorities',label:'Prioridad y criticidad de las cargas',type:'textarea'}
+ ]},
+ {title:'Cierre y entregables',subtitle:'Seguridad, permisos, documentación, supuestos y pendientes.',fields:[
+  {key:'work_windows',label:'Ventanas de trabajo y operación durante la instalación',type:'textarea'},
+  {key:'safety',label:'LOTO, permisos, EPP y requisitos de seguridad',type:'textarea'},
+  {key:'applicable_codes',label:'Normativa / criterios de diseño requeridos por el cliente',type:'textarea'},
+  {key:'deliverables',label:'Entregables requeridos',type:'checks',options:['Levantamiento de cargas','Diagrama unifilar actualizado','Cuadro de cargas','Planos as-built','Reporte de calidad de energía','Estudio de cortocircuito','Coordinación de protecciones','Etiquetado','Otro']},
+  {key:'documents',label:'Planos, recibos, estudios y fichas disponibles (referencia / enlace)',type:'textarea'},
+  {key:'risks',label:'Riesgos, exclusiones y dependencias',type:'textarea'},
+  {key:'pending',label:'Información pendiente por confirmar',type:'textarea'},
+  {key:'observations',label:'Observaciones finales del consultor',type:'textarea'}
+ ]}
+];
+
+function electricalNum(value){return Number(String(value??'').replace(',','.'))||0}
+function ElectricalLoadTable({data,setData}){
+ const rows=Array.isArray(data.electrical_loads)?data.electrical_loads:Array.from({length:5},()=>({}));
+ const saveRows=next=>setData(prev=>({...prev,electrical_loads:next}));
+ const patch=(index,key,value)=>saveRows(rows.map((r,i)=>i===index?{...r,[key]:value}:r));
+ const metrics=row=>{
+  const connected=electricalNum(row.quantity)*electricalNum(row.unit_kw);
+  const demandFactor=row.demand_pct!==undefined&&row.demand_pct!==''?electricalNum(row.demand_pct):100;
+  const demand=connected*demandFactor/100;
+  const conductorMeters=electricalNum(row.route_m)*electricalNum(row.circuits)*electricalNum(row.conductors);
+  return {connected,demand,conductorMeters};
+ };
+ const total=rows.reduce((sum,row)=>{const m=metrics(row);return {connected:sum.connected+m.connected,demand:sum.demand+m.demand,conductorMeters:sum.conductorMeters+m.conductorMeters,circuits:sum.circuits+electricalNum(row.circuits)}},{connected:0,demand:0,conductorMeters:0,circuits:0});
+ const reserve=electricalNum(data.electrical_global_reserve);
+ const demandWithReserve=total.demand*(1+reserve/100);
+ const pf=electricalNum(data.electrical_power_factor);
+ const kva=pf?demandWithReserve/pf:0;
+ const add=count=>saveRows([...rows,...Array.from({length:count},()=>({}))]);
+ const clear=()=>{if(window.confirm('¿Limpiar todos los renglones de cargas?'))saveRows(Array.from({length:5},()=>({})))};
+ const fields=[['Área / equipo','equipment','text'],['Cantidad','quantity','number'],['Tensión (V)','voltage','text'],['Fases','phase','select'],['Carga unitaria (kW)','unit_kw','number'],['Demanda (%)','demand_pct','number'],['Ruta al tablero (m)','route_m','number'],['Circuitos','circuits','number'],['Conductores por circuito','conductors','number']];
+ return <div className="electricalLoadBlock">
+  <div className="fiberMetricRow"><div><span>Carga conectada estimada</span><strong>{total.connected.toFixed(2)} kW</strong></div><div><span>Demanda diversificada</span><strong>{total.demand.toFixed(2)} kW</strong></div><div><span>Demanda + reserva</span><strong>{demandWithReserve.toFixed(2)} kW</strong></div><div><span>Demanda aparente estimada</span><strong>{kva?kva.toFixed(2)+' kVA':'Captura FP'}</strong></div></div>
+  <p className="fiberFormula">Cálculo preliminar: carga conectada = cantidad × kW unitarios; demanda = carga conectada × factor de demanda; kVA = demanda con reserva ÷ factor de potencia. No dimensiona calibres, interruptores ni protecciones.</p>
+  <div className="fiberTableActions"><button type="button" onClick={()=>add(5)}>+ Agregar 5 cargas</button><button type="button" onClick={()=>add(20)}>+ Agregar 20 cargas</button><button type="button" onClick={clear}>Limpiar tabla</button></div>
+  <div className="domainTableWrap"><table className="domainTable electricalTable"><thead><tr><th>#</th>{fields.map(f=><th key={f[1]}>{f[0]}</th>)}<th>Carga conectada (kW)</th><th>Demanda (kW)</th><th>Metros conductor (m)</th><th></th></tr></thead><tbody>{rows.map((row,index)=>{const m=metrics(row);return <tr key={index}><td>{index+1}</td>{fields.map(f=><td key={f[1]}>{f[2]==='select'?<select aria-label={f[0]+' renglón '+(index+1)} value={row[f[1]]||''} onChange={e=>patch(index,f[1],e.target.value)}><option value="">Seleccione</option>{['1F','2F','3F'].map(x=><option key={x}>{x}</option>)}</select>:<input aria-label={f[0]+' renglón '+(index+1)} type={f[2]} value={row[f[1]]??''} onChange={e=>patch(index,f[1],e.target.value)}/>}</td>)}<td className="fiberComputed">{m.connected?m.connected.toFixed(2):'—'}</td><td className="fiberComputed">{m.demand?m.demand.toFixed(2):'—'}</td><td className="fiberComputed">{m.conductorMeters?m.conductorMeters.toLocaleString('es-MX'):'—'}</td><td><button type="button" className="fiberRemove" aria-label={'Eliminar carga '+(index+1)} onClick={()=>saveRows(rows.filter((_,i)=>i!==index))}>×</button></td></tr>})}</tbody><tfoot><tr><th colSpan="10">Total estimado</th><th>{total.connected.toFixed(2)} kW</th><th>{demandWithReserve.toFixed(2)} kW</th><th>{total.conductorMeters.toLocaleString('es-MX')} m</th><th></th></tr></tfoot></table></div>
+ </div>
+}
+function ElectricalSurveyForm({data,setData}){
+ const [active,setActive]=useState(0);
+ const set=(key,value)=>setData(prev=>({...prev,[key]:value}));
+ const allFields=ELECTRICAL_SECTIONS.flatMap(s=>s.fields);
+ const filled=allFields.filter(f=>{const v=data['elec_'+f.key];return Array.isArray(v)?v.length>0:Boolean(v)}).length;
+ const hasLoads=Array.isArray(data.electrical_loads)&&data.electrical_loads.some(r=>r&&Object.values(r).some(Boolean));
+ const progress=Math.round((filled+(hasLoads?1:0))/Math.max(1,allFields.length+1)*100);
+ const go=i=>{setActive(i);document.getElementById('electrical-section-'+i)?.scrollIntoView({behavior:'smooth',block:'start'})};
+ const exportJson=()=>downloadSortingFile('levantamiento-electrico.json',JSON.stringify({form:'Levantamiento Eléctrico',data},null,2),'application/json');
+ return <div className="sortingExperience domainExperience fiberExperience electricalExperience">
+  <div className="sortingAppHeader"><div className="sortingAppMark">EE</div><div><strong>Electrical Power Site Survey</strong><span>Levantamiento técnico · Almacenes y edificios</span></div><div className="sortingAppActions"><button type="button" onClick={exportJson}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos de este levantamiento?')&&setData({})}>Limpiar</button></div></div>
+  <div className="sortingHero"><div><h2>Levantamiento de Infraestructura Eléctrica</h2><p>Recopile suministro, tableros, cargas, canalizaciones, puesta a tierra, respaldo y condiciones de instalación para preparar una base técnica de diseño y volumetría.</p></div><div className="sortingHeroMeta"><span>Documento<strong>Electrical Site Survey</strong></span><span>Aplicación<strong>Almacén / Edificio</strong></span><span>Estado<strong>{progress===100?'Completo':'En captura'}</strong></span></div></div>
+  <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del levantamiento"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:progress+'%'}}/></div>{ELECTRICAL_SECTIONS.map((section,index)=><button type="button" key={section.title} className={active===index?'active':''} onClick={()=>go(index)}><b>{index+1}</b>{section.title}</button>)}</nav>
+   <div className="sortingSections">{ELECTRICAL_SECTIONS.map((section,index)=><section className="wfCard sortingSection" id={'electrical-section-'+index} key={section.title}><header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div><span className="sortingSectionCompletion">{Math.round(section.fields.filter(f=>{const v=data['elec_'+f.key];return Array.isArray(v)?v.length>0:Boolean(v)}).length/Math.max(1,section.fields.length)*100)}%</span></header><div className="wfBody">{section.table==='loads'&&<ElectricalLoadTable data={data} setData={setData}/>}<div className="wfGrid">{section.fields.map(field=><FiberField key={field.key} prefix="elec_" field={field} data={data} set={set}/>)}</div></div></section>)}</div>
+  </div>
+ </div>
+}
+
 function FormRenderer({formId,data,setData,saveForm}){
   if(formId==='eligibility') return <EligibilityWixForm data={data} set={(key,value)=>setData(prev=>typeof key==='object'?key:{...prev,[key]:value})}/>;
   if(formId==='warehouseInitial') return <WarehouseInitialForm data={data} set={(key,value)=>setData(prev=>({...prev,[key]:value}))}/>;
   if(formId==='warehouseDetailed') return <WarehouseDetailedForm data={data} setData={setData}/>;
   if(formId==='amr') return <AMRCalculator data={data} setData={setData}/>;
   if(formId==='fiberVolumetry') return <FiberOpticForm data={data} setData={setData}/>;
+  if(formId==='electricalSurvey') return <ElectricalSurveyForm data={data} setData={setData}/>;
   if(formId==='sortingInitial'||formId==='sortingDetailed') return <SortingFormSections formId={formId} data={data} setData={setData} onSave={saveForm}/>;
   const fields=fieldSets[formId]||fieldSets.sortingDetailed;
   const groups=[];
@@ -1083,6 +1221,7 @@ function FormWorkspace(){
       <strong className="sideCalcTitle">Calculadoras x Solución</strong>
       <button className={selected==='amr'?'active':''} onClick={()=>setSelected('amr')}>Cálculo inicial de AMR's</button>
       <button className={selected==='fiberVolumetry'?'active':''} onClick={()=>setSelected('fiberVolumetry')}>Volumetría de Fibra Óptica</button>
+      <button className={selected==='electricalSurvey'?'active':''} onClick={()=>setSelected('electricalSurvey')}>Levantamiento Eléctrico</button>
     </aside>
 
     <div className="wfMain">
