@@ -598,3 +598,34 @@
 .sortingFlowCard>textarea:focus{outline:none;border-color:#2e6f9d;background:#fffef0}
 @media(max-width:900px){.sortingFlowGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.sortingFlowGrid{grid-template-columns:1fr}.sortingFlowCard>p{min-height:auto}}
+
+
+/* Keep Sorting controls visible and scroll only through the form sections. */
+.adminLogged:has(.sortingExperience){height:100vh;height:100dvh;min-height:0;box-sizing:border-box;padding:16px 3% 14px;overflow:hidden}
+.adminPortalShell:has(.sortingExperience){height:100%;min-height:0;display:grid;grid-template-rows:auto auto minmax(0,1fr)}
+.adminPortalShell:has(.sortingExperience)>.adminPortalHeader{margin-bottom:12px}
+.adminPortalShell:has(.sortingExperience)>.adminTabs{margin-bottom:12px}
+.wfApp:has(.sortingExperience){height:100%;min-height:0;grid-template-columns:205px minmax(0,1fr)}
+.wfApp:has(.sortingExperience)>.wfSide{min-height:0;overflow-y:auto}
+.wfMain:has(.sortingExperience){display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.wfMain:has(.sortingExperience)>.wfTop,.wfMain:has(.sortingExperience)>.clientBar,.wfMain:has(.sortingExperience)>.wfTitleBand,.wfMain:has(.sortingExperience)>.clientRequiredNotice,.wfMain:has(.sortingExperience)>.wfBottom{flex:0 0 auto}
+.wfMain:has(.sortingExperience)>.sortingExperience{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding-bottom:0}
+.sortingExperience>.sortingAppHeader,.sortingExperience>.sortingHero{flex:0 0 auto}
+.sortingExperience>.sortingLayout{flex:1 1 auto;min-height:0;overflow:hidden;align-items:stretch}
+.sortingExperience .sortingProgress{align-self:start;max-height:100%;overflow-y:auto}
+.sortingExperience .sortingSections{height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;scroll-behavior:smooth;padding-right:5px;box-sizing:border-box}
+@media(max-width:760px){
+  .adminLogged:has(.sortingExperience){padding:10px}
+  .adminPortalShell:has(.sortingExperience)>.adminPortalHeader{margin-bottom:8px;gap:12px}
+  .adminPortalShell:has(.sortingExperience)>.adminPortalHeader h1{font-size:34px}
+  .adminPortalShell:has(.sortingExperience)>.adminTabs{margin-bottom:8px}
+  .wfApp:has(.sortingExperience){display:grid;grid-template-columns:132px minmax(0,1fr)}
+  .wfApp:has(.sortingExperience)>.wfSide{padding:10px 7px}
+  .wfApp:has(.sortingExperience) .wfSide button{font-size:9px;padding:8px 4px}
+  .wfApp:has(.sortingExperience) .wfSide strong{font-size:9px}
+  .sortingExperience>.sortingHero{margin:8px 0}
+}
+@media(max-width:680px){
+  .sortingExperience>.sortingLayout{grid-template-columns:1fr;grid-template-rows:minmax(88px,auto) minmax(0,1fr)}
+  .sortingExperience .sortingProgress{max-height:140px;overflow-y:auto}
+}
