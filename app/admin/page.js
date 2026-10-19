@@ -8,7 +8,8 @@ const FORMS = [
   { id:'sortingInitial', title:'Levantamiento Inicial para: Sorting', subtitle:'Primera visita y diagnóstico del sistema de clasificación.' },
   { id:'warehouseDetailed', title:'Cuestionario detallado para: Almacén', subtitle:'Levantamiento técnico y operativo.' },
   { id:'sortingDetailed', title:'Cuestionario detallado para: Sorting', subtitle:'Assessment técnico del centro de clasificación.' },
-  { id:'amr', title:"Cálculo inicial de AMR's", subtitle:'Captura inicial de datos para pre-scope.' }
+  { id:'amr', title:"Cálculo inicial de AMR's", subtitle:'Captura inicial de datos para pre-scope.' },
+  { id:'fiberVolumetry', title:'Volumetría de Fibra Óptica', subtitle:'Levantamiento y estimación de infraestructura óptica para almacenes y edificios.' }
 ];
 
 const CONTACT_STATUS = { new:'Nuevo', read:'Leído', contacted:'Contactado', closed:'Cerrado' };
@@ -806,11 +807,139 @@ function AMRCalculator({data,setData}){
  </div>
 }
 
+
+const FIBER_SECTIONS=[
+ {title:'Información general',subtitle:'Datos del proyecto, edificio y responsables del levantamiento.',fields:[
+  {key:'client',label:'Cliente',type:'text',required:true},{key:'site',label:'Almacén / edificio / sitio',type:'text',required:true},
+  {key:'address',label:'Dirección del proyecto',type:'textarea'},{key:'building_type',label:'Tipo de inmueble',type:'select',options:['Almacén','Centro de distribución','Edificio corporativo','Planta industrial','Campus / varios edificios','Otro']},
+  {key:'project_stage',label:'Etapa del proyecto',type:'select',options:['Nuevo desarrollo','Ampliación','Modernización','Corrección / reemplazo','Levantamiento preliminar']},
+  {key:'date',label:'Fecha del levantamiento',type:'date'},{key:'client_contact',label:'Responsable del cliente',type:'text'},{key:'consultant',label:'Responsable del levantamiento',type:'text'},
+  {key:'objective',label:'Objetivo del proyecto',type:'textarea'}
+ ]},
+ {title:'Criterios de diseño y demanda',subtitle:'Aplicaciones, capacidad requerida, topología y crecimiento esperado.',fields:[
+  {key:'network_use',label:'Aplicaciones a soportar',type:'checks',options:['Red de datos / LAN','Wi-Fi / access points','CCTV / video','Control de acceso','Telefonía / VoIP','BMS / IoT','Automatización industrial','Red de respaldo','Otra']},
+  {key:'technology',label:'Tipo de fibra requerida o preferida',type:'select',options:['Monomodo OS2','Multimodo OM3','Multimodo OM4','Multimodo OM5','Por definir']},
+  {key:'topology',label:'Topología requerida',type:'select',options:['Estrella','Anillo','Doble estrella / redundante','Malla','Por definir']},
+  {key:'link_speed',label:'Velocidad objetivo por enlace',type:'select',options:['1 Gb/s','10 Gb/s','25 Gb/s','40 Gb/s','100 Gb/s','400 Gb/s','Otra / por definir']},
+  {key:'link_speed_other',label:'Otra velocidad objetivo',type:'text'},
+  {key:'total_links',label:'Número aproximado de enlaces / troncales',type:'number'},
+  {key:'fibers_per_link',label:'Fibras requeridas por enlace',type:'number',help:'Capture fibras activas por enlace. La reserva de fibras se captura por separado.'},
+  {key:'fiber_reserve_pct',label:'Reserva de crecimiento de fibras (%)',type:'number'},
+  {key:'future_growth_pct',label:'Crecimiento previsto de puertos (%)',type:'number'},
+  {key:'redundancy',label:'¿Se requieren rutas físicas redundantes?',type:'select',options:['Sí','No','Por confirmar']},
+  {key:'redundancy_notes',label:'Criterio de redundancia / disponibilidad',type:'textarea'}
+ ]},
+ {title:'Rutas y volumetría de cable',subtitle:'Capture un renglón por cada tramo entre origen y destino; el sistema estima longitud instalada y metros-fibra.',fields:[
+  {key:'route_basis',label:'Base de medición',type:'select',options:['Recorrido medido en sitio','Planos / CAD','Estimación preliminar','Combinada']},
+  {key:'global_slack',label:'Reserva general adicional (%)',type:'number',help:'Factor adicional para variaciones de ruta, maniobras y reserva de instalación.'},
+  {key:'route_notes',label:'Criterios de ruta y supuestos',type:'textarea'}
+ ],table:'volumetry'},
+ {title:'Canalizaciones y condiciones físicas',subtitle:'Medios de soporte, cruces, penetraciones y restricciones de instalación.',fields:[
+  {key:'pathway_types',label:'Canalizaciones existentes / previstas',type:'checks',options:['Charola tipo escalera','Charola malla','Ducto / conduit','Tubería subterránea','Bandeja cerrada','Canaleta','Riser vertical','Nueva canalización requerida','Otra']},
+  {key:'pathway_capacity',label:'Capacidad y ocupación disponible',type:'textarea'},
+  {key:'pathway_separation',label:'Separación de potencia y fuentes de interferencia',type:'textarea'},
+  {key:'vertical_routes',label:'Rutas verticales, montantes y cambios de nivel',type:'textarea'},
+  {key:'penetrations',label:'Muros, losas, pasos y sellos cortafuego requeridos',type:'textarea'},
+  {key:'outdoor_conditions',label:'Tramos exteriores / entre edificios y condiciones ambientales',type:'textarea'},
+  {key:'physical_obstacles',label:'Obstáculos, áreas restringidas o cruces críticos',type:'textarea'},
+  {key:'site_access',label:'Acceso a plafones, racks, techos y áreas técnicas',type:'textarea'}
+ ]},
+ {title:'Cuartos de telecomunicaciones y terminaciones',subtitle:'Ubicación y capacidad de MDF/IDF, racks, ODF, empalmes y conexiones.',fields:[
+  {key:'main_room',label:'Ubicación del MDF / cuarto principal',type:'textarea'},
+  {key:'closet_count',label:'Número de cuartos IDF / telecomunicaciones',type:'number'},
+  {key:'closets',label:'Identificación, ubicación y nivel de cada MDF/IDF',type:'textarea'},
+  {key:'rack_space',label:'Racks disponibles y espacio en unidades (U)',type:'textarea'},
+  {key:'odf_type',label:'Tipo de ODF / panel de fibra preferido',type:'select',options:['Rack 19 pulgadas','Mural','ODF modular','Por definir']},
+  {key:'odf_ports',label:'Puertos de terminación requeridos por cuarto',type:'textarea'},
+  {key:'splice_count',label:'Empalmes previstos y ubicación de cajas',type:'textarea'},
+  {key:'connector_type',label:'Conector óptico',type:'select',options:['LC/UPC','LC/APC','SC/UPC','SC/APC','Otro / por definir']},
+  {key:'patch_cords',label:'Jumper / patch cord requerido por enlace y longitud',type:'textarea'},
+  {key:'equipment',label:'Transceptores y equipos activos conocidos',type:'textarea'},
+  {key:'power_grounding',label:'Energía, tierra y condiciones del cuarto',type:'textarea'}
+ ]},
+ {title:'Método y restricciones de instalación',subtitle:'Secuencia de obra, seguridad, permisos y condiciones de operación.',fields:[
+  {key:'installation_mode',label:'Tipo de instalación',type:'select',options:['Nueva instalación','Reutilizar canalización','Reemplazo de cable','Ampliación de red','Mixta']},
+  {key:'live_environment',label:'¿El sitio permanecerá operando durante los trabajos?',type:'select',options:['Sí','No','Parcialmente','Por confirmar']},
+  {key:'work_window',label:'Ventanas de trabajo permitidas',type:'textarea'},
+  {key:'safety_requirements',label:'Permisos, EPP y requisitos de seguridad',type:'textarea'},
+  {key:'height_work',label:'Trabajos en altura, plataformas o elevadores',type:'textarea'},
+  {key:'shutdowns',label:'Interrupciones / ventanas de migración autorizadas',type:'textarea'},
+  {key:'cable_labeling',label:'Estándar de etiquetado y nomenclatura',type:'textarea'},
+  {key:'fire_stopping',label:'Responsable de sellos y restauración de acabados',type:'textarea'}
+ ]},
+ {title:'Pruebas, certificación y entregables',subtitle:'Criterios de aceptación, mediciones y documentación de cierre.',fields:[
+  {key:'test_methods',label:'Pruebas requeridas',type:'checks',options:['Inspección de conectores','Continuidad / polaridad','OLTS / pérdida de inserción','OTDR unidireccional','OTDR bidireccional','Medición de potencia','Otra']},
+  {key:'acceptance_criteria',label:'Límites de pérdida / criterios de aceptación',type:'textarea'},
+  {key:'test_wavelengths',label:'Longitudes de onda de prueba',type:'text'},
+  {key:'certification',label:'Norma o estándar solicitado por el cliente',type:'text'},
+  {key:'deliverables',label:'Entregables requeridos',type:'checks',options:['Planos as-built','Memoria de cálculo','Reporte OTDR','Reporte OLTS','Etiquetado de puertos','Inventario de enlaces','Fotografías','Certificado de materiales','Otro']},
+  {key:'existing_docs',label:'Planos, diagramas o archivos disponibles (referencia / enlace)',type:'textarea'},
+  {key:'acceptance_owner',label:'Responsable de revisión y aceptación',type:'text'}
+ ]},
+ {title:'Cierre y observaciones',subtitle:'Pendientes, riesgos y validación del alcance antes de cotizar.',fields:[
+  {key:'risks',label:'Riesgos, interferencias o dependencias',type:'textarea'},
+  {key:'pending_info',label:'Información pendiente por confirmar',type:'textarea'},
+  {key:'scope_exclusions',label:'Exclusiones y límites del alcance',type:'textarea'},
+  {key:'final_observations',label:'Observaciones finales del consultor',type:'textarea'}
+ ]}
+];
+
+function fiberNum(value){return Number(String(value??'').replace(',','.'))||0}
+function fiberRouteMetrics(row,globalReserve){
+ const base=fiberNum(row.route_m)+fiberNum(row.vertical_m)+fiberNum(row.service_loop_m);
+ const reserve=(row.reserve_pct!==undefined&&row.reserve_pct!==''?fiberNum(row.reserve_pct):fiberNum(globalReserve))/100;
+ const cables=fiberNum(row.cable_count)||0;
+ const length=Math.ceil(base*(1+reserve)*cables);
+ return {length,coreMeters:length*fiberNum(row.fiber_count),cores:fiberNum(row.fiber_count)*cables,cables};
+}
+function FiberVolumetryTable({data,setData}){
+ const rows=Array.isArray(data.fiber_routes)?data.fiber_routes:Array.from({length:5},()=>({}));
+ const saveRows=next=>setData(prev=>({...prev,fiber_routes:next}));
+ const patch=(index,key,value)=>saveRows(rows.map((r,i)=>i===index?{...r,[key]:value}:r));
+ const totals=rows.reduce((sum,row)=>{const m=fiberRouteMetrics(row,data.fiber_global_slack);return {length:sum.length+m.length,coreMeters:sum.coreMeters+m.coreMeters,cores:sum.cores+m.cores,cables:sum.cables+m.cables}}, {length:0,coreMeters:0,cores:0,cables:0});
+ const addRows=count=>saveRows([...rows,...Array.from({length:count},()=>({}))]);
+ const clear=()=>{if(window.confirm('¿Limpiar todos los tramos de volumetría?'))saveRows(Array.from({length:5},()=>({})))};
+ const fields=[['Origen','origin','text'],['Destino','destination','text'],['Edificio / nivel','floor','text'],['Tipo de fibra','fiber_type','select'],['Fibras por cable','fiber_count','number'],['Ruta medida (m)','route_m','number'],['Desnivel / vertical (m)','vertical_m','number'],['Loops y reserva de servicio (m)','service_loop_m','number'],['Reserva del tramo (%)','reserve_pct','number'],['Cables paralelos','cable_count','number']];
+ return <div className="fiberVolume">
+  <div className="fiberMetricRow"><div><span>Longitud estimada de cable</span><strong>{totals.length.toLocaleString('es-MX')} m</strong></div><div><span>Metros-fibra estimados</span><strong>{totals.coreMeters.toLocaleString('es-MX')} m-fibra</strong></div><div><span>Fibras instaladas</span><strong>{totals.cores.toLocaleString('es-MX')}</strong></div><div><span>Cables / tramos</span><strong>{totals.cables.toLocaleString('es-MX')}</strong></div></div>
+  <p className="fiberFormula">Longitud por tramo = (ruta medida + desnivel + loops) × (1 + reserva %) × cables paralelos. Los resultados son una base de cuantificación; valida la ruta y los criterios de holgura en sitio.</p>
+  <div className="fiberTableActions"><button type="button" onClick={()=>addRows(5)}>+ Agregar 5 tramos</button><button type="button" onClick={()=>addRows(20)}>+ Agregar 20 tramos</button><button type="button" onClick={clear}>Limpiar tabla</button></div>
+  <div className="domainTableWrap"><table className="domainTable fiberTable"><thead><tr><th>#</th>{fields.map(f=><th key={f[1]}>{f[0]}</th>)}<th>Longitud estimada (m)</th><th>Metros-fibra</th><th></th></tr></thead><tbody>{rows.map((row,index)=>{const m=fiberRouteMetrics(row,data.fiber_global_slack);return <tr key={index}><td>{index+1}</td>{fields.map(f=><td key={f[1]}>{f[2]==='select'?<select aria-label={f[0]+' tramo '+(index+1)} value={row[f[1]]||''} onChange={e=>patch(index,f[1],e.target.value)}><option value="">Seleccione</option>{['OS2','OM3','OM4','OM5','Por definir'].map(x=><option key={x}>{x}</option>)}</select>:<input aria-label={f[0]+' tramo '+(index+1)} type={f[2]} value={row[f[1]]??''} onChange={e=>patch(index,f[1],e.target.value)}/>}</td>)}<td className="fiberComputed">{m.length?m.length.toLocaleString('es-MX'):'—'}</td><td className="fiberComputed">{m.coreMeters?m.coreMeters.toLocaleString('es-MX'):'—'}</td><td><button type="button" className="fiberRemove" aria-label={'Eliminar tramo '+(index+1)} onClick={()=>saveRows(rows.filter((_,i)=>i!==index))}>×</button></td></tr>})}</tbody><tfoot><tr><th colSpan="11">Total estimado</th><th>{totals.length.toLocaleString('es-MX')} m</th><th>{totals.coreMeters.toLocaleString('es-MX')} m-fibra</th><th></th></tr></tfoot></table></div>
+ </div>
+}
+
+function FiberField({field,data,set}){
+ const key='fiber_'+field.key,value=data[key]??'';
+ return <label className={'wfField'+(['textarea','checks'].includes(field.type)?' wide':'')}>
+  <span>{field.label}{field.required?' *':''}</span>
+  {field.type==='select'?<select value={value} required={field.required} onChange={e=>set(key,e.target.value)}><option value="">Seleccione</option>{(field.options||[]).map(option=><option key={option}>{option}</option>)}</select>:field.type==='checks'?<div className="domainCheckGroup">{field.options.map(option=><label key={option}><input type="checkbox" checked={Array.isArray(value)&&value.includes(option)} onChange={e=>set(key,e.target.checked?[...(Array.isArray(value)?value:[]),option]:(Array.isArray(value)?value:[]).filter(v=>v!==option))}/>{option}</label>)}</div>:field.type==='textarea'?<textarea rows={3} value={value} onChange={e=>set(key,e.target.value)}/>:<input type={field.type||'text'} required={field.required} value={value} onChange={e=>set(key,e.target.value)}/>}
+  {field.help&&<small className="domainHelp">{field.help}</small>}
+ </label>
+}
+function FiberOpticForm({data,setData}){
+ const [active,setActive]=useState(0);
+ const set=(key,value)=>setData(prev=>({...prev,[key]:value}));
+ const allFields=FIBER_SECTIONS.flatMap(s=>s.fields);
+ const filled=allFields.filter(f=>{const v=data['fiber_'+f.key];return Array.isArray(v)?v.length>0:Boolean(v)}).length;
+ const hasRoutes=Array.isArray(data.fiber_routes)&&data.fiber_routes.some(r=>r&&Object.values(r).some(Boolean));
+ const progress=Math.round((filled+(hasRoutes?1:0))/Math.max(1,allFields.length+1)*100);
+ const go=i=>{setActive(i);document.getElementById('fiber-section-'+i)?.scrollIntoView({behavior:'smooth',block:'start'})};
+ const exportJson=()=>downloadSortingFile('volumetria-fibra-optica.json',JSON.stringify({form:'Volumetría de Fibra Óptica',data},null,2),'application/json');
+ return <div className="sortingExperience domainExperience fiberExperience">
+  <div className="sortingAppHeader"><div className="sortingAppMark">FO</div><div><strong>Fiber Optic Site Survey</strong><span>Levantamiento técnico · Almacenes y edificios</span></div><div className="sortingAppActions"><button type="button" onClick={exportJson}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos de este levantamiento?')&&setData({})}>Limpiar</button></div></div>
+  <div className="sortingHero"><div><h2>Levantamiento y Volumetría de Fibra Óptica</h2><p>Capture la demanda, las rutas, las canalizaciones y las terminaciones para definir una base de diseño y cuantificar cableado óptico en almacenes y edificios.</p></div><div className="sortingHeroMeta"><span>Documento<strong>Fiber Optic Site Survey</strong></span><span>Aplicación<strong>Almacén / Edificio</strong></span><span>Estado<strong>{progress===100?'Completo':'En captura'}</strong></span></div></div>
+  <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del levantamiento"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:progress+'%'}}/></div>{FIBER_SECTIONS.map((section,index)=><button type="button" key={section.title} className={active===index?'active':''} onClick={()=>go(index)}><b>{index+1}</b>{section.title}</button>)}</nav>
+   <div className="sortingSections">{FIBER_SECTIONS.map((section,index)=><section className="wfCard sortingSection" id={'fiber-section-'+index} key={section.title}><header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div><span className="sortingSectionCompletion">{Math.round(section.fields.filter(f=>{const v=data['fiber_'+f.key];return Array.isArray(v)?v.length>0:Boolean(v)}).length/Math.max(1,section.fields.length)*100)}%</span></header><div className="wfBody">{section.table==='volumetry'&&<FiberVolumetryTable data={data} setData={setData}/>}<div className="wfGrid">{section.fields.map(field=><FiberField key={field.key} field={field} data={data} set={set}/>)}</div></div></section>)}</div>
+  </div>
+ </div>
+}
+
 function FormRenderer({formId,data,setData,saveForm}){
   if(formId==='eligibility') return <EligibilityWixForm data={data} set={(key,value)=>setData(prev=>typeof key==='object'?key:{...prev,[key]:value})}/>;
   if(formId==='warehouseInitial') return <WarehouseInitialForm data={data} set={(key,value)=>setData(prev=>({...prev,[key]:value}))}/>;
   if(formId==='warehouseDetailed') return <WarehouseDetailedForm data={data} setData={setData}/>;
   if(formId==='amr') return <AMRCalculator data={data} setData={setData}/>;
+  if(formId==='fiberVolumetry') return <FiberOpticForm data={data} setData={setData}/>;
   if(formId==='sortingInitial'||formId==='sortingDetailed') return <SortingFormSections formId={formId} data={data} setData={setData} onSave={saveForm}/>;
   const fields=fieldSets[formId]||fieldSets.sortingDetailed;
   const groups=[];
@@ -953,6 +1082,7 @@ function FormWorkspace(){
       </div>
       <strong className="sideCalcTitle">Calculadoras x Solución</strong>
       <button className={selected==='amr'?'active':''} onClick={()=>setSelected('amr')}>Cálculo inicial de AMR's</button>
+      <button className={selected==='fiberVolumetry'?'active':''} onClick={()=>setSelected('fiberVolumetry')}>Volumetría de Fibra Óptica</button>
     </aside>
 
     <div className="wfMain">
