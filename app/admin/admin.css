@@ -585,3 +585,16 @@
 .sortingSections .sortingSection>header p{display:block!important;margin:3px 0 0!important;color:#66809b!important;font-size:11px!important;line-height:1.4!important}
 .sortingSections .sortingSection>header .sortingSectionCompletion{display:block!important;visibility:visible!important;opacity:1!important;flex:0 0 auto!important;margin-left:auto!important;padding:6px 9px!important;border-radius:18px!important;background:#fff0f0!important;color:#cf4e4e!important;font-size:10px!important;font-weight:800!important}
 @media(max-width:680px){.sortingSections .sortingSection>header{min-height:70px!important;padding:11px 12px!important;gap:10px!important}.sortingSections .sortingSection>header>b{flex-basis:42px!important;width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;font-size:19px!important}.sortingSections .sortingSection>header h3{font-size:15px!important}.sortingSections .sortingSection>header p{font-size:10px!important}}
+
+/* Wix-style, three-card flow description for Sorting section 5.1. */
+.sortingFlowBlock{margin:0 0 20px}
+.sortingFlowBlock>h4{margin:0 0 10px;color:#123f69;font-size:14px;font-weight:800}
+.sortingFlowGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.sortingFlowCard{min-width:0;padding:12px;border:1px solid #c8d7e6;border-radius:9px;background:#fff}
+.sortingFlowCard>label{display:block;margin:0 0 8px;color:#163e63;font-size:13px;font-weight:800}
+.sortingFlowCard>p{min-height:48px;margin:0 0 10px;padding:10px 11px;border-left:3px solid #1765a7;border-radius:7px;background:#eaf4fc;color:#36536f;font-size:11px;line-height:1.4}
+.sortingFlowCard>textarea{display:block;width:100%;min-height:82px;box-sizing:border-box;resize:vertical;border:1px solid #dfe2c6;border-radius:7px;background:#fffbe0;padding:10px;color:#415266;font:inherit;font-size:12px;line-height:1.35}
+.sortingFlowCard>textarea::placeholder{color:#8c806b;opacity:1}
+.sortingFlowCard>textarea:focus{outline:none;border-color:#2e6f9d;background:#fffef0}
+@media(max-width:900px){.sortingFlowGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.sortingFlowGrid{grid-template-columns:1fr}.sortingFlowCard>p{min-height:auto}}
