@@ -743,3 +743,30 @@
  .domainExperience .amrInputTable tbody th{border:0;padding:5px;background:transparent}
  .domainExperience .amrInputTable tbody td{border:0;padding:5px}
 }
+
+
+/* Fiber optic volumetry workspace */
+.fiberExperience .sortingHero{align-items:center}
+.fiberExperience .sortingSections{min-width:0}
+.fiberExperience .fiberVolume{margin-bottom:18px}
+.fiberExperience .fiberMetricRow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.fiberExperience .fiberMetricRow>div{display:flex;flex-direction:column;gap:7px;padding:14px;border:1px solid #cddbe9;border-radius:10px;background:#f8fbfd}
+.fiberExperience .fiberMetricRow span{font-size:12px;color:#58728b}
+.fiberExperience .fiberMetricRow strong{font-size:19px;color:#103c60}
+.fiberExperience .fiberFormula{margin:10px 0 14px;padding:11px 14px;border-left:3px solid #1768ad;border-radius:6px;background:#eaf3fa;color:#3e5e7b;font-size:13px;line-height:1.5}
+.fiberExperience .fiberTableActions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.fiberExperience .fiberTableActions button{padding:8px 12px;border:1px solid #c5d5e5;border-radius:7px;background:#fff;color:#12466e;font-weight:600;cursor:pointer}
+.fiberExperience .fiberTable{min-width:1850px}
+.fiberExperience .fiberTable td:first-child{text-align:center;background:#f2f6fa;color:#526e87}
+.fiberExperience .fiberTable td input,.fiberExperience .fiberTable td select{min-width:110px}
+.fiberExperience .fiberTable td .fiberComputed{background:#eef4f8}
+.fiberExperience .fiberComputed{background:#edf4f9;color:#153e61;font-weight:700;white-space:nowrap}
+.fiberExperience .fiberTable tfoot th{background:#eaf2f8;color:#173e60;font-weight:800}
+.fiberExperience .fiberRemove{width:28px;height:28px;border:0;border-radius:6px;background:#fae9e8;color:#b42a26;font-size:20px;line-height:1;cursor:pointer}
+@media(max-width:1000px){
+ .fiberExperience .fiberMetricRow{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ .fiberExperience .fiberMetricRow{grid-template-columns:1fr 1fr}
+ .fiberExperience .fiberMetricRow strong{font-size:15px}
+}
