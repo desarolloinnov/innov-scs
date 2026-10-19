@@ -575,3 +575,13 @@
   line-height:1.35!important;
 }
 
+
+/* Keep Sorting section numbers visible and prominent while each section is in view. */
+.sortingSections .sortingSection{overflow:visible!important;scroll-margin-top:88px!important}
+.sortingSections .sortingSection>header{position:sticky!important;top:0!important;z-index:12!important;display:flex!important;visibility:visible!important;opacity:1!important;min-height:88px!important;align-items:center!important;gap:14px!important;padding:16px 20px!important;background:#fff!important;border-bottom:1px solid #d9e3ed!important;box-shadow:0 5px 16px #103d6624!important}
+.sortingSections .sortingSection>header>b{display:grid!important;visibility:visible!important;opacity:1!important;flex:0 0 50px!important;width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important;place-items:center!important;border:2px solid #d6e9f8!important;border-radius:12px!important;background:#103d66!important;color:#fff!important;font-size:23px!important;line-height:1!important;font-weight:900!important}
+.sortingSections .sortingSection>header>div{display:block!important;visibility:visible!important;opacity:1!important;min-width:0!important;flex:1!important}
+.sortingSections .sortingSection>header h3{display:block!important;margin:0!important;color:#153e64!important;font-size:18px!important;line-height:1.25!important}
+.sortingSections .sortingSection>header p{display:block!important;margin:3px 0 0!important;color:#66809b!important;font-size:11px!important;line-height:1.4!important}
+.sortingSections .sortingSection>header .sortingSectionCompletion{display:block!important;visibility:visible!important;opacity:1!important;flex:0 0 auto!important;margin-left:auto!important;padding:6px 9px!important;border-radius:18px!important;background:#fff0f0!important;color:#cf4e4e!important;font-size:10px!important;font-weight:800!important}
+@media(max-width:680px){.sortingSections .sortingSection>header{min-height:70px!important;padding:11px 12px!important;gap:10px!important}.sortingSections .sortingSection>header>b{flex-basis:42px!important;width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;font-size:19px!important}.sortingSections .sortingSection>header h3{font-size:15px!important}.sortingSections .sortingSection>header p{font-size:10px!important}}
