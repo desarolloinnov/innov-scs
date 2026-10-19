@@ -556,6 +556,26 @@ function SortingBlock({block,data,set}){
   return <div className="sortingGroup">{block.title&&<h4>{block.title}</h4>}{block.description&&<p className="sortingHint">{block.description}</p>}<div className="wfGrid">{block.items.map(field=><SortingField key={field.label} field={field} data={data} set={set}/>)}</div></div>;
 }
 
+function sortingSectionProgress(section,data){
+  const values=[];
+  for(const block of section.blocks){
+    if(block.kind==='checks'){
+      block.items.forEach(([key])=>values.push(Boolean(data['check_'+key])));
+    }else if(block.kind==='checklist'){
+      block.items.forEach((_,index)=>values.push(Boolean(data[`${block.key}_${index}_answer`])));
+    }else if(block.kind==='table'){
+      const rows=data['sorting_'+block.key]||[];
+      const editableColumns=block.columns.filter(column=>!column.readOnly).length;
+      const activeRows=rows.filter(row=>Array.isArray(row)&&row.some(Boolean));
+      const filled=activeRows.reduce((sum,row)=>sum+row.filter(Boolean).length,0);
+      values.push(editableColumns&&activeRows.length?Math.min(1,filled/(activeRows.length*editableColumns)):0);
+    }else if(block.kind!=='note'){
+      block.items.filter(field=>field.type!=='output').forEach(field=>values.push(Boolean(data[field.key||getKey(field.label)])));
+    }
+  }
+  return values.length?Math.round(values.reduce((sum,value)=>sum+(typeof value==='number'?value:Number(value)),0)/values.length*100):0;
+}
+
 function SortingTable({block,data,set}){
   const key='sorting_'+block.key;
   const rows=data[key]||block.initialRows||Array.from({length:block.rows||1},()=>block.columns.map(()=>''));
@@ -583,7 +603,7 @@ function SortingFormSections({formId,data,setData,onSave}){
   return <div className="sortingExperience">
     <div className="sortingAppHeader"><div className="sortingAppMark">{form.eyebrow}</div><div><strong>{form.appTitle}</strong><span>{form.appSubtitle}</span></div><div className="sortingAppActions">{formId==='sortingDetailed'&&<><button type="button" onClick={exportJson}>Exportar JSON</button><button type="button" onClick={exportCsv}>Exportar tablas CSV</button></>}<button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos capturados de este formulario?')&&setData({})}>Limpiar</button></div></div>
     <div className="sortingHero"><div><h2>{form.title}</h2><p>{form.description}</p></div><div className="sortingHeroMeta"><span>Documento<strong>{formId==='sortingInitial'?'Primera visita':'Engineering Input'}</strong></span><span>Instalación<strong>Centro de clasificación</strong></span><span>Estado<strong>En captura</strong></span></div></div>
-    <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del formulario"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:`${progress}%`}}/></div>{form.sections.map((section,index)=><button key={section.title} className={activeSection===index?'active':''} onClick={()=>goToSection(index)}><b>{index+1}</b>{section.title}</button>)}</nav><div className="sortingSections">{form.sections.map((section,index)=><section className="wfCard sortingSection" id={`sorting-section-${index}`} key={section.title}><header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div></header><div className="wfBody">{section.blocks.map((block,i)=><SortingBlock key={`${section.title}-${i}`} block={block} data={data} set={set}/>)}</div></section>)}<div className="sortingLocalSave"><span>Los datos se guardan por cliente en este formulario.</span><button type="button" onClick={onSave}>Guardar avance</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button></div></div></div>
+    <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del formulario"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:`${progress}%`}}/></div>{form.sections.map((section,index)=><button key={section.title} className={activeSection===index?'active':''} onClick={()=>goToSection(index)}><b>{index+1}</b>{section.title}</button>)}</nav><div className="sortingSections">{form.sections.map((section,index)=><section className="wfCard sortingSection" id={`sorting-section-${index}`} key={section.title}><header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div><span className="sortingSectionCompletion">{sortingSectionProgress(section,data)}%</span></header><div className="wfBody">{section.blocks.map((block,i)=><SortingBlock key={`${section.title}-${i}`} block={block} data={data} set={set}/>)}</div></section>)}<div className="sortingLocalSave"><span>Los datos se guardan por cliente en este formulario.</span><button type="button" onClick={onSave}>Guardar avance</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button></div></div></div>
   </div>;
 }
 
