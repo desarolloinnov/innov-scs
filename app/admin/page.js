@@ -491,23 +491,24 @@ function SortingFormSections({formId,data,setData}){
   const fieldByLabel=new Map(knownFields.map(def=>[def[0],def]));
   const [activeSection,setActiveSection]=useState(0);
   const setField=(label,value)=>setData(prev=>({...prev,[getKey(label)]:value}));
-  const goToSection=(index)=>{
-    setActiveSection(index);
-    document.getElementById('sorting-section-'+index)?.scrollIntoView({behavior:'smooth',block:'start'});
-  };
+    const goToSection=(index)=>setActiveSection(index);
+    const section=sections[activeSection];
+    const defs=section.fields.map(label=>fieldByLabel.get(label)||[label,label==='Observaciones finales'||label.toLowerCase().includes('recorrido')||label.toLowerCase().includes('reglas')||label.toLowerCase().includes('manejo')||label.toLowerCase().includes('contingencia')?'textarea':label.includes('%')||label.toLowerCase().includes('porcentaje')?'number':'text']);
   return <>
     <nav className="wfProgress sortingProgress" aria-label="Secciones del formulario">
       {sections.map((section,index)=><button key={section.title} className={activeSection===index?'active':''} onClick={()=>goToSection(index)}><b>{index+1}</b>{section.title}</button>)}
     </nav>
     <div className="wfContent sortingContent">
-      {sections.map((section,index)=>{
-        const defs=section.fields.map(label=>fieldByLabel.get(label)||[label,label==='Observaciones finales'||label.toLowerCase().includes('recorrido')||label.toLowerCase().includes('reglas')||label.toLowerCase().includes('manejo')||label.toLowerCase().includes('contingencia')?'textarea':label.includes('%')||label.toLowerCase().includes('porcentaje')?'number':'text']);
-        return <section className="wfCard sortingSection" id={'sorting-section-'+index} key={section.title}>
-          <header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div></header>
+        <section className="wfCard sortingSection" id={'sorting-section-'+activeSection} key={section.title}>
+          <header><b>{activeSection+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div></header>
           <div className="wfBody"><div className="wfGrid">{defs.map(def=><FormField key={def[0]} def={def} value={data[getKey(def[0])]} onChange={value=>setField(def[0],value)}/>)}</div></div>
-        </section>;
-      })}
+        </section>
     </div>
+      <div className="sortingStepActions">
+        <button type="button" disabled={activeSection===0} onClick={()=>goToSection(activeSection-1)}>← ANTERIOR</button>
+        <span>Sección {activeSection+1} de {sections.length}</span>
+        <button type="button" disabled={activeSection===sections.length-1} onClick={()=>goToSection(activeSection+1)}>SIGUIENTE →</button>
+      </div>
   </>;
 }
 
