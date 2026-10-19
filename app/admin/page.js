@@ -32,7 +32,10 @@ const fieldSets = {
     ['Peso típico','text'],['Dimensiones típicas','text'],['Variabilidad del producto','select:Baja|Media|Alta'],['Altura libre disponible','text'],
     ['Área aproximada','text'],['Restricciones físicas','textarea'],['Voltaje disponible','text'],['Capacidad eléctrica disponible','text'],
     ['Sistema principal','text'],['Método de integración','select:REST API|SOAP|Web Services|Base de datos|CSV / XML|FTP / SFTP|MQTT|OPC-UA|Otro'],
-    ['Read Rate actual','text'],['Porcentaje de No Read','text'],['Manejo de excepciones','textarea'],['Observaciones finales','textarea']
+    ['Read Rate actual','text'],['Porcentaje de No Read','text'],['Manejo de excepciones','textarea'],['Observaciones finales','textarea'],
+    ['Origen del flujo','text'],['Destinos de clasificación','textarea'],['Número de destinos','number'],['Recorrido actual','textarea'],
+    ['Puntos de acumulación','textarea'],['Equipos existentes','textarea'],['Objetivo principal','textarea'],
+    ['Prioridades de automatización','textarea'],['Información pendiente','textarea']
   ],
   warehouseDetailed:[
     ['Cliente','text'],['Centro de distribución / sitio','text'],['Fecha','date'],['Responsable del cliente','text'],
@@ -51,7 +54,13 @@ const fieldSets = {
     ['Voltaje disponible','text'],['Capacidad eléctrica disponible','text'],['Sistema contra incendio','text'],
     ['Sistema principal','text'],['Método de integración','select:REST API|SOAP|Web Services|Base de datos|CSV / XML|FTP / SFTP|MQTT|OPC-UA|Otro'],
     ['Read Rate actual','text'],['Porcentaje de No Read','text'],['Manejo de excepciones','textarea'],
-    ['Recorrido actual','textarea'],['Problemas observados','textarea'],['Expectativas del cliente','textarea'],['Observaciones finales','textarea']
+    ['Recorrido actual','textarea'],['Problemas observados','textarea'],['Expectativas del cliente','textarea'],['Observaciones finales','textarea'],
+    ['Dirección del centro de clasificación','textarea'],['Superficie total construida del inmueble','number'],['Superficie disponible para este proyecto','number'],
+    ['Responsable del sitio','text'],['Fecha de levantamiento','date'],['Días de operación por semana','number'],['Turnos por día','number'],
+    ['Peso máximo','number'],['Dimensiones máximas','text'],['Porcentaje de unidades fuera de estándar','number'],['Número de destinos','number'],
+    ['Destinos de clasificación','textarea'],['Porcentaje por destino','textarea'],['Volumen por destino','textarea'],['Distribución por turno','textarea'],['Picos por destino','textarea'],
+    ['Regla principal de clasificación','textarea'],['Reglas secundarias','textarea'],['Reintentos o recirculación','textarea'],['Salida para rechazo','textarea'],['Proceso de contingencia','textarea'],
+    ['Disponibilidad objetivo (%)','number'],['Throughput requerido','number'],['Tiempo máximo de recuperación','text'],['Ventana de operación','text'],['Penalizaciones o métricas de servicio','textarea']
   ],
   amr:[
     ['Cliente','text'],['Tipo de proceso','select:Picking AMR|Goods-to-person|Pallets / AGV|Totes / Bins|Mixto'],
@@ -457,9 +466,55 @@ function WarehouseInitialForm({data,set}){
   </div>;
 }
 
+const SORTING_FORM_SECTIONS={
+  sortingInitial:[
+    {title:'Información general',subtitle:'Datos del cliente y capacidad diaria del centro de clasificación.',fields:['Cliente','Centro de distribución / sitio','Fecha','Responsable del cliente','Volumen promedio diario','Volumen pico diario']},
+    {title:'Operación',subtitle:'Características del producto y horario operativo.',fields:['Horas efectivas','Unidad de manejo principal','Peso típico','Dimensiones típicas','Variabilidad del producto']},
+    {title:'Infraestructura',subtitle:'Espacio y condiciones físicas disponibles para el proyecto.',fields:['Altura libre disponible','Área aproximada','Restricciones físicas','Voltaje disponible','Capacidad eléctrica disponible']},
+    {title:'Sistemas',subtitle:'Sistemas actuales, integración y desempeño de lectura.',fields:['Sistema principal','Método de integración','Read Rate actual','Porcentaje de No Read','Manejo de excepciones']},
+    {title:'Recorrido',subtitle:'Describa el trayecto del producto y los destinos de clasificación.',fields:['Origen del flujo','Destinos de clasificación','Número de destinos','Recorrido actual','Puntos de acumulación','Equipos existentes']},
+    {title:'Cierre',subtitle:'Prioridades de la visita y acuerdos para continuar.',fields:['Objetivo principal','Prioridades de automatización','Información pendiente','Observaciones finales']}
+  ],
+  sortingDetailed:[
+    {title:'Información general',subtitle:'Condiciones físicas y servicios disponibles en el sitio donde se implementará la solución.',fields:['Cliente','Centro de distribución / sitio','Fecha','Responsable del cliente','Dirección del centro de clasificación','Superficie total construida del inmueble','Superficie disponible para este proyecto','Altura libre disponible','Restricciones físicas','Capacidad de carga del piso','Espesor de losa','Voltaje disponible','Capacidad eléctrica disponible','Sistema contra incendio']},
+    {title:'Datos de diseño',subtitle:'Volúmenes de operación y condiciones de diseño.',fields:['Volumen promedio diario','Volumen pico diario','Volumen mínimo diario','Horas efectivas por día','Días de operación por semana','Turnos por día','Sistema principal','Método de integración','Read Rate actual']},
+    {title:'Datos de dimensiones y peso',subtitle:'Características de las unidades que se procesarán.',fields:['Unidad de manejo principal','Peso típico','Dimensiones típicas','Variabilidad del producto','Peso máximo','Dimensiones máximas','Porcentaje de unidades fuera de estándar']},
+    {title:'Proporción del flujo por destino',subtitle:'Distribuya el volumen de clasificación entre los destinos de salida.',fields:['Número de destinos','Destinos de clasificación','Porcentaje por destino','Volumen por destino','Distribución por turno','Picos por destino','Recorrido actual']},
+    {title:'Reglas de salida',subtitle:'Criterios de clasificación, manejo de excepciones y recirculación.',fields:['Regla principal de clasificación','Reglas secundarias','Manejo de excepciones','Porcentaje de No Read','Reintentos o recirculación','Salida para rechazo','Proceso de contingencia','Problemas observados']},
+    {title:'SLA operativo opcional',subtitle:'Capture los niveles de servicio esperados, si están definidos.',fields:['Disponibilidad objetivo (%)','Throughput requerido','Tiempo máximo de recuperación','Ventana de operación','Penalizaciones o métricas de servicio','Expectativas del cliente','Observaciones finales']}
+  ]
+};
+
+function SortingFormSections({formId,data,setData}){
+  const sections=SORTING_FORM_SECTIONS[formId];
+  const knownFields=fieldSets[formId]||[];
+  const fieldByLabel=new Map(knownFields.map(def=>[def[0],def]));
+  const [activeSection,setActiveSection]=useState(0);
+  const setField=(label,value)=>setData(prev=>({...prev,[getKey(label)]:value}));
+  const goToSection=(index)=>{
+    setActiveSection(index);
+    document.getElementById('sorting-section-'+index)?.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+  return <>
+    <nav className="wfProgress sortingProgress" aria-label="Secciones del formulario">
+      {sections.map((section,index)=><button key={section.title} className={activeSection===index?'active':''} onClick={()=>goToSection(index)}><b>{index+1}</b>{section.title}</button>)}
+    </nav>
+    <div className="wfContent sortingContent">
+      {sections.map((section,index)=>{
+        const defs=section.fields.map(label=>fieldByLabel.get(label)||[label,label==='Observaciones finales'||label.toLowerCase().includes('recorrido')||label.toLowerCase().includes('reglas')||label.toLowerCase().includes('manejo')||label.toLowerCase().includes('contingencia')?'textarea':label.includes('%')||label.toLowerCase().includes('porcentaje')?'number':'text']);
+        return <section className="wfCard sortingSection" id={'sorting-section-'+index} key={section.title}>
+          <header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div></header>
+          <div className="wfBody"><div className="wfGrid">{defs.map(def=><FormField key={def[0]} def={def} value={data[getKey(def[0])]} onChange={value=>setField(def[0],value)}/>)}</div></div>
+        </section>;
+      })}
+    </div>
+  </>;
+}
+
 function FormRenderer({formId,data,setData}){
   if(formId==='eligibility') return <EligibilityWixForm data={data} set={(key,value)=>setData(prev=>typeof key==='object'?key:{...prev,[key]:value})}/>;
   if(formId==='warehouseInitial') return <WarehouseInitialForm data={data} set={(key,value)=>setData(prev=>({...prev,[key]:value}))}/>;
+  if(formId==='sortingInitial'||formId==='sortingDetailed') return <SortingFormSections formId={formId} data={data} setData={setData}/>;
   const fields=fieldSets[formId]||fieldSets.sortingDetailed;
   const groups=[];
   for(let i=0;i<fields.length;i+=6)groups.push(fields.slice(i,i+6));
@@ -631,7 +686,6 @@ function FormWorkspace(){
 
       {!clientId&&!isWarehouse&&<div className="clientRequiredNotice">Selecciona un cliente para cargar o guardar la información de este formulario.</div>}
 
-      {!isWarehouse&&<nav className="wfProgress">{['Información general','Operación','Infraestructura','Sistemas','Recorrido','Cierre'].map((item,index)=><button key={item}><b>{index+1}</b>{item}</button>)}</nav>}
       <FormRenderer formId={selected} data={data} setData={setData}/>
       {!isWarehouse&&<div className="wfBottom">
         <span>{saved||'Listo para capturar'}</span>
