@@ -466,56 +466,133 @@ function WarehouseInitialForm({data,set}){
   </div>;
 }
 
-const SORTING_FORM_SECTIONS={
-  sortingInitial:[
-    {title:'Información general',subtitle:'Datos del cliente y capacidad diaria del centro de clasificación.',fields:['Cliente','Centro de distribución / sitio','Fecha','Responsable del cliente','Volumen promedio diario','Volumen pico diario']},
-    {title:'Operación',subtitle:'Características del producto y horario operativo.',fields:['Horas efectivas','Unidad de manejo principal','Peso típico','Dimensiones típicas','Variabilidad del producto']},
-    {title:'Infraestructura',subtitle:'Espacio y condiciones físicas disponibles para el proyecto.',fields:['Altura libre disponible','Área aproximada','Restricciones físicas','Voltaje disponible','Capacidad eléctrica disponible']},
-    {title:'Sistemas',subtitle:'Sistemas actuales, integración y desempeño de lectura.',fields:['Sistema principal','Método de integración','Read Rate actual','Porcentaje de No Read','Manejo de excepciones']},
-    {title:'Recorrido',subtitle:'Describa el trayecto del producto y los destinos de clasificación.',fields:['Origen del flujo','Destinos de clasificación','Número de destinos','Recorrido actual','Puntos de acumulación','Equipos existentes']},
-    {title:'Cierre',subtitle:'Prioridades de la visita y acuerdos para continuar.',fields:['Objetivo principal','Prioridades de automatización','Información pendiente','Observaciones finales']}
-  ],
-  sortingDetailed:[
-    {title:'Información general',subtitle:'Condiciones físicas y servicios disponibles en el sitio donde se implementará la solución.',fields:['Cliente','Centro de distribución / sitio','Fecha','Responsable del cliente','Dirección del centro de clasificación','Superficie total construida del inmueble','Superficie disponible para este proyecto','Altura libre disponible','Restricciones físicas','Capacidad de carga del piso','Espesor de losa','Voltaje disponible','Capacidad eléctrica disponible','Sistema contra incendio']},
-    {title:'Datos de diseño',subtitle:'Volúmenes de operación y condiciones de diseño.',fields:['Volumen promedio diario','Volumen pico diario','Volumen mínimo diario','Horas efectivas por día','Días de operación por semana','Turnos por día','Sistema principal','Método de integración','Read Rate actual']},
-    {title:'Datos de dimensiones y peso',subtitle:'Características de las unidades que se procesarán.',fields:['Unidad de manejo principal','Peso típico','Dimensiones típicas','Variabilidad del producto','Peso máximo','Dimensiones máximas','Porcentaje de unidades fuera de estándar']},
-    {title:'Proporción del flujo por destino',subtitle:'Distribuya el volumen de clasificación entre los destinos de salida.',fields:['Número de destinos','Destinos de clasificación','Porcentaje por destino','Volumen por destino','Distribución por turno','Picos por destino','Recorrido actual']},
-    {title:'Reglas de salida',subtitle:'Criterios de clasificación, manejo de excepciones y recirculación.',fields:['Regla principal de clasificación','Reglas secundarias','Manejo de excepciones','Porcentaje de No Read','Reintentos o recirculación','Salida para rechazo','Proceso de contingencia','Problemas observados']},
-    {title:'SLA operativo opcional',subtitle:'Capture los niveles de servicio esperados, si están definidos.',fields:['Disponibilidad objetivo (%)','Throughput requerido','Tiempo máximo de recuperación','Ventana de operación','Penalizaciones o métricas de servicio','Expectativas del cliente','Observaciones finales']}
-  ]
+const sf=(label,type='text',opts={})=>({label,type,...opts});
+const sb=(title,items,description='')=>({kind:'group',title,items,description});
+const sc=(title,items)=>({kind:'checks',title,items});
+const st=(key,columns,rows=20,summary='')=>({kind:'table',key,columns,rows,summary});
+const SORTING_FORMS={
+  sortingInitial:{eyebrow:'SC',appTitle:'Sorting Center Assessment',appSubtitle:'Instrumento de levantamiento · Primera visita',title:'Levantamiento Inicial de Información para Sorting Center',description:'Instrumento profesional para recopilar la información mínima necesaria para evaluar la factibilidad técnica, operativa y económica de una solución de clasificación automatizada.',sections:[
+    {title:'Información general',subtitle:'Datos básicos de la visita.',blocks:[sb('',[sf('Cliente','text',{required:true}),sf('Centro de distribución / sitio','text',{required:true}),sf('Fecha','date',{required:true}),sf('Responsable del cliente'),sf('Puesto'),sf('Consultor responsable')])]},
+    {title:'Entendimiento de la operación',subtitle:'Volumen, características físicas y calidad del proceso.',blocks:[
+      sb('2.1 Volumen de operación',[sf('Volumen promedio diario','number',{required:true,unit:'Paquetes por día.'}),sf('Volumen pico diario','number',{required:true,unit:'Máximo procesado en un día.'}),sf('Volumen mínimo diario','number'),sf('Horas efectivas de operación por día','number',{unit:'Descontando descansos y paros programados.'}),sf('Turnos por día','number'),sf('Horas efectivas por turno','number'),sf('Crecimiento histórico'),sf('Crecimiento esperado para diseño','number',{unit:'Porcentaje adicional para dimensionar la solución.'}),sf('Proyección de volumen a 3 años')],'Capture el volumen realmente procesado, no sólo la capacidad nominal. Confirme si el pico corresponde a temporada alta, promociones o días específicos.'),
+      {kind:'table',key:'initial_package_distribution',title:'2.2 Características de los paquetes',description:'Solicite una distribución porcentual por peso y dimensiones. Los valores mínimos y máximos por sí solos no bastan para dimensionar correctamente el equipo.',columns:[{label:'Característica',readOnly:true},{label:'Valor'},{label:'Unidad / referencia',readOnly:true}],initialRows:[['Peso mínimo','','kg'],['Peso máximo','','kg'],['Peso promedio','','kg'],['Dimensiones mínimas','','Largo × ancho × alto'],['Dimensiones máximas','','Largo × ancho × alto'],['Distribución por dimensiones','','% / archivo']]},
+      sb('2.3 Calidad de la operación',[sf('Porcentaje de paquetes dañados durante la clasificación','number',{unit:'%'}),sf('¿Se manejan productos frágiles o delicados?','select',{options:['Sí','No']}),sf('Principales causas de daño y observaciones','textarea')])
+    ]},
+    {title:'Infraestructura',subtitle:'Planos, piso, energía y restricciones físicas.',blocks:[
+      sc('3.1 Información del inmueble',[['cad','Plano CAD actualizado'],['arq','Plano arquitectónico'],['est','Plano estructural']]),
+      sb('3.2 Piso',[sf('¿Existe estudio de planicidad?','select',{options:['Sí','No','Pendiente']}),sf('Capacidad de carga del piso'),sf('Espesor de la losa de concreto'),sf('Observaciones del piso','textarea')]),
+      sb('3.3 Energía eléctrica',[sf('Voltaje disponible'),sf('Capacidad eléctrica disponible para nuevos equipos'),sf('¿Existe capacidad eléctrica suficiente?','select',{options:['Sí','No','Pendiente de validar']}),sf('Observaciones eléctricas','textarea')],'Se busca confirmar si el sitio puede alimentar el sistema de clasificación y sus equipos auxiliares sin una ampliación mayor.'),
+      sb('3.4 Sistema contra incendio y restricciones físicas',[sf('Tipo de sistema contra incendio'),sf('Altura libre disponible'),sf('Restricciones para instalar bandas transportadoras o equipos','textarea'),sf('Elementos que limitan la altura','textarea')])
+    ]},
+    {title:'Sistemas e integración',subtitle:'Aplicaciones actuales, interfaces, identificación y manejo de excepciones.',blocks:[
+      sc('4.1 Sistemas actuales',[['wms','WMS'],['erp','ERP'],['tms','TMS'],['oms','OMS'],['prop','Sistema propio']]),
+      sb('Sistema principal',[sf('Nombre y descripción del sistema principal')]),
+      sc('4.2 Método de integración disponible',[['rest','REST API'],['soap','SOAP'],['ws','Web Services'],['db','Base de datos'],['files','Archivos CSV / XML'],['ftp','FTP / SFTP'],['mqtt','MQTT'],['opc','OPC-UA'],['otroint','Otro']]),
+      sb('Comentarios sobre integración',[sf('Comentarios sobre integración','textarea')],'Seleccione cómo puede intercambiar información el sistema actual con la solución de clasificación.'),
+      {kind:'table',key:'initial_identification_mix',title:'4.3 Tecnologías de identificación utilizadas',description:'Distribuya el volumen según la forma en que actualmente se identifica cada paquete. La suma debe ser 100%.',columns:[{label:'Tecnología',readOnly:true},{label:'% del volumen',type:'number'},{label:'Comentarios'}],initialRows:[['Código de barras 1D','',''],['QR / Código 2D','',''],['OCR','',''],['RFID','',''],['Captura manual','','']],summary:'% del volumen'},
+      sb('4.4 Tasa de lectura automática (Read Rate)',[sf('Read Rate actual','number',{unit:'%'}),sf('Porcentaje de No Read','number',{unit:'%'})],'Indique el porcentaje de lecturas automáticas exitosas en el primer intento. No incluya la captura manual.'),
+      sb('4.5 Manejo de excepciones',[sf('¿Qué sucede cuando un paquete no puede leerse o clasificarse?','textarea')])
+    ]},
+    {title:'Requerimientos de clasificación',subtitle:'Flujo, capacidad requerida, destinos, alimentación y descarga.',blocks:[
+      sb('5.1 Flujo operativo actual o requerido',[sf('Entrada / Alimentación','textarea',{help:'Describa cómo llegan los paquetes al sistema de clasificación.'}),sf('Clasificación','textarea',{help:'Describa cómo se separan actualmente o cómo se espera separarlos.'}),sf('Salida / Consolidación','textarea',{help:'Describa cómo se agrupan y despachan los paquetes clasificados.'})]),
+      sb('5.2 Capacidad requerida del sistema de clasificación',[sf('Capacidad mínima con volumen promedio','output',{key:'capProm'}),sf('Capacidad mínima con volumen pico','output',{key:'capPico'}),sf('Capacidad recomendada para diseño','output',{key:'capDiseno'}),sf('Capacidad estimada por turno','output',{key:'capTurno'}),sf('Capacidad estimada por día','output',{key:'capDia'}),sf('Capacidad definida por el cliente','number',{help:'Capture sólo si el cliente ya definió una capacidad contractual o de diseño.'})],'La aplicación calcula automáticamente la capacidad mínima y la capacidad recomendada para diseño con base en el volumen diario, las horas efectivas de operación y el crecimiento esperado.'),
+      {kind:'note',text:'Fórmula: capacidad recomendada = (volumen pico diario ÷ horas efectivas de operación) × (1 + crecimiento esperado).'},
+      sb('5.3 Destinos de clasificación',[sf('Destinos locales','number'),sf('Destinos regionales','number'),sf('Destinos nacionales','number'),sf('Destinos internacionales','number')]),
+      sc('5.4 Método de alimentación',[['fm','Carga manual'],['fb','Banda transportadora'],['fr','Transportador de rodillos'],['fro','Robot'],['fmi','Mixto']]),
+      sc('5.5 Método de descarga / consolidación',[['ob','Sacos o bolsas'],['oc','Contenedores'],['oj','Jaulas'],['og','Gaylords'],['ot','Tarimas'],['oo','Otro']])
+    ]},
+    {title:'Recorrido por la operación',subtitle:'Áreas observadas y evidencia fotográfica.',blocks:[sc('6.1 Áreas observadas',[['r1','Recibo'],['r2','Alimentación'],['r3','Identificación'],['r4','Clasificación'],['r5','Consolidación'],['r6','Embarques']]),sc('6.2 Fotografías requeridas',[['f1','Alimentación'],['f2','Clasificador actual'],['f3','Lectores'],['f4','Bandas y transportadores'],['f5','Salidas / chutes'],['f6','Áreas disponibles'],['f7','Columnas'],['f8','Restricciones físicas'],['f9','Tableros y cuartos eléctricos']]),sb('',[sf('Observaciones del recorrido','textarea')])]},
+    {title:'Identificación de problemas',subtitle:'Principales retos actuales del cliente.',blocks:[sc('',[['p1','Capacidad insuficiente'],['p2','Dependencia de mano de obra'],['p3','Errores de clasificación'],['p4','Retrasos'],['p5','Daños'],['p6','Costos operativos'],['p7','Falta de espacio'],['p8','Falta de trazabilidad'],['p9','Otro']]),sb('',[sf('Descripción y prioridad de los problemas','textarea')])]},
+    {title:'Expectativas del cliente',subtitle:'Resultados que espera obtener con la automatización.',blocks:[sc('',[['e1','Mayor capacidad'],['e2','Menor costo operativo'],['e3','Mayor precisión'],['e4','Menor tiempo de proceso'],['e5','Capacidad para crecimiento futuro'],['e6','Mayor visibilidad operativa']]),sb('',[sf('Comentarios del cliente','textarea')])]},
+    {title:'Información indispensable para preparar la propuesta',subtitle:'Checklist final antes de concluir la visita.',blocks:[{kind:'checklist',key:'initial_closure',items:['Volumen diario','Volumen pico','Distribución de dimensiones','Distribución de pesos','Plano CAD','Plano del inmueble','Restricciones eléctricas','Sistema contra incendio','WMS identificado','Método de integración','Destinos','Capacidad requerida','Método de alimentación','Método de descarga','Fotografías']},sb('',[sf('Observaciones finales del consultor','textarea')]) ]}
+  ]},
+  sortingDetailed:{eyebrow:'CA',appTitle:'Engineering Design Input',appSubtitle:'Cuestionario de levantamiento y diseño',title:'Cuestionario de Ingeniería para Sorting Center',description:'Capture los parámetros físicos, operativos y de flujo requeridos para dimensionar una solución de clasificación automatizada.',sections:[
+    {title:'Información general',subtitle:'Condiciones físicas y servicios disponibles en el sitio donde se implementará la solución.',blocks:[sb('',[sf('Dirección del centro de clasificación','textarea',{help:'Dirección completa del sitio donde se instalará la solución.'}),sf('Superficie total construida del inmueble','number',{unit:'m²'}),sf('Superficie disponible para este proyecto','number',{unit:'m²'}),sf('Altura libre del edificio','number',{unit:'m'}),sf('Variaciones de altura dentro del almacén','textarea'),sf('Rango anual de temperatura de operación'),sf('Suministro eléctrico disponible'),sf('Capacidad de carga del piso','number',{unit:'kN/m²'})])]},
+    {title:'Datos de diseño',subtitle:'Parámetros operativos utilizados para dimensionar el sistema de clasificación y los procesos asociados.',blocks:[
+      sb('Capacidad',[sf('Capacidad de clasificación por día','number',{unit:'unidades/día'}),sf('Capacidad de clasificación por hora','number',{unit:'unidades/h'}),sf('Turnos de operación por día','number',{unit:'turnos/día'}),sf('Horas efectivas por turno','number',{unit:'h/turno'}),sf('Coeficiente de pico','number',{unit:'factor'}),sf('Destinos de clasificación de salida','number',{unit:'destinos'}),sf('Rutas de embarque','number',{unit:'rutas'})]),
+      sb('Excepciones del producto',[sf('Porcentaje de paquetes con forma irregular','number',{unit:'%'}),sf('Porcentaje de paquetes frágiles','number',{unit:'%'}),sf('Porcentaje de otras excepciones','number',{unit:'%'}),sf('Especifique otras excepciones','textarea')]),
+      sb('Almacenamiento temporal / buffers',[sf('Capacidad requerida del buffer de recibo','number',{unit:'paquetes'}),sf('Capacidad requerida del buffer de embarques','number',{unit:'paquetes'})]),
+      sc('Características de los paquetes · Materiales de empaque',[['carton','Cartón corrugado'],['bolsa','Bolsa plástica / sobre'],['plastico','Plástico rígido'],['madera','Madera'],['metal','Metal'],['otro','Otro']]),
+      sb('',[sf('Colores de empaque'),sf('Dimensiones promedio del paquete'),sf('Peso promedio del paquete','number',{unit:'kg'}),sf('Dimensiones mínimas del paquete a clasificar'),sf('Dimensiones máximas del paquete a clasificar'),sf('Rango de peso de los paquetes','text')]),
+      sc('Contenedores de recibo (Inbound)',[['in_saco','Saco / bolsa'],['in_caja','Caja'],['in_tarima','Tarima'],['in_carro','Carro / jaula'],['in_gaylord','Gaylord'],['in_otro','Otro']]),
+      sb('',[sf('Dimensiones de los contenedores de recibo'),sf('Cantidad promedio de paquetes por saco o bolsa','number',{unit:'paquetes/saco'}),sf('Cantidad promedio de sacos o bolsas por tarima','number',{unit:'sacos/tarima'}),sf('Cantidad promedio de paquetes por tarima','number',{unit:'paquetes/tarima'}),sf('Cantidad promedio de paquetes por carro o Gaylord','number',{unit:'paquetes/unidad'})]),
+      sc('Contenedores de embarque (Outbound)',[['out_saco','Saco / bolsa'],['out_caja','Caja'],['out_tarima','Tarima'],['out_carro','Carro / jaula'],['out_gaylord','Gaylord'],['out_otro','Otro']]),
+      sb('',[sf('Dimensiones de los contenedores de embarque'),sf('Cantidad promedio de paquetes por saco, bolsa o caja','number',{unit:'paquetes/unidad'}),sf('Cantidad promedio de sacos, bolsas o cajas por tarima','number',{unit:'unidades/tarima'}),sf('Cantidad promedio de paquetes por tarima','number',{unit:'paquetes/tarima'}),sf('Cantidad promedio de paquetes por carro o Gaylord','number',{unit:'paquetes/unidad'})]),
+      sb('Documentación requerida',['Plano del sitio en formato DWG','Datos masivos de dimensiones de paquetes','Datos masivos de peso de paquetes','Fotografías de paquetes','Fotografías del sitio','Diagrama de flujo operativo y/o SOP','Distribución porcentual por destino de clasificación','Hora límite de salida por ruta'].map((x)=>sf(x,'select',{options:['Disponible','No disponible','Pendiente de confirmar']}))),
+      sb('Alcance del proceso',['¿Se requiere recibo automático de paquetes en los andenes?','¿Se requiere medir dimensiones o peso de cada paquete?','¿Se requiere escaneo y clasificación automática de sacos o bolsas en embarques?'].map(x=>sf(x,'select',{options:['Disponible','No disponible','Pendiente de confirmar']})))
+    ]},
+    {title:'Datos de dimensiones y peso',subtitle:'Pegue datos directamente desde Excel. Cada renglón representa un paquete.',blocks:[st('dim_weight',[{label:'Paquete'},{label:'Largo (mm)',type:'number'},{label:'Ancho (mm)',type:'number'},{label:'Alto (mm)',type:'number'},{label:'Peso (g)',type:'number'}],20,'Puede seleccionar una celda y pegar un bloque copiado desde Excel. Use Tab o las flechas para navegar.') ]},
+    {title:'Proporción del flujo por destino',subtitle:'Capture cada destino y su participación porcentual. El total debe sumar 100 %.',blocks:[st('destination_flow',[{label:'Destino'},{label:'Proporción del volumen (%)',type:'number'}],20,'Puede seleccionar una celda y pegar un bloque copiado desde Excel. Use Tab o las flechas para navegar.') ]},
+    {title:'Reglas de salida',subtitle:'Describa cómo se consolidan los destinos en tarimas u otras unidades de manejo y cómo se asignan a rutas, transportistas o vehículos.',blocks:[st('outbound_rules',[{label:'Destino'},{label:'Regla de consolidación / unidad de manejo'},{label:'Regla de carga / ruta / transportista'},{label:'Comentarios'}],24,'Puede seleccionar una celda y pegar un bloque copiado desde Excel. Use Tab o las flechas para navegar.') ]},
+    {title:'SLA operativo opcional',subtitle:'Capture las ventanas de recibo y embarque, la proporción del volumen y las horas límite. Puede pegar desde Excel.',blocks:[st('sla_inbound',[{label:'Ventana'},{label:'Hora de recibo',type:'time'},{label:'Proporción (%)',type:'number'},{label:'Hora límite de embarque',type:'time'}],12,'Puede seleccionar una celda y pegar un bloque copiado desde Excel. Use Tab o las flechas para navegar.'),st('sla_outbound',[{label:'Ventana'},{label:'Hora de embarque',type:'time'},{label:'Proporción (%)',type:'number'}],12,'Puede seleccionar una celda y pegar un bloque copiado desde Excel. Use Tab o las flechas para navegar.') ]}
+  ]}
 };
 
-function SortingFormSections({formId,data,setData}){
-  const sections=SORTING_FORM_SECTIONS[formId];
-  const knownFields=fieldSets[formId]||[];
-  const fieldByLabel=new Map(knownFields.map(def=>[def[0],def]));
-  const [activeSection,setActiveSection]=useState(0);
-  const setField=(label,value)=>setData(prev=>({...prev,[getKey(label)]:value}));
-    const goToSection=(index)=>setActiveSection(index);
-    const section=sections[activeSection];
-    const defs=section.fields.map(label=>fieldByLabel.get(label)||[label,label==='Observaciones finales'||label.toLowerCase().includes('recorrido')||label.toLowerCase().includes('reglas')||label.toLowerCase().includes('manejo')||label.toLowerCase().includes('contingencia')?'textarea':label.includes('%')||label.toLowerCase().includes('porcentaje')?'number':'text']);
-  return <>
-    <nav className="wfProgress sortingProgress" aria-label="Secciones del formulario">
-      {sections.map((section,index)=><button key={section.title} className={activeSection===index?'active':''} onClick={()=>goToSection(index)}><b>{index+1}</b>{section.title}</button>)}
-    </nav>
-    <div className="wfContent sortingContent">
-        <section className="wfCard sortingSection" id={'sorting-section-'+activeSection} key={section.title}>
-          <header><b>{activeSection+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div></header>
-          <div className="wfBody"><div className="wfGrid">{defs.map(def=><FormField key={def[0]} def={def} value={data[getKey(def[0])]} onChange={value=>setField(def[0],value)}/>)}</div></div>
-        </section>
-    </div>
-      <div className="sortingStepActions">
-        <button type="button" disabled={activeSection===0} onClick={()=>goToSection(activeSection-1)}>← ANTERIOR</button>
-        <span>Sección {activeSection+1} de {sections.length}</span>
-        <button type="button" disabled={activeSection===sections.length-1} onClick={()=>goToSection(activeSection+1)}>SIGUIENTE →</button>
-      </div>
-  </>;
+function SortingField({field,data,set}){
+  const key=field.key||getKey(field.label),value=data[key]??'';
+  const help=<details className="sortingHelp"><summary>ⓘ ¿Qué significa?</summary><p>{field.help||`Dato utilizado para definir ${field.label.toLowerCase()} en el diseño del centro de clasificación.`}</p></details>;
+  if(field.type==='output')return <label className="wfField"><span>{field.label}</span><output className="sortingOutput">{sortingCalculatedValue(field.key,data)}</output>{help}</label>;
+  if(field.type==='select')return <label className="wfField"><span>{field.label}{field.required&&' *'}</span><select value={value} onChange={e=>set(key,e.target.value)}><option value="">Seleccione</option>{(field.options||[]).map(x=><option key={x}>{x}</option>)}</select>{help}</label>;
+  const wide=field.type==='textarea';
+  return <label className={'wfField'+(wide?' wide':'')}><span>{field.label}{field.required&&' *'}</span><div className="sortingUnitField"><input type={field.type||'text'} value={value} required={field.required} onChange={e=>set(key,e.target.value)}/>{field.unit&&<small>{field.unit}</small>}</div>{field.unit&&field.type==='textarea'&&<small>{field.unit}</small>}{help}</label>;
 }
 
-function FormRenderer({formId,data,setData}){
+function sortingCalculatedValue(which,data){
+  const number=label=>Number(String(data[getKey(label)]||'').replace(',','.'))||0;
+  const hours=number('Horas efectivas de operación por día');
+  const peak=number('Volumen pico diario');
+  const average=number('Volumen promedio diario');
+  const growth=number('Crecimiento esperado para diseño')/100;
+  const turns=number('Turnos por día');
+  const value=which==='capProm'&&hours?average/hours:which==='capPico'&&hours?peak/hours:which==='capDiseno'&&hours?peak/hours*(1+growth):which==='capTurno'&&hours&&turns?peak/hours/turns:which==='capDia'?peak*(1+growth):null;
+  return value===null?'—':`${Math.ceil(value).toLocaleString('es-MX')} ${which==='capDia'?'paquetes/día':'paquetes/h'}`;
+}
+
+function SortingBlock({block,data,set}){
+  if(block.kind==='note')return <div className="sortingCallout">{block.text}</div>;
+  if(block.kind==='checks')return <fieldset className="sortingCheckGroup"><legend>{block.title}</legend><div>{block.items.map(([key,label])=><label key={key}><input type="checkbox" checked={Boolean(data['check_'+key])} onChange={e=>set('check_'+key,e.target.checked)}/><span>{label}</span></label>)}</div></fieldset>;
+  if(block.kind==='table')return <SortingTable block={block} data={data} set={set}/>;
+  if(block.kind==='checklist')return <SortingChecklist block={block} data={data} set={set}/>;
+  return <div className="sortingGroup">{block.title&&<h4>{block.title}</h4>}{block.description&&<p className="sortingHint">{block.description}</p>}<div className="wfGrid">{block.items.map(field=><SortingField key={field.label} field={field} data={data} set={set}/>)}</div></div>;
+}
+
+function SortingTable({block,data,set}){
+  const key='sorting_'+block.key;
+  const rows=data[key]||block.initialRows||Array.from({length:block.rows||1},()=>block.columns.map(()=>''));
+  const change=(r,c,value)=>set(key,rows.map((row,i)=>i===r?row.map((cell,j)=>j===c?value:cell):row));
+  const add=(amount)=>set(key,[...rows,...Array.from({length:amount},()=>block.columns.map(()=>''))]);
+  const clear=()=>set(key,block.initialRows||Array.from({length:block.rows||1},()=>block.columns.map(()=>'')));
+  const percentColumn=block.columns.findIndex(c=>c.label.includes('%'));
+  const total=percentColumn>=0?rows.reduce((sum,row)=>sum+(Number(row[percentColumn])||0),0):null;
+  return <div className="sortingTableBlock"><div className="sortingBlockTitle"><div><h4>{block.title}</h4>{block.description&&<p>{block.description}</p>}</div><span>{percentColumn>=0?`${Math.round((rows.filter(row=>row.some(Boolean)).length/Math.max(rows.length,1))*100)}%`:' '}</span></div><div className="sortingTableActions"><button type="button" onClick={()=>add(5)}>＋ Agregar 5 filas</button><button type="button" onClick={()=>add(20)}>＋ Agregar 20 filas</button><button type="button" onClick={clear}>Limpiar tabla</button></div><div className="sortingTableWrap"><table><thead><tr><th>#</th>{block.columns.map(c=><th key={c.label}>{c.label}</th>)}<th></th></tr></thead><tbody>{rows.map((row,r)=><tr key={r}><td>{r+1}</td>{block.columns.map((col,c)=><td key={col.label}>{col.readOnly?<span>{row[c]}</span>:<input aria-label={`${col.label}, fila ${r+1}`} type={col.type||'text'} value={row[c]||''} onChange={e=>change(r,c,e.target.value)} onPaste={e=>{const pasted=e.clipboardData.getData('text');if(!pasted.includes('\t')&&!pasted.includes('\n'))return;e.preventDefault();const matrix=pasted.split(/\r?\n/).filter(Boolean).map(line=>line.split('\t'));const expanded=rows.map(x=>[...x]);matrix.forEach((line,ri)=>line.forEach((cell,ci)=>{const rr=r+ri,cc=c+ci;if(!expanded[rr])expanded[rr]=block.columns.map(()=> '');if(cc<block.columns.length)expanded[rr][cc]=cell;}));set(key,expanded);}}/>}</td>)}<td><button type="button" className="sortingDeleteRow" aria-label="Eliminar fila" onClick={()=>set(key,rows.filter((_,i)=>i!==r))}>×</button></td></tr>)}</tbody></table></div><p className="sortingPasteHint">{block.summary?<>Total porcentual: <strong>{total.toFixed(1)}%</strong></>:block.description?.includes('Excel')?'Puede seleccionar una celda y pegar un bloque copiado desde Excel. Use Tab o las flechas para navegar.':''}</p></div>;
+}
+
+function SortingChecklist({block,data,set}){
+  const yesCount=block.items.filter((_,i)=>data[`${block.key}_${i}_answer`]).length;
+  return <div className="sortingTableWrap"><table className="sortingClosure"><thead><tr><th>Información</th><th>Sí</th><th>No</th><th>Observación</th></tr></thead><tbody>{block.items.map((item,i)=><tr key={item}><td>{item}</td>{['yes','no'].map(answer=><td key={answer}><input type="radio" name={`${block.key}_${i}`} checked={data[`${block.key}_${i}_answer`]===answer} onChange={()=>set(`${block.key}_${i}_answer`,answer)}/></td>)}<td><input aria-label={`Observación: ${item}`} value={data[`${block.key}_${i}_note`]||''} onChange={e=>set(`${block.key}_${i}_note`,e.target.value)}/></td></tr>)}</tbody></table><div className="sortingClosureStatus"><span><b>Completitud</b>{yesCount} de {block.items.length} elementos confirmados</span><span><b>Estado de la visita</b><em className={yesCount===block.items.length?'ok':'warn'}>{yesCount===block.items.length?'Completa':'Información incompleta'}</em></span></div></div>;
+}
+
+function SortingFormSections({formId,data,setData,onSave}){
+  const form=SORTING_FORMS[formId];
+  const [activeSection,setActiveSection]=useState(0);
+  const set=(key,value)=>setData(prev=>({...prev,[key]:value}));
+  const progress=Math.min(100,Math.round(Object.values(data).filter(value=>Array.isArray(value)?value.some(row=>Array.isArray(row)?row.some(Boolean):Boolean(row)):Boolean(value)).length/Math.max(1,Object.keys(data).length+8)*100));
+  const exportJson=()=>downloadSortingFile(`${formId}.json`,JSON.stringify({form:form.title,data},null,2),'application/json');
+  const exportCsv=()=>{const tables=Object.entries(data).filter(([key,value])=>key.startsWith('sorting_')&&Array.isArray(value));const csv=tables.map(([key,rows])=>`"${key}"\n${rows.map(row=>row.map(cell=>`"${String(cell??'').replaceAll('"','""')}"`).join(',')).join('\n')}`).join('\n\n');downloadSortingFile(`${formId}-tablas.csv`,csv,'text/csv;charset=utf-8');};
+  const goToSection=(index)=>{setActiveSection(index);document.getElementById(`sorting-section-${index}`)?.scrollIntoView({behavior:'smooth',block:'start'});};
+  return <div className="sortingExperience">
+    <div className="sortingAppHeader"><div className="sortingAppMark">{form.eyebrow}</div><div><strong>{form.appTitle}</strong><span>{form.appSubtitle}</span></div><div className="sortingAppActions">{formId==='sortingDetailed'&&<><button type="button" onClick={exportJson}>Exportar JSON</button><button type="button" onClick={exportCsv}>Exportar tablas CSV</button></>}<button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos capturados de este formulario?')&&setData({})}>Limpiar</button></div></div>
+    <div className="sortingHero"><div><h2>{form.title}</h2><p>{form.description}</p></div><div className="sortingHeroMeta"><span>Documento<strong>{formId==='sortingInitial'?'Primera visita':'Engineering Input'}</strong></span><span>Instalación<strong>Centro de clasificación</strong></span><span>Estado<strong>En captura</strong></span></div></div>
+    <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del formulario"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:`${progress}%`}}/></div>{form.sections.map((section,index)=><button key={section.title} className={activeSection===index?'active':''} onClick={()=>goToSection(index)}><b>{index+1}</b>{section.title}</button>)}</nav><div className="sortingSections">{form.sections.map((section,index)=><section className="wfCard sortingSection" id={`sorting-section-${index}`} key={section.title}><header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div></header><div className="wfBody">{section.blocks.map((block,i)=><SortingBlock key={`${section.title}-${i}`} block={block} data={data} set={set}/>)}</div></section>)}<div className="sortingLocalSave"><span>Los datos se guardan por cliente en este formulario.</span><button type="button" onClick={onSave}>Guardar avance</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button></div></div></div>
+  </div>;
+}
+
+function downloadSortingFile(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=name;link.click();URL.revokeObjectURL(url);}
+
+function FormRenderer({formId,data,setData,saveForm}){
   if(formId==='eligibility') return <EligibilityWixForm data={data} set={(key,value)=>setData(prev=>typeof key==='object'?key:{...prev,[key]:value})}/>;
   if(formId==='warehouseInitial') return <WarehouseInitialForm data={data} set={(key,value)=>setData(prev=>({...prev,[key]:value}))}/>;
-  if(formId==='sortingInitial'||formId==='sortingDetailed') return <SortingFormSections formId={formId} data={data} setData={setData}/>;
+  if(formId==='sortingInitial'||formId==='sortingDetailed') return <SortingFormSections formId={formId} data={data} setData={setData} onSave={saveForm}/>;
   const fields=fieldSets[formId]||fieldSets.sortingDetailed;
   const groups=[];
   for(let i=0;i<fields.length;i+=6)groups.push(fields.slice(i,i+6));
@@ -687,7 +764,7 @@ function FormWorkspace(){
 
       {!clientId&&!isWarehouse&&<div className="clientRequiredNotice">Selecciona un cliente para cargar o guardar la información de este formulario.</div>}
 
-      <FormRenderer formId={selected} data={data} setData={setData}/>
+      <FormRenderer formId={selected} data={data} setData={setData} saveForm={save}/>
       {!isWarehouse&&<div className="wfBottom">
         <span>{saved||'Listo para capturar'}</span>
         <button onClick={save} disabled={!clientId}>GUARDAR AVANCE</button>
