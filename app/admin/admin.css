@@ -636,3 +636,44 @@
 .wfMain:has(.sortingExperience)>.sortingExperience{flex:1 1 0;min-height:0}
 .sortingExperience>.sortingLayout{grid-template-rows:minmax(0,1fr)}
 .sortingExperience .sortingSections{height:auto;min-height:0;align-self:stretch}
+
+
+/* Sorting: use one reliable internal scroll area instead of nested flex scrollports. */
+.adminLogged:has(.sortingExperience){padding:14px 3% 14px}
+.adminPortalShell:has(.sortingExperience)>.adminPortalHeader{margin-bottom:10px}
+.adminPortalShell:has(.sortingExperience)>.adminPortalHeader .adminEyebrow{margin-bottom:12px}
+.adminPortalShell:has(.sortingExperience)>.adminPortalHeader h1{font-size:clamp(42px,4vw,54px)}
+.adminPortalShell:has(.sortingExperience)>.adminTabs{margin-bottom:10px}
+.adminPortalShell:has(.sortingExperience)>.adminTabs button{padding-bottom:10px}
+.wfMain:has(.sortingExperience)>.wfTitleBand{display:none}
+.wfMain:has(.sortingExperience)>.clientBar{margin-bottom:8px;padding:8px 12px}
+.wfMain:has(.sortingExperience) .clientBarMeta{display:none}
+.wfMain:has(.sortingExperience)>.sortingExperience{display:block;flex:1 1 0;min-height:0;height:auto;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scroll-behavior:smooth;padding:0 20px 14px}
+.sortingExperience>.sortingAppHeader{position:sticky;top:0;z-index:30;min-height:62px;margin:0 -20px 0;padding:9px 20px 11px}
+.sortingExperience>.sortingHero{margin:14px 0}
+.sortingExperience>.sortingLayout{display:grid;grid-template-rows:auto;flex:none;height:auto;min-height:0;overflow:visible;align-items:start}
+.sortingExperience .sortingProgress{position:sticky;top:74px;max-height:none;overflow:visible}
+.sortingExperience .sortingSections{height:auto;min-height:0;overflow:visible;overscroll-behavior:auto;padding-right:0}
+.sortingSections .sortingSection>header{position:static!important}
+@media(max-height:900px){
+  .adminLogged:has(.sortingExperience){padding-top:8px;padding-bottom:8px}
+  .adminPortalShell:has(.sortingExperience)>.adminPortalHeader{margin-bottom:6px}
+  .adminPortalShell:has(.sortingExperience)>.adminPortalHeader .adminEyebrow{margin-bottom:8px}
+  .adminPortalShell:has(.sortingExperience)>.adminPortalHeader h1{font-size:44px}
+  .adminPortalShell:has(.sortingExperience)>.adminTabs{margin-bottom:6px}
+}
+@media(max-width:760px){
+  .adminLogged:has(.sortingExperience){padding:8px}
+  .adminPortalShell:has(.sortingExperience)>.adminPortalHeader{gap:10px;align-items:center}
+  .adminPortalShell:has(.sortingExperience)>.adminPortalHeader h1{font-size:36px}
+  .adminPortalShell:has(.sortingExperience)>.adminPortalHeader .adminEyebrow{margin:0 0 6px}
+  .adminPortalShell:has(.sortingExperience)>.adminPortalHeader>div>p:last-child{font-size:12px}
+  .adminPortalShell:has(.sortingExperience)>.adminPortalHeader .adminPortalActions{gap:6px}
+  .adminPortalShell:has(.sortingExperience)>.adminPortalHeader .adminPortalActions button{min-width:72px;height:36px;padding:0 10px}
+  .adminPortalShell:has(.sortingExperience)>.adminTabs{margin-bottom:6px}
+  .wfMain:has(.sortingExperience)>.sortingExperience{padding:0 12px 12px}
+  .sortingExperience>.sortingAppHeader{margin:0 -12px;padding:9px 12px 11px}
+  .sortingExperience>.sortingHero{margin:10px 0;padding:15px}
+  .sortingExperience>.sortingLayout{grid-template-columns:1fr;grid-template-rows:auto auto}
+  .sortingExperience .sortingProgress{position:sticky;top:74px;max-height:140px;overflow-y:auto;z-index:15}
+}
