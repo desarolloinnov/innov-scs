@@ -15,8 +15,8 @@
 /* Alinea los títulos de las secciones seleccionadas justo debajo del encabezado fijo. */
 #retos{scroll-margin-top:24px}
 #capacidades,#metodologia,#industria{padding-top:96px}
-#contacto{padding-top:92px;align-items:start}
+#contacto{min-height:100vh;padding-top:92px;align-items:start}
 @media(max-width:900px){
   #capacidades,#metodologia,#industria{padding-top:78px}
-  #contacto{padding-top:78px}
+  #contacto{min-height:100vh;padding-top:78px}
 }
