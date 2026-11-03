@@ -77,7 +77,6 @@ const CLIENT_FIELD_KEYS={warehouseInitial:'client',sortingInitial:'cliente',sort
 function withActiveClient(formId,data,clientName){
   const key=CLIENT_FIELD_KEYS[formId];
   return key&&clientName?{...(data||{}),[key]:clientName}:(data||{});
-}
 
 function FormField({def,value,onChange}){
   const label=def[0], typeSpec=def[1];
