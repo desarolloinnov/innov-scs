@@ -73,6 +73,11 @@ const fieldSets = {
 };
 
 function getKey(label){return label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');}
+const CLIENT_FIELD_KEYS={warehouseInitial:'client',sortingInitial:'cliente',sortingDetailed:'cliente',amr:'cliente',fiberVolumetry:'fiber_client',electricalSurvey:'elec_client'};
+function withActiveClient(formId,data,clientName){
+  const key=CLIENT_FIELD_KEYS[formId];
+  return key&&clientName?{...(data||{}),[key]:clientName}:(data||{});
+}
 
 function FormField({def,value,onChange}){
   const label=def[0], typeSpec=def[1];
@@ -1168,13 +1173,14 @@ function FormWorkspace(){
       setData({});
       return;
     }
+    const clientName=clients.find(x=>x.id===clientOverride)?.name||'';
     try{
       const response=await fetch('/api/admin/forms?clientId='+encodeURIComponent(clientOverride)+'&formId='+encodeURIComponent(formOverride),{cache:'no-store'});
-      if(!response.ok){setData({});return;}
+      if(!response.ok){setData(withActiveClient(formOverride,{},clientName));return;}
       const payload=await response.json();
-      setData(payload.data||{});
+      setData(withActiveClient(formOverride,payload.data||{},clientName));
       setSaved(payload.updated_at?'Último guardado · '+new Date(payload.updated_at).toLocaleString('es-MX'):'Sin guardado');
-    }catch{setData({});}
+    }catch{setData(withActiveClient(formOverride,{},clientName));}
   }
 
   useEffect(()=>{loadClients();},[]);
@@ -1187,11 +1193,13 @@ function FormWorkspace(){
       setSaved('Selecciona o agrega un cliente antes de guardar');
       return;
     }
+    const dataWithClient=withActiveClient(selected,data,clients.find(x=>x.id===clientId)?.name||'');
+    setData(dataWithClient);
     try{
       const response=await fetch('/api/admin/forms',{
         method:'PUT',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({clientId,formId:selected,data})
+        body:JSON.stringify({clientId,formId:selected,data:dataWithClient})
       });
       const payload=await response.json().catch(()=>({}));
       if(!response.ok){
@@ -1204,7 +1212,7 @@ function FormWorkspace(){
 
   function clear(){
     if(!window.confirm('¿Limpiar los datos capturados de este formulario?'))return;
-    setData({});
+    setData(withActiveClient(selected,{},clients.find(x=>x.id===clientId)?.name||''));
     setSaved('Formulario limpio · aún no guardado');
   }
 
@@ -1229,6 +1237,7 @@ function FormWorkspace(){
       const client=payload.client;
       setClients(prev=>[...prev,client].sort((a,b)=>a.name.localeCompare(b.name,'es')));
       setClientId(client.id);
+      setData(withActiveClient(selected,{},client.name));
       setClientForm({name:'',company:'',notes:''});
       setClientModal(false);
       setSaved('Cliente creado · listo para capturar');
@@ -1274,7 +1283,12 @@ function FormWorkspace(){
 
       <div className="clientBar">
         <div className="clientBarLabel">CLIENTE ACTIVO</div>
-        <select value={clientId} onChange={e=>setClientId(e.target.value)}>
+        <select value={clientId} onChange={e=>{
+          const nextClientId=e.target.value;
+          setClientId(nextClientId);
+          const nextClientName=clients.find(x=>x.id===nextClientId)?.name||'';
+          setData(withActiveClient(selected,{},nextClientName));
+        }}>
           <option value="">Selecciona un cliente...</option>
           {clients.map(client=><option key={client.id} value={client.id}>{client.name}{client.company?' · '+client.company:''}</option>)}
         </select>
