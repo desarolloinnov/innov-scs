@@ -780,3 +780,32 @@
 .electricalExperience .electricalLoadBlock{margin-bottom:18px}
 .domainExperience .fiberFieldset{box-sizing:border-box;min-width:0;margin:0;padding:0;border:0}
 .domainExperience .fiberFieldset legend{margin-bottom:5px;font-size:10px;font-weight:700;color:#30475c}
+
+/* English PDF export: restore all sections in a clean, printable document. */
+.englishPdfPrintDocument{display:none}
+.englishPdfAnswer{display:block;min-height:22px;padding:6px 9px;border:1px solid #d3dce6;border-radius:5px;background:#fff;color:#20384f;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.45}
+.englishPdfCheck{display:inline-grid;place-items:center;width:17px;height:17px;margin-right:7px;border:1px solid #476681;border-radius:3px;color:#103d66;font-size:13px;vertical-align:middle}
+.englishPdfPrintNote{margin:0 0 12px;padding:8px 10px;border-left:3px solid #542e7c;background:#f3eef7;color:#453750;font-size:10px;line-height:1.45}
+@page{size:letter;margin:12mm}
+@media print{
+ body.englishPdfPrinting{background:#fff!important}
+ body.englishPdfPrinting>*:not(.englishPdfPrintDocument){display:none!important}
+ body.englishPdfPrinting>.englishPdfPrintDocument{display:block!important;position:static!important;width:auto!important;max-width:none!important;margin:0!important;padding:0!important;background:#fff!important;color:#17212d!important;overflow:visible!important}
+ .englishPdfPrintDocument .wfMain{display:block!important;width:auto!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;padding:0!important;overflow:visible!important;background:#fff!important}
+ .englishPdfPrintDocument .wfTop{height:auto!important;min-height:0!important;padding:0 0 10px!important;margin:0 0 12px!important;background:#fff!important;break-after:avoid-page}
+ .englishPdfPrintDocument .clientBar{margin:0 0 12px!important;padding:8px!important;break-inside:avoid}
+ .englishPdfPrintDocument .sortingExperience,.englishPdfPrintDocument .warehouseForm,.englishPdfPrintDocument .eligibilityView{display:block!important;height:auto!important;min-height:0!important;max-height:none!important;padding:0!important;margin:0!important;overflow:visible!important}
+ .englishPdfPrintDocument .sortingHero{margin:8px 0 12px!important;padding:12px 14px!important;break-inside:avoid}
+ .englishPdfPrintDocument .sortingLayout{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important}
+ .englishPdfPrintDocument .sortingProgress,.englishPdfPrintDocument .wfProgress,.englishPdfPrintDocument .whProgress{display:none!important}
+ .englishPdfPrintDocument .sortingSections,.englishPdfPrintDocument .wfContent,.englishPdfPrintDocument .whSections,.englishPdfPrintDocument .eligCriteria{display:block!important;width:auto!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;padding:0!important;overflow:visible!important;overscroll-behavior:auto!important}
+ .englishPdfPrintDocument .sortingSection,.englishPdfPrintDocument .wfCard,.englishPdfPrintDocument .whSection,.englishPdfPrintDocument .eligCriterion,.englishPdfPrintDocument .amrCapture{position:static!important;height:auto!important;max-height:none!important;overflow:visible!important;break-inside:auto!important;page-break-inside:auto!important;box-shadow:none!important}
+ .englishPdfPrintDocument .sortingSection>header{position:static!important;top:auto!important;break-after:avoid-page}
+ .englishPdfPrintDocument .sortingSection .wfBody{overflow:visible!important}
+ .englishPdfPrintDocument .domainTableWrap,.englishPdfPrintDocument .sortingTableWrap{max-width:100%!important;overflow:visible!important}
+ .englishPdfPrintDocument .domainTable,.englishPdfPrintDocument .sortingTableWrap table{width:100%!important;min-width:0!important;font-size:8px!important}
+ .englishPdfPrintDocument .domainTable th,.englishPdfPrintDocument .domainTable td,.englishPdfPrintDocument .sortingTableWrap th,.englishPdfPrintDocument .sortingTableWrap td{padding:4px!important}
+ .englishPdfPrintDocument .wfField,.englishPdfPrintDocument .whField{break-inside:avoid-page}
+ .englishPdfPrintDocument .englishPdfAnswer{color:#17212d!important;background:#fff!important}
+ .englishPdfPrintDocument .sortingAppHeader,.englishPdfPrintDocument .whHero{break-after:avoid-page}
+}
