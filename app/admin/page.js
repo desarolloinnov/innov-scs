@@ -73,6 +73,139 @@ const fieldSets = {
   ]
 };
 
+const ENGLISH_PDF_PHRASES={
+ 'Sí':'Yes','Cálculo inicial de AMR\'s':'Initial AMR Calculator','Volumetría de Fibra Óptica':'Fiber Optic Volume Survey','Levantamiento Eléctrico':'Electrical Survey','Levantamiento Inicial para: Almacén':'Initial Warehouse Survey','Levantamiento Inicial para: Sorting':'Initial Sorting Survey','Cuestionario detallado para: Almacén':'Detailed Warehouse Questionnaire','Cuestionario detallado para: Sorting':'Detailed Sorting Questionnaire',
+ 'Formularios internos de levantamiento.':'Internal survey forms.','Calificación de Elegibilidad':'Eligibility Assessment','Preevaluación de la oportunidad.':'Opportunity prequalification.','Evaluación de Elegibilidad del Proyecto':'Project Eligibility Assessment',
+ 'SOP DE COOPERACIÓN PARA SOLUCIONES DE AUTOMATIZACIÓN':'AUTOMATION SOLUTIONS COOPERATION SOP','Capture la información del cliente. La evaluación reproduce la lógica de puntuación y ponderación de la hoja de evaluación.':'Enter client information. This assessment follows the scoring and weighting logic in the evaluation worksheet.',
+ 'Umbrales de prioridad':'Priority thresholds','Prioridad baja':'Low priority','Seguimiento normal':'Standard follow-up','Prioridad alta':'High priority','Información del cliente':'Client information',
+ 'Los campos amarillos son editables. Las puntuaciones y la elegibilidad ponderada se calculan automáticamente.':'Yellow fields are editable. Scores and weighted eligibility are calculated automatically.',
+ 'Complete todos los campos amarillos para obtener el resultado final de elegibilidad.':'Complete all yellow fields to get the final eligibility result.',
+ 'Información de respaldo (recomendada)':'Supporting information (recommended)','Seleccione el nivel aplicable':'Select the applicable level',
+ 'Fecha prevista':'Expected date','Presupuesto estimado (USD)':'Estimated budget (USD)',
+ 'Supuestos comerciales o fuente del presupuesto (opcional)':'Commercial assumptions or budget source (optional)',
+ 'Puntuación / 10':'Score / 10','Evaluación incompleta':'Assessment incomplete',
+ 'Todos los criterios están completados.':'All criteria are complete.',
+ 'Base de puntuación: el libro original. Las categorías de fecha se evalúan por año calendario: 2026, 2027 y 2028 o posterior.':'Scoring basis: the original workbook. Date categories are evaluated by calendar year: 2026, 2027, and 2028 or later.',
+ 'La conversión presupuestal utiliza 7,10 RMB por USD únicamente para reproducir en dólares los rangos expresados originalmente en RMB.':'The budget conversion uses 7.10 RMB per USD to reproduce in dollars the ranges originally stated in RMB.',
+ 'Fecha objetivo de la LOI':'Target LOI date','Fecha objetivo de puesta en operación':'Target go-live date',
+ 'Nivel de presupuesto del proyecto':'Project budget level','Relación con el cliente':'Client relationship',
+ 'Importancia del cliente':'Client importance','Urgencia de la propuesta':'Proposal urgency',
+ 'Estrategia de licitación o compra':'Procurement or purchasing strategy',
+ 'Nivel de definición de los requerimientos':'Requirements definition level',
+ 'Tipo de producto o solución':'Product or solution type','Información de competidores':'Competitor information',
+ 'Fecha prevista de emisión de la Carta de Intención (LOI).':'Target date for the Letter of Intent (LOI).',
+ 'Fecha prevista de puesta en operación del proyecto.':'Target project go-live date.',
+ 'Nombres de competidores, relación con el cliente e información relevante disponible.':'Competitor names, client relationship, and relevant available information.',
+ 'Nombre del cliente':'Client name','No identificados':'Not identified','Parcialmente identificada':'Partially identified',
+ 'Completamente identificada':'Fully identified','Por aclarar':'To be clarified',
+ 'Captura únicamente los datos que el cliente pueda compartir en una etapa temprana.':'Enter only the data the client can share at an early stage.',
+ 'Información de respaldo':'Supporting information','Requisitos de información':'Information requirements',
+ 'Levantamiento Inicial para Almacenes':'Initial Warehouse Survey','Instrumento de levantamiento · Primera visita':'Site survey instrument · First visit',
+ 'Cuestionario de Ingeniería y Automatización':'Engineering and Automation Questionnaire','Levantamiento y Volumetría de Fibra Óptica':'Fiber Optic Survey and Volume Calculation',
+ 'Levantamiento de Infraestructura Eléctrica':'Electrical Infrastructure Survey','Levantamiento de CCTV y Videoanalítica':'CCTV and Video Analytics Survey',
+ 'Objetivos y perfil de seguridad':'Security objectives and profile','Cobertura y levantamiento de áreas':'Area coverage and survey',
+ 'Dimensionamiento de cámaras':'Camera sizing','Videoanalítica e inteligencia artificial':'Video analytics and artificial intelligence',
+ 'Plataforma de video y conectividad':'Video platform and connectivity','Grabación, almacenamiento y ciberseguridad':'Recording, storage, and cybersecurity',
+ 'Infraestructura y condiciones físicas':'Infrastructure and physical conditions','Integraciones, pruebas y cierre':'Integrations, testing, and closeout',
+ 'Criterios de diseño y demanda':'Design criteria and demand','Rutas y volumetría de cable':'Cable routes and quantity estimate',
+ 'Canalizaciones y condiciones físicas':'Pathways and physical conditions','Cuartos de telecomunicaciones y terminaciones':'Telecommunications rooms and terminations',
+ 'Método y restricciones de instalación':'Installation method and constraints','Cierre y entregables':'Closeout and deliverables',
+ 'Demanda y volumetría de cargas':'Load demand and quantity estimate','Tableros y distribución':'Panels and distribution',
+ 'Puesta a tierra y protección':'Grounding and protection','Calidad de energía y respaldo':'Power quality and backup',
+ 'Cargas de operación y controles':'Operational loads and controls',
+ 'Necesidades operativas, riesgos y respuesta esperada.':'Operational needs, risks, and expected response.',
+ 'Zonas, accesos, puntos ciegos y condiciones de observación.':'Areas, access points, blind spots, and viewing conditions.',
+ 'Capture una fila por zona o grupo de cámaras para estimar capacidad de red y retención.':'Enter one row per area or camera group to estimate network capacity and retention.',
+ 'Exportar JSON':'Export JSON','PDF en español':'PDF in Spanish','PDF en inglés':'PDF in English','PDF in English':'PDF in English',
+ 'PDF EN ESPAÑOL':'PDF IN SPANISH','PDF IN ENGLISH':'PDF IN ENGLISH','Avance':'Progress','Estado':'Status','Aplicación':'Application',
+ 'Documento':'Document','Tipo de inmueble':'Property type','Etapa del proyecto':'Project stage','Responsable del cliente':'Client contact',
+ 'Responsable del levantamiento':'Survey lead','Cliente activo':'Active client','Almacén / edificio / sitio':'Warehouse / building / site',
+ 'Guardar avance':'Save progress','Limpiar':'Clear','Restablecer':'Reset','Seleccione':'Select','Seleccione...':'Select...',
+ 'Por definir':'To be defined','Por confirmar':'To be confirmed','En captura':'In progress','Completo':'Complete',
+ 'INCOMPLETO':'INCOMPLETE','VIABLE':'VIABLE','REVISAR':'REVIEW','NO AVANZAR':'DO NOT PROCEED',
+ '¿Qué significa?':'What does this mean?','Robots estimados':'Estimated robots','Estaciones estimadas':'Estimated stations',
+ 'Inversión total estimada':'Estimated total investment','Payback estimado':'Estimated payback',
+ 'Documentos solicitados':'Requested documents','Secciones':'Sections'
+};
+const ENGLISH_PDF_WORDS={
+ informacion:'information',general:'general',datos:'data',dato:'data',basicos:'basic',basico:'basic',visita:'visit',identificacion:'identification',proyecto:'project',proyectos:'projects',inmueble:'property',edificio:'building',edificios:'buildings',almacen:'warehouse',almacenes:'warehouses',centro:'center',distribucion:'distribution',responsables:'contacts',responsable:'contact',levantamiento:'survey',tecnico:'technical',tecnica:'technical',tecnicas:'technical',tecnicos:'technical',fecha:'date',cliente:'client',clientes:'clients',sitio:'site',direccion:'address',tipo:'type',etapa:'stage',objetivo:'objective',objetivos:'objectives',descripcion:'description',alcance:'scope',requerido:'required',requerida:'required',requeridos:'required',disponible:'available',disponibles:'available',existente:'existing',existentes:'existing',actual:'current',actuales:'current',nuevo:'new',nueva:'new',ampliacion:'expansion',modernizacion:'modernization',preliminar:'preliminary',captura:'entry',estimacion:'estimate',estimado:'estimated',estimada:'estimated',estimados:'estimated',operacion:'operation',operativa:'operational',operativo:'operational',volumen:'volume',promedio:'average',pico:'peak',capacidad:'capacity',capacidades:'capabilities',demanda:'demand',cargas:'loads',carga:'load',energia:'energy',electrico:'electrical',electrica:'electrical',suministro:'supply',potencia:'power',factor:'factor',crecimiento:'growth',reserva:'allowance',almacenamiento:'storage',inventario:'inventory',entrada:'inbound',salida:'outbound',recepcion:'receiving',embarque:'shipping',embarques:'shipments',unidad:'unit',unidades:'units',manejo:'handling',principal:'primary',secundario:'secondary',secundaria:'secondary',peso:'weight',dimensiones:'dimensions',altura:'height',area:'area',superficie:'floor area',piso:'floor',pisos:'floors',nivel:'level',niveles:'levels',ocupacion:'occupancy',personal:'staff',turno:'shift',turnos:'shifts',horas:'hours',hora:'hour',efectivas:'effective',efectiva:'effective',dias:'days',dia:'day',semana:'week',semanal:'weekly',mensual:'monthly',restricciones:'constraints',restriccion:'constraint',fisicas:'physical',fisica:'physical',fisico:'physical',fisicos:'physical',infraestructura:'infrastructure',canalizaciones:'pathways',canalizacion:'pathway',rutas:'routes',ruta:'route',recorrido:'route',recorridos:'routes',distancia:'distance',equipo:'equipment',equipos:'equipment',recurso:'resource',recursos:'resources',sistema:'system',sistemas:'systems',integracion:'integration',integraciones:'integrations',metodo:'method',tecnologia:'technology',tecnologias:'technologies',fabricante:'manufacturer',solucion:'solution',soluciones:'solutions',automatizacion:'automation',robot:'robot',robots:'robots',estacion:'station',estaciones:'stations',inversion:'investment',ahorro:'savings',observaciones:'notes',observacion:'note',comentarios:'comments',comentario:'comment',notas:'notes',nota:'note',pendiente:'pending',pendientes:'pending',confirmar:'confirm',condiciones:'conditions',condicion:'condition',ambiente:'environment',temperatura:'temperature',humedad:'humidity',corrosion:'corrosion',vibracion:'vibration',polvo:'dust',acceso:'access',accesos:'access points',seguridad:'security',riesgos:'risks',riesgo:'risk',respuesta:'response',respuestas:'responses',esperada:'expected',esperado:'expected',necesidades:'needs',necesidad:'need',perfil:'profile',areas:'areas',cobertura:'coverage',puntos:'points',punto:'point',ciego:'blind',ciegos:'blind spots',dimensionamiento:'sizing',camara:'camera',camaras:'cameras',analitica:'analytics',inteligencia:'intelligence',artificial:'artificial',evento:'event',eventos:'events',deteccion:'detection',regla:'rule',reglas:'rules',notificacion:'notification',notificaciones:'notifications',accion:'action',acciones:'actions',grabacion:'recording',conectividad:'connectivity',plataforma:'platform',video:'video',red:'network',redes:'networks',switch:'switch',switches:'switches',alimentacion:'power',enlace:'link',enlaces:'links',usuario:'user',usuarios:'users',privacidad:'privacy',conservacion:'retention',retencion:'retention',proteccion:'protection',ciberseguridad:'cybersecurity',redundancia:'redundancy',respaldo:'backup',pruebas:'testing',prueba:'test',cierre:'closeout',entregables:'deliverables',entregable:'deliverable',calidad:'quality',medicion:'measurement',mediciones:'measurements',tablero:'panel',tableros:'panels',tierra:'grounding',puesta:'grounding',continuidad:'continuity',diseno:'design',proceso:'process',procesos:'processes',propuesta:'proposal',comercial:'commercial',rapida:'quick',rapido:'quick',evaluacion:'assessment',prioridad:'priority',ponderacion:'weighting',ponderado:'weighted',puntuacion:'score',puntuaciones:'scores',umbral:'threshold',umbrales:'thresholds',respaldo:'supporting',recomendada:'recommended',recomendado:'recommended',amarillos:'yellow',amarillo:'yellow',editables:'editable',editable:'editable',automaticamente:'automatically',campos:'fields',campo:'field',final:'final',resultados:'results',resultado:'result',categoria:'category',categorias:'categories',ano:'year',calendario:'calendar',conversion:'conversion',presupuestal:'budget',rangos:'ranges',expresados:'stated',originalmente:'originally',seleccione:'select',ninguno:'none',ninguna:'none',bajo:'low',baja:'low',medio:'medium',media:'medium',alto:'high',alta:'high',mixto:'mixed',mixta:'mixed',otra:'other',otro:'other',cantidad:'count',porcentaje:'percentage',cable:'cable',cables:'cables',fibra:'fiber',optica:'optic',monomodo:'single-mode',multimodo:'multimode',conector:'connector',conectores:'connectors',puerto:'port',puertos:'ports',longitud:'length',metros:'meters',empalme:'splice',empalmes:'splices',rack:'rack',racks:'racks',cuarto:'room',cuartos:'rooms',montaje:'mounting',iluminacion:'lighting',zona:'area',zonas:'areas',vigilancia:'surveillance',perdidas:'loss prevention',perdida:'loss',investigacion:'investigation',incidentes:'incidents',incidente:'incident',personas:'people',persona:'person',control:'control',supervision:'monitoring',cumplimiento:'compliance',auditoria:'audit',negocio:'business',monitoreo:'monitoring',horario:'schedule',horarios:'schedules',merma:'shrinkage',accidente:'accident',accidentes:'accidents',autorizado:'authorized',dano:'damage',mercancia:'goods',congestion:'congestion',filas:'queues',incumplimiento:'non-compliance',desviacion:'deviation',desviaciones:'deviations',ancho:'bandwidth',banda:'bandwidth',bitrate:'bitrate',continuo:'continuous',continua:'continuous',actividad:'activity',grabada:'recorded',conservadora:'conservative',conservador:'conservative',margen:'margin',excluye:'excludes',sobrecarga:'overhead',vision:'vision',maquina:'machine',codigo:'code',codigos:'codes',evidencia:'evidence',supuestos:'assumptions',exclusiones:'exclusions',estimacion:'estimate',leyenda:'legend',avance:'progress',estado:'status',aplicacion:'application',documento:'document',documentos:'documents',alternativas:'alternatives',alternativa:'alternative',clasificacion:'classification',solicitudes:'requests',solicitud:'request',validacion:'validation',validar:'validate',etiqueta:'label',etiquetado:'labeling',direccion:'address',otro:'other',otra:'other',seleccione:'select',seleccionar:'select',de:'of',del:'of the',la:'the',el:'the',los:'the',las:'the',un:'a',una:'a',y:'and',e:'and',en:'in',con:'with',sin:'without',a:'to',o:'or',u:'or',al:'to the',se:'is',su:'your',sus:'their',que:'that',como:'as',por:'per',para:'for',desde:'from',hasta:'to',sobre:'about',entre:'between',donde:'where',cuando:'when',si:'if',mas:'more',menos:'less',cada:'each'
+};
+function normalizeEnglishPdfText(value){return String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim()}
+const ENGLISH_PDF_PHRASE_LOOKUP=Object.fromEntries(Object.entries(ENGLISH_PDF_PHRASES).map(([key,value])=>[normalizeEnglishPdfText(key),value]));
+function englishPdfText(value){
+ const original=String(value??'');
+ const phrase=ENGLISH_PDF_PHRASE_LOOKUP[normalizeEnglishPdfText(original)];
+ if(phrase)return phrase;
+ return original.replace(/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/g,word=>{
+  const translated=ENGLISH_PDF_WORDS[normalizeEnglishPdfText(word)];
+  if(!translated)return word;
+  if(word===word.toUpperCase())return translated.toUpperCase();
+  if(word[0]===word[0].toUpperCase())return translated[0].toUpperCase()+translated.slice(1);
+  return translated;
+ });
+}
+async function saveEnglishPdf(){
+ if(document.body.classList.contains('englishPdfPrinting'))return;
+ const source=document.querySelector('.wfMain');
+ if(!source)return;
+ const clone=source.cloneNode(true);
+ const originalControls=Array.from(source.querySelectorAll('input,textarea,select'));
+ const clonedControls=Array.from(clone.querySelectorAll('input,textarea,select'));
+ originalControls.forEach((original,index)=>{
+  const control=clonedControls[index];
+  if(!control)return;
+  if(original.type==='checkbox'||original.type==='radio'){
+   const marker=document.createElement('span');
+   marker.className='englishPdfCheck';
+   marker.textContent=original.checked?'☑':'☐';
+   control.replaceWith(marker);
+   return;
+  }
+  let answer='';
+  if(original.tagName==='SELECT'){
+   const option=original.selectedOptions&&original.selectedOptions[0];
+   answer=option&&option.value?option.textContent.trim():'—';
+   if(control.closest('.clientBar'))answer=option?.textContent?.trim()||'—';
+   else answer=englishPdfText(answer);
+  }else if(original.type==='file'){
+   answer=(original.files&&original.files[0]?.name)||original.value.split(/[\\/]/).pop()||'—';
+  }else{
+   answer=String(original.value??'').trim()||'—';
+  }
+  const value=document.createElement('div');
+  value.className='englishPdfAnswer';
+  value.textContent=answer;
+  control.replaceWith(value);
+ });
+ clone.querySelectorAll('.clientBarMeta,.clientBarEmpty,.whLocalNav,.whProgressLabel,.whProgressTrack').forEach(node=>node.remove());
+ clone.querySelectorAll('.sortingProgress,.wfProgress,.whProgress,.wfTopActions,.wfBottom,.sortingAppActions, .sortingLocalSave,.whLocalNav,.whHeroActions,.whFooterActions,.eligFooter,.clientRequiredNotice,.clientModalBackdrop').forEach(node=>node.remove());
+ clone.querySelectorAll('button').forEach(node=>node.remove());
+ clone.querySelectorAll('details').forEach(node=>{node.open=true});
+ const walker=document.createTreeWalker(clone,NodeFilter.SHOW_TEXT);
+ let textNode;
+ while((textNode=walker.nextNode())){
+  if(textNode.parentElement?.closest('.englishPdfAnswer'))continue;
+  textNode.textContent=englishPdfText(textNode.textContent);
+ }
+ const titleSource=source.querySelector('.wfTop>div>b')?.textContent||source.querySelector('.sortingHero h2')?.textContent||'Assessment';
+ const title=englishPdfText(titleSource).trim()||'Assessment';
+ const printRoot=document.createElement('div');
+ printRoot.className='englishPdfPrintDocument';
+ const note=document.createElement('p');
+ note.className='englishPdfPrintNote';
+ note.textContent='English labels and selectable options. Free-text responses are preserved as entered.';
+ printRoot.append(note,clone);
+ document.body.append(printRoot);
+ const previousTitle=document.title;
+ document.title=title.replace(/[\\/:*?"<>|]+/g,'-')+' - English';
+ document.body.classList.add('englishPdfPrinting');
+ let cleaned=false;
+ const cleanup=()=>{if(cleaned)return;cleaned=true;document.body.classList.remove('englishPdfPrinting');printRoot.remove();document.title=previousTitle};
+ window.addEventListener('afterprint',cleanup,{once:true});
+ setTimeout(cleanup,120000);
+ await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+ window.print();
+}
 function getKey(label){return label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');}
 const CLIENT_FIELD_KEYS={warehouseInitial:'client',sortingInitial:'cliente',sortingDetailed:'cliente',amr:'cliente',fiberVolumetry:'fiber_client',electricalSurvey:'elec_client',cctvVideoAnalytics:'cctv_client'};
 function withActiveClient(formId,data,clientName){
@@ -184,7 +317,7 @@ function EligibilityWixForm({data,set}){
          </article>
        })}
      </div>
-     <footer className="eligFooter"><button onClick={()=>set({})}>Restablecer</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={()=>window.print()}>PDF en inglés</button><button className="dark" onClick={()=>window.print()}>Descargar resumen</button></footer>
+     <footer className="eligFooter"><button onClick={()=>set({})}>Restablecer</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={saveEnglishPdf}>PDF en inglés</button><button className="dark" onClick={()=>window.print()}>Descargar resumen</button></footer>
    </section>
    <p className="eligFootNote">Base de puntuación: el libro original. Las categorías de fecha se evalúan por año calendario: 2026, 2027 y 2028 o posterior. La conversión presupuestal utiliza 7,10 RMB por USD únicamente para reproducir en dólares los rangos expresados originalmente en RMB.</p>
  </div>;
@@ -309,7 +442,7 @@ function WarehouseInitialForm({data,set}){
   return <div className="warehouseForm">
     <section className="whHero">
       <div className="whHeroIdentity"><div className="whIcon">WH</div><div><h2>Warehouse First Visit Assessment</h2><p>Instrumento de levantamiento · Primera visita</p></div></div>
-      <div className="whHeroActions"><button onClick={()=>alert(JSON.stringify(data,null,2))}>Exportar JSON</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={()=>window.print()}>PDF in English</button><button className="danger" onClick={()=>set({})}>Limpiar</button></div>
+      <div className="whHeroActions"><button onClick={()=>alert(JSON.stringify(data,null,2))}>Exportar JSON</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={saveEnglishPdf}>PDF in English</button><button className="danger" onClick={()=>set({})}>Limpiar</button></div>
     </section>
 
     <section className="whTitleBand">
@@ -468,7 +601,7 @@ function WarehouseInitialForm({data,set}){
           <WarehouseTextArea label="Observaciones finales del consultor" value={get('observations_final')} onChange={v=>set('observations_final',v)} wide/>
         </WarehouseCard>
 
-        <div className="whFooterActions"><span>Guardado local · {new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})}</span><button onClick={()=>window.print()}>Guardar avance</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={()=>window.print()}>PDF in English</button></div>
+        <div className="whFooterActions"><span>Guardado local · {new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})}</span><button onClick={()=>window.print()}>Guardar avance</button><button onClick={()=>window.print()}>PDF en español</button><button onClick={saveEnglishPdf}>PDF in English</button></div>
       </div>
     </div>
   </div>;
@@ -617,7 +750,7 @@ function SortingFormSections({formId,data,setData,onSave}){
   const exportCsv=()=>{const tables=Object.entries(data).filter(([key,value])=>key.startsWith('sorting_')&&Array.isArray(value));const csv=tables.map(([key,rows])=>`"${key}"\n${rows.map(row=>row.map(cell=>`"${String(cell??'').replaceAll('"','""')}"`).join(',')).join('\n')}`).join('\n\n');downloadSortingFile(`${formId}-tablas.csv`,csv,'text/csv;charset=utf-8');};
   const goToSection=(index)=>{setActiveSection(index);document.getElementById(`sorting-section-${index}`)?.scrollIntoView({behavior:'smooth',block:'start'});};
   return <div className="sortingExperience">
-    <div className="sortingAppHeader"><div className="sortingAppMark">{form.eyebrow}</div><div><strong>{form.appTitle}</strong><span>{form.appSubtitle}</span></div><div className="sortingAppActions"><button type="button" onClick={exportJson}>Exportar JSON</button>{formId==='sortingDetailed'&&<button type="button" onClick={exportCsv}>Exportar tablas CSV</button>}<button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos capturados de este formulario?')&&setData({})}>Limpiar</button></div></div>
+    <div className="sortingAppHeader"><div className="sortingAppMark">{form.eyebrow}</div><div><strong>{form.appTitle}</strong><span>{form.appSubtitle}</span></div><div className="sortingAppActions"><button type="button" onClick={exportJson}>Exportar JSON</button>{formId==='sortingDetailed'&&<button type="button" onClick={exportCsv}>Exportar tablas CSV</button>}<button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={saveEnglishPdf}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos capturados de este formulario?')&&setData({})}>Limpiar</button></div></div>
     <div className="sortingHero"><div><h2>{form.title}</h2><p>{form.description}</p></div><div className="sortingHeroMeta"><span>Documento<strong>{formId==='sortingInitial'?'Primera visita':'Engineering Input'}</strong></span><span>Instalación<strong>Centro de clasificación</strong></span><span>Estado<strong>En captura</strong></span></div></div>
     <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del formulario"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:`${progress}%`}}/></div>{form.sections.map((section,index)=><button key={section.title} className={activeSection===index?'active':''} onClick={()=>goToSection(index)}><b>{index+1}</b>{section.title}</button>)}</nav><div className="sortingSections">{form.sections.map((section,index)=><section className="wfCard sortingSection" id={`sorting-section-${index}`} key={section.title}><header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div><span className="sortingSectionCompletion">{sortingSectionProgress(section,data)}%</span></header><div className="wfBody">{section.blocks.map((block,i)=><SortingBlock key={`${section.title}-${i}`} block={block} data={data} set={set}/>)}</div></section>)}</div></div>
   </div>;
@@ -776,7 +909,7 @@ function WarehouseDetailedForm({data,setData}){
  const progress=Math.round(allFields.filter(f=>{const v=data['whd_'+getKey(f.label)];return Array.isArray(v)?v.length>0:Boolean(v)}).length/Math.max(1,allFields.length)*100);
  const go=i=>{setActive(i);document.getElementById('whd-section-'+i)?.scrollIntoView({behavior:'smooth',block:'start'})};
  return <div className="sortingExperience domainExperience warehouseDetailedExperience">
-  <div className="sortingAppHeader"><div className="sortingAppMark">WH</div><div><strong>Warehouse Engineering Input</strong><span>Cuestionario para Soluciones de Almacén Inteligente · Levantamiento detallado</span></div><div className="sortingAppActions"><button type="button" onClick={()=>downloadSortingFile('warehouse-engineering-input.json',JSON.stringify({form:'Cuestionario de Ingeniería y Automatización',data},null,2),'application/json')}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button><button type="button" onClick={()=>window.print()}>Repositorio</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos capturados?')&&setData({})}>Limpiar</button></div></div>
+  <div className="sortingAppHeader"><div className="sortingAppMark">WH</div><div><strong>Warehouse Engineering Input</strong><span>Cuestionario para Soluciones de Almacén Inteligente · Levantamiento detallado</span></div><div className="sortingAppActions"><button type="button" onClick={()=>downloadSortingFile('warehouse-engineering-input.json',JSON.stringify({form:'Cuestionario de Ingeniería y Automatización',data},null,2),'application/json')}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={saveEnglishPdf}>PDF in English</button><button type="button" onClick={()=>window.print()}>Repositorio</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos capturados?')&&setData({})}>Limpiar</button></div></div>
   <div className="sortingHero"><div><h2>Cuestionario de Ingeniería y Automatización</h2><p>Capture la información operativa, física y tecnológica necesaria para evaluar y diseñar una solución de automatización de almacén.</p></div><div className="sortingHeroMeta"><span>Secciones<strong>9</strong></span><span>Documentos solicitados<strong>8</strong></span><span>Estado<strong>{progress===100?'Completo':'En captura'}</strong></span></div></div>
   <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del formulario"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:progress+'%'}}/></div>{WAREHOUSE_DETAIL_SECTIONS.map((s,i)=><button type="button" key={s.title} className={active===i?'active':''} onClick={()=>go(i)}><b>{i===0?'K':i}</b>{s.title}</button>)}</nav>
    <div className="sortingSections">{WAREHOUSE_DETAIL_SECTIONS.map((section,i)=><section className="wfCard sortingSection" id={'whd-section-'+i} key={section.title}><header><b>{i===0?'K':i}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div><span className="sortingSectionCompletion">{Math.round(section.fields.filter(f=>{const v=data['whd_'+getKey(f.label)];return Array.isArray(v)?v.length>0:Boolean(v)}).length/section.fields.length*100)}%</span></header><div className="wfBody"><div className="wfGrid">{section.fields.map(field=>{const key='whd_'+getKey(field.label),value=data[key]??'';return <label className={'wfField'+(['textarea','checks'].includes(field.type)?' wide':'')} key={field.label}><span>{field.label}</span>{field.type==='select'?<select value={value} onChange={e=>set(key,e.target.value)}><option value="">Seleccione</option>{field.options.map(o=><option key={o}>{o}</option>)}</select>:field.type==='checks'?<div className="domainCheckGroup">{field.options.map(o=><label key={o}><input type="checkbox" checked={Array.isArray(value)&&value.includes(o)} onChange={e=>set(key,e.target.checked?[...(Array.isArray(value)?value:[]),o]:(value||[]).filter(x=>x!==o))}/>{o}</label>)}</div>:field.type==='file'?<div className="domainFile"><input type="file" onChange={e=>set(key,e.target.files?.[0]?.name||'')}/>{value&&<small>{value}</small>}</div>:field.type==='textarea'?<textarea rows={3} value={value} onChange={e=>set(key,e.target.value)}/>:<input type={field.type||'text'} value={value} onChange={e=>set(key,e.target.value)}/>}{field.help&&<small className="domainHelp">{field.help}</small>}</label>})}</div></div></section>)}</div>
@@ -971,7 +1104,7 @@ function FiberOpticForm({data,setData}){
  const go=i=>{setActive(i);document.getElementById('fiber-section-'+i)?.scrollIntoView({behavior:'smooth',block:'start'})};
  const exportJson=()=>downloadSortingFile('volumetria-fibra-optica.json',JSON.stringify({form:'Volumetría de Fibra Óptica',data},null,2),'application/json');
  return <div className="sortingExperience domainExperience fiberExperience">
-  <div className="sortingAppHeader"><div className="sortingAppMark">FO</div><div><strong>Fiber Optic Site Survey</strong><span>Levantamiento técnico · Almacenes y edificios</span></div><div className="sortingAppActions"><button type="button" onClick={exportJson}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos de este levantamiento?')&&setData({})}>Limpiar</button></div></div>
+  <div className="sortingAppHeader"><div className="sortingAppMark">FO</div><div><strong>Fiber Optic Site Survey</strong><span>Levantamiento técnico · Almacenes y edificios</span></div><div className="sortingAppActions"><button type="button" onClick={exportJson}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={saveEnglishPdf}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos de este levantamiento?')&&setData({})}>Limpiar</button></div></div>
   <div className="sortingHero"><div><h2>Levantamiento y Volumetría de Fibra Óptica</h2><p>Capture la demanda, las rutas, las canalizaciones y las terminaciones para definir una base de diseño y cuantificar cableado óptico en almacenes y edificios.</p></div><div className="sortingHeroMeta"><span>Documento<strong>Fiber Optic Site Survey</strong></span><span>Aplicación<strong>Almacén / Edificio</strong></span><span>Estado<strong>{progress===100?'Completo':'En captura'}</strong></span></div></div>
   <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del levantamiento"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:progress+'%'}}/></div>{FIBER_SECTIONS.map((section,index)=><button type="button" key={section.title} className={active===index?'active':''} onClick={()=>go(index)}><b>{index+1}</b>{section.title}</button>)}</nav>
    <div className="sortingSections">{FIBER_SECTIONS.map((section,index)=><section className="wfCard sortingSection" id={'fiber-section-'+index} key={section.title}><header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div><span className="sortingSectionCompletion">{Math.round(section.fields.filter(f=>{const v=data['fiber_'+f.key];return Array.isArray(v)?v.length>0:Boolean(v)}).length/Math.max(1,section.fields.length)*100)}%</span></header><div className="wfBody">{section.table==='volumetry'&&<FiberVolumetryTable data={data} setData={setData}/>}<div className="wfGrid">{section.fields.map(field=><FiberField key={field.key} field={field} data={data} set={set}/>)}</div></div></section>)}</div>
@@ -1181,7 +1314,7 @@ function ElectricalSurveyForm({data,setData}){
  const go=i=>{setActive(i);document.getElementById('electrical-section-'+i)?.scrollIntoView({behavior:'smooth',block:'start'})};
  const exportJson=()=>downloadSortingFile('levantamiento-electrico.json',JSON.stringify({form:'Levantamiento Eléctrico',data},null,2),'application/json');
  return <div className="sortingExperience domainExperience fiberExperience electricalExperience">
-  <div className="sortingAppHeader"><div className="sortingAppMark">EE</div><div><strong>Electrical Power Site Survey</strong><span>Levantamiento técnico · Almacenes y edificios</span></div><div className="sortingAppActions"><button type="button" onClick={exportJson}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos de este levantamiento?')&&setData({})}>Limpiar</button></div></div>
+  <div className="sortingAppHeader"><div className="sortingAppMark">EE</div><div><strong>Electrical Power Site Survey</strong><span>Levantamiento técnico · Almacenes y edificios</span></div><div className="sortingAppActions"><button type="button" onClick={exportJson}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={saveEnglishPdf}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos de este levantamiento?')&&setData({})}>Limpiar</button></div></div>
   <div className="sortingHero"><div><h2>Levantamiento de Infraestructura Eléctrica</h2><p>Recopile suministro, tableros, cargas, canalizaciones, puesta a tierra, respaldo y condiciones de instalación para preparar una base técnica de diseño y volumetría.</p></div><div className="sortingHeroMeta"><span>Documento<strong>Electrical Site Survey</strong></span><span>Aplicación<strong>Almacén / Edificio</strong></span><span>Estado<strong>{progress===100?'Completo':'En captura'}</strong></span></div></div>
   <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del levantamiento"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:progress+'%'}}/></div>{ELECTRICAL_SECTIONS.map((section,index)=><button type="button" key={section.title} className={active===index?'active':''} onClick={()=>go(index)}><b>{index+1}</b>{section.title}</button>)}</nav>
    <div className="sortingSections">{ELECTRICAL_SECTIONS.map((section,index)=><section className="wfCard sortingSection" id={'electrical-section-'+index} key={section.title}><header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div><span className="sortingSectionCompletion">{Math.round(section.fields.filter(f=>{const v=data['elec_'+f.key];return Array.isArray(v)?v.length>0:Boolean(v)}).length/Math.max(1,section.fields.length)*100)}%</span></header><div className="wfBody">{section.table==='loads'&&<ElectricalLoadTable data={data} setData={setData}/>}<div className="wfGrid">{section.fields.map(field=><FiberField key={field.key} prefix="elec_" field={field} data={data} set={set}/>)}</div></div></section>)}</div>
@@ -1227,7 +1360,7 @@ function CCTVVideoAnalyticsForm({data,setData}){
  const go=index=>{setActive(index);document.getElementById('cctv-section-'+index)?.scrollIntoView({behavior:'smooth',block:'start'})};
  const exportJson=()=>downloadSortingFile('levantamiento-cctv-videoanalitica.json',JSON.stringify({form:'CCTV y Videoanalítica',data},null,2),'application/json');
  return <div className="sortingExperience domainExperience fiberExperience cctvExperience">
-  <div className="sortingAppHeader"><div className="sortingAppMark">CV</div><div><strong>CCTV & Video Analytics Site Survey</strong><span>Levantamiento técnico · Seguridad y operación</span></div><div className="sortingAppActions"><button type="button" onClick={exportJson}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos de este levantamiento?')&&setData({cctv_client:data.cctv_client||''})}>Limpiar</button></div></div>
+  <div className="sortingAppHeader"><div className="sortingAppMark">CV</div><div><strong>CCTV & Video Analytics Site Survey</strong><span>Levantamiento técnico · Seguridad y operación</span></div><div className="sortingAppActions"><button type="button" onClick={exportJson}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={saveEnglishPdf}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos de este levantamiento?')&&setData({cctv_client:data.cctv_client||''})}>Limpiar</button></div></div>
   <div className="sortingHero"><div><h2>Levantamiento de CCTV y Videoanalítica</h2><p>Capture las áreas a cubrir, las necesidades de vigilancia y analítica, la plataforma de video, conectividad, retención e infraestructura para definir una solución dimensionada a la operación.</p></div><div className="sortingHeroMeta"><span>Documento<strong>CCTV Site Survey</strong></span><span>Aplicación<strong>Almacén / Edificio</strong></span><span>Estado<strong>{progress===100?'Completo':'En captura'}</strong></span></div></div>
   <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del levantamiento de CCTV"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:progress+'%'}}/></div>{CCTV_SECTIONS.map((section,index)=><button type="button" key={section.title} className={active===index?'active':''} onClick={()=>go(index)}><b>{index+1}</b>{section.title}</button>)}</nav>
    <div className="sortingSections">{CCTV_SECTIONS.map((section,index)=>{const completed=section.fields.filter(field=>{const value=data['cctv_'+field.key];return Array.isArray(value)?value.length>0:Boolean(value)}).length;const tableFilled=section.table==='cameras'&&hasCameras?1:0;const totalFields=section.fields.length+(section.table==='cameras'?1:0);return <section className="wfCard sortingSection" id={'cctv-section-'+index} key={section.title}><header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div><span className="sortingSectionCompletion">{Math.round((completed+tableFilled)/Math.max(1,totalFields)*100)}%</span></header><div className="wfBody">{section.table==='cameras'&&<CCTVCameraTable data={data} setData={setData}/>}<div className="wfGrid">{section.fields.map(field=><FiberField key={field.key} prefix="cctv_" field={field} data={data} set={set}/>)}</div></div></section>})}</div>
@@ -1432,7 +1565,7 @@ function FormWorkspace(){
         <span>{saved||'Los datos se guardan por cliente en este formulario.'}</span>
         <button onClick={save} disabled={!clientId}>GUARDAR AVANCE</button>
         <button onClick={print}>PDF EN ESPAÑOL</button>
-        <button onClick={print}>PDF IN ENGLISH</button>
+        <button onClick={saveEnglishPdf}>PDF IN ENGLISH</button>
       </div>}
 
       {clientModal&&<div className="clientModalBackdrop" role="dialog" aria-modal="true">
