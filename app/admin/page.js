@@ -10,7 +10,8 @@ const FORMS = [
   { id:'sortingDetailed', title:'Cuestionario detallado para: Sorting', subtitle:'Assessment técnico del centro de clasificación.' },
   { id:'amr', title:"Cálculo inicial de AMR's", subtitle:'Captura inicial de datos para pre-scope.' },
   { id:'fiberVolumetry', title:'Volumetría de Fibra Óptica', subtitle:'Levantamiento y estimación de infraestructura óptica para almacenes y edificios.' },
-  { id:'electricalSurvey', title:'Levantamiento Eléctrico', subtitle:'Captura y estimación preliminar de cargas para almacenes y edificios.' }
+  { id:'electricalSurvey', title:'Levantamiento Eléctrico', subtitle:'Captura y estimación preliminar de cargas para almacenes y edificios.' },
+  { id:'cctvVideoAnalytics', title:'CCTV y Videoanalítica', subtitle:'Levantamiento técnico de videovigilancia, analítica e infraestructura asociada.' }
 ];
 
 const CONTACT_STATUS = { new:'Nuevo', read:'Leído', contacted:'Contactado', closed:'Cerrado' };
@@ -73,7 +74,7 @@ const fieldSets = {
 };
 
 function getKey(label){return label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');}
-const CLIENT_FIELD_KEYS={warehouseInitial:'client',sortingInitial:'cliente',sortingDetailed:'cliente',amr:'cliente',fiberVolumetry:'fiber_client',electricalSurvey:'elec_client'};
+const CLIENT_FIELD_KEYS={warehouseInitial:'client',sortingInitial:'cliente',sortingDetailed:'cliente',amr:'cliente',fiberVolumetry:'fiber_client',electricalSurvey:'elec_client',cctvVideoAnalytics:'cctv_client'};
 function withActiveClient(formId,data,clientName){
   const key=CLIENT_FIELD_KEYS[formId];
   return key&&clientName?{...(data||{}),[key]:clientName}:(data||{});
@@ -1068,6 +1069,81 @@ const ELECTRICAL_SECTIONS=[
  ]}
 ];
 
+const CCTV_SECTIONS=[
+ {title:'Información general',subtitle:'Identificación del proyecto, inmueble y responsables.',fields:[
+  {key:'client',label:'Cliente',type:'text',required:true},{key:'site',label:'Almacén / edificio / sitio',type:'text',required:true},
+  {key:'address',label:'Dirección del proyecto',type:'textarea'},{key:'building_type',label:'Tipo de inmueble',type:'select',options:['Almacén','Centro de distribución','Edificio corporativo','Planta industrial','Campus / varios edificios','Otro']},
+  {key:'project_stage',label:'Etapa del proyecto',type:'select',options:['Obra nueva','Ampliación','Modernización','Corrección / reemplazo','Levantamiento preliminar']},
+  {key:'date',label:'Fecha del levantamiento',type:'date'},{key:'client_contact',label:'Responsable del cliente',type:'text'},
+  {key:'consultant',label:'Responsable del levantamiento',type:'text'},{key:'objective',label:'Objetivo del proyecto',type:'textarea'}
+ ]},
+ {title:'Objetivos y perfil de seguridad',subtitle:'Necesidades operativas, riesgos y respuesta esperada.',fields:[
+  {key:'objectives',label:'Objetivos del sistema',type:'checks',options:['Prevención de pérdidas','Investigación de incidentes','Seguridad de personas','Control de accesos','Supervisión de procesos','Cumplimiento operativo','Evidencia para auditoría','Analítica de negocio','Otro']},
+  {key:'priority_risks',label:'Riesgos o eventos prioritarios',type:'checks',options:['Intrusión','Robo / merma','Accidentes','Acceso no autorizado','Daño a mercancía','Congestión / filas','Incumplimiento de EPP','Desviación de proceso','Otro']},
+  {key:'monitoring_hours',label:'Horario de operación y monitoreo',type:'select',options:['24/7','Por turnos','Horario de operación','Sólo por evento','Por definir']},
+  {key:'incident_history',label:'Incidentes, zonas críticas y horarios de mayor riesgo',type:'textarea'},
+  {key:'response_process',label:'Proceso actual de revisión y respuesta a alertas',type:'textarea'},
+  {key:'success_metrics',label:'Indicadores de éxito esperados',type:'textarea'}
+ ]},
+ {title:'Cobertura y levantamiento de áreas',subtitle:'Zonas, accesos, puntos ciegos y condiciones de observación.',fields:[
+  {key:'coverage_areas',label:'Áreas que requieren cobertura',type:'checks',options:['Accesos peatonales','Accesos vehiculares','Perímetro','Patio y estacionamiento','Andenes / embarques','Recepción','Almacenamiento / racks','Picking y empaque','Sorting / transportadores','Producción','Cuartos técnicos','Oficinas','Otra']},
+  {key:'area_description',label:'Descripción de áreas, pisos y zonas restringidas',type:'textarea'},
+  {key:'existing_cameras',label:'Cámaras existentes (cantidad, ubicación y condición)',type:'textarea'},
+  {key:'blind_spots',label:'Puntos ciegos, obstrucciones y áreas que no deben grabarse',type:'textarea'},
+  {key:'layout_reference',label:'Planos / layout disponible y referencia del archivo o enlace',type:'textarea'},
+  {key:'site_walk_notes',label:'Notas del recorrido en sitio',type:'textarea'}
+ ]},
+ {title:'Dimensionamiento de cámaras',subtitle:'Capture una fila por zona o grupo de cámaras para estimar capacidad de red y retención.',fields:[
+  {key:'image_quality',label:'Criterio de imagen requerido',type:'select',options:['Vista general / observación','Identificación de personas','Lectura de placas','Conteo / medición','Evidencia forense','Por definir']},
+  {key:'lighting_conditions',label:'Condiciones de iluminación por horario',type:'textarea'},
+  {key:'camera_notes',label:'Criterios especiales de óptica, montaje o certificación',type:'textarea'}
+ ],table:'cameras'},
+ {title:'Videoanalítica e inteligencia artificial',subtitle:'Eventos detectables, reglas, notificaciones y acciones.',fields:[
+  {key:'analytics_use_cases',label:'Casos de uso de analítica',type:'checks',options:['Detección de intrusión / cruce de línea','Conteo de personas o vehículos','Reconocimiento de placas (LPR)','Búsqueda por apariencia','Permanencia / merodeo','Colas y tiempos de espera','Uso de EPP','Caídas o incidentes','Ocupación de áreas','Flujo y productividad','Detección de objetos abandonados','Otro']},
+  {key:'analytics_zones',label:'Zonas y horarios donde aplican las reglas',type:'textarea'},
+  {key:'alert_recipients',label:'Responsables y canales de notificación',type:'textarea'},
+  {key:'alert_actions',label:'Acción esperada ante cada tipo de alerta',type:'textarea'},
+  {key:'analytics_accuracy',label:'Criterios de aceptación, precisión y falsos positivos',type:'textarea'},
+  {key:'analytics_privacy',label:'Restricciones de privacidad, máscaras y anonimización',type:'textarea'}
+ ]},
+ {title:'Plataforma de video y conectividad',subtitle:'VMS, perfiles de transmisión, red IP, alimentación y enlaces.',fields:[
+  {key:'vms_status',label:'Plataforma VMS',type:'select',options:['Existente','Nueva','Por definir']},
+  {key:'vms_brand',label:'Fabricante, versión, licencias y servidores VMS',type:'textarea'},
+  {key:'camera_protocols',label:'Protocolos / compatibilidad requerida',type:'checks',options:['ONVIF Profile S','ONVIF Profile T','ONVIF Profile G','RTSP','API del fabricante','Por confirmar']},
+  {key:'network_topology',label:'Switches PoE, uplinks, fibra y topología disponible',type:'textarea'},
+  {key:'network_capacity',label:'Capacidad de red disponible y límites de ancho de banda',type:'textarea'},
+  {key:'vlan_security',label:'VLAN, direccionamiento IP, firewall y segmentación',type:'textarea'},
+  {key:'integration_platforms',label:'Sistemas a integrar (WMS, ERP, control de acceso u otros)',type:'textarea'}
+ ]},
+ {title:'Grabación, almacenamiento y ciberseguridad',subtitle:'Retención, redundancia, acceso a video y protección de la información.',fields:[
+  {key:'retention_policy',label:'Política de retención por tipo de área o evento',type:'textarea'},
+  {key:'storage_platform',label:'NVR / servidor / nube, capacidad existente y fabricante',type:'textarea'},
+  {key:'redundancy',label:'Redundancia requerida (RAID, failover, respaldo)',type:'textarea'},
+  {key:'access_roles',label:'Usuarios, perfiles, auditoría y permisos de exportación',type:'textarea'},
+  {key:'cybersecurity',label:'Requisitos de ciberseguridad, actualización y acceso remoto',type:'textarea'},
+  {key:'evidence_export',label:'Formato, cadena de custodia y proceso de exportación de evidencia',type:'textarea'},
+  {key:'data_retention',label:'Requisitos legales o corporativos de conservación de video',type:'textarea'}
+ ]},
+ {title:'Infraestructura y condiciones físicas',subtitle:'Montaje, cableado, energía, iluminación y restricciones de instalación.',fields:[
+  {key:'camera_mounting',label:'Montaje y soportes requeridos',type:'checks',options:['Muro','Techo / estructura','Poste','Mástil exterior','Brazo / esquina','Gabinete','Otro']},
+  {key:'mounting_height',label:'Alturas, distancias y accesibilidad de mantenimiento',type:'textarea'},
+  {key:'pathways',label:'Charolas, conduit, ductos y rutas de cable disponibles',type:'textarea'},
+  {key:'power_supply',label:'PoE / alimentación local, UPS y respaldo eléctrico',type:'textarea'},
+  {key:'environment',label:'Temperatura, polvo, humedad, vibración y clasificación ambiental',type:'textarea'},
+  {key:'installation_constraints',label:'Ventanas de trabajo, permisos y restricciones de operación',type:'textarea'},
+  {key:'lighting_support',label:'Iluminación existente o adicional requerida',type:'textarea'}
+ ]},
+ {title:'Integraciones, pruebas y cierre',subtitle:'Interfaces, pruebas de aceptación, entregables y pendientes.',fields:[
+  {key:'integrations',label:'Integraciones requeridas (API, alarmas, WMS, ERP, acceso)',type:'textarea'},
+  {key:'acceptance_tests',label:'Pruebas y criterios de aceptación por cámara y analítica',type:'textarea'},
+  {key:'deliverables',label:'Entregables requeridos',type:'checks',options:['Plano de ubicación de cámaras','Matriz de cobertura','Diagrama de red','Cálculo de ancho de banda','Cálculo de almacenamiento','Configuración VMS','Reglas de videoanalítica','Capacitación','Otro']},
+  {key:'documents',label:'Planos, políticas y fichas técnicas disponibles (referencia / enlace)',type:'textarea'},
+  {key:'risks',label:'Riesgos, supuestos y exclusiones',type:'textarea'},
+  {key:'pending',label:'Información pendiente por confirmar',type:'textarea'},
+  {key:'observations',label:'Observaciones finales del consultor',type:'textarea'}
+ ]}
+];
+
 function electricalNum(value){return Number(String(value??'').replace(',','.'))||0}
 function ElectricalLoadTable({data,setData}){
  const rows=Array.isArray(data.electrical_loads)?data.electrical_loads:Array.from({length:5},()=>({}));
@@ -1113,6 +1189,52 @@ function ElectricalSurveyForm({data,setData}){
  </div>
 }
 
+function cctvNum(value){return Number(String(value??'').replace(',','.'))||0}
+function CCTVCameraTable({data,setData}){
+ const rows=Array.isArray(data.cctv_camera_rows)?data.cctv_camera_rows:Array.from({length:5},()=>({}));
+ const saveRows=next=>setData(prev=>({...prev,cctv_camera_rows:next}));
+ const patch=(index,key,value)=>saveRows(rows.map((row,i)=>i===index?{...row,[key]:value}:row));
+ const metrics=row=>{
+  const quantity=cctvNum(row.quantity);
+  const bitrate=cctvNum(row.bitrate_mbps);
+  const activity=row.record_pct!==undefined&&row.record_pct!==''?cctvNum(row.record_pct):100;
+  const days=cctvNum(row.retention_days);
+  const bandwidth=quantity*bitrate*activity/100;
+  const storageGb=bandwidth*86400*days/8/1000;
+  return {quantity,bandwidth,storageGb};
+ };
+ const totals=rows.reduce((sum,row)=>{const value=metrics(row);return {cameras:sum.cameras+value.quantity,bandwidth:sum.bandwidth+value.bandwidth,storageGb:sum.storageGb+value.storageGb}},{cameras:0,bandwidth:0,storageGb:0});
+ const add=count=>saveRows([...rows,...Array.from({length:count},()=>({}))]);
+ const clear=()=>{if(window.confirm('¿Limpiar todos los renglones del dimensionamiento de cámaras?'))saveRows(Array.from({length:5},()=>({})))};
+ const fmt=value=>value.toLocaleString('es-MX',{maximumFractionDigits:2});
+ const columns=[['Área / ubicación','zone'],['Tipo de cámara','camera_type'],['Resolución','resolution'],['Cantidad','quantity'],['Bitrate (Mbps)','bitrate_mbps'],['Grabación','recording_mode'],['Actividad grabada (%)','record_pct'],['Retención (días)','retention_days']];
+ return <div className="fiberVolume cctvCameraBlock">
+  <div className="fiberMetricRow"><div><span>Cámaras estimadas</span><strong>{fmt(totals.cameras)}</strong></div><div><span>Ancho de banda calculado</span><strong>{fmt(totals.bandwidth)} Mbps</strong></div><div><span>Almacenamiento estimado</span><strong>{fmt(totals.storageGb)} GB</strong></div><div><span>Almacenamiento estimado</span><strong>{fmt(totals.storageGb/1000)} TB</strong></div></div>
+  <p className="fiberFormula">Estimación por fila: cantidad × bitrate para el ancho de banda; almacenamiento = ancho de banda × segundos por día × retención ÷ 8. El porcentaje de actividad ayuda a estimar grabación por evento. El cálculo es una referencia y no incluye sobrecarga del sistema, RAID ni margen de crecimiento.</p>
+  <div className="fiberTableActions"><button type="button" onClick={()=>add(5)}>+ Agregar 5 zonas</button><button type="button" onClick={()=>add(20)}>+ Agregar 20 zonas</button><button type="button" onClick={clear}>Limpiar tabla</button></div>
+  <div className="domainTableWrap"><table className="domainTable fiberTable cctvCameraTable"><thead><tr><th>#</th>{columns.map(([label,key])=><th key={key}>{label}</th>)}<th>Ancho de banda (Mbps)</th><th>Almacenamiento (GB)</th><th></th></tr></thead><tbody>{rows.map((row,index)=>{const value=metrics(row);return <tr key={index}><td>{index+1}</td>{columns.map(([label,key])=><td key={key}>{key==='camera_type'?<select aria-label={label+' · fila '+(index+1)} value={row[key]||''} onChange={event=>patch(index,key,event.target.value)}><option value="">Seleccione</option>{['Domo fijo','Bullet fija','PTZ','Ojo de pez / 360°','Térmica','Multisensor','Otra'].map(option=><option key={option}>{option}</option>)}</select>:key==='resolution'?<select aria-label={label+' · fila '+(index+1)} value={row[key]||''} onChange={event=>patch(index,key,event.target.value)}><option value="">Seleccione</option>{['2 MP','4 MP','5 MP','8 MP / 4K','12 MP','Otra'].map(option=><option key={option}>{option}</option>)}</select>:<input aria-label={label+' · fila '+(index+1)} type={['quantity','bitrate_mbps','record_pct','retention_days'].includes(key)?'number':'text'} min="0" max={key==='record_pct'?100:undefined} step={key==='quantity'||key==='retention_days'?'1':'any'} value={row[key]??''} onChange={event=>patch(index,key,event.target.value)}/>}</td>)}<td className="fiberComputed">{fmt(value.bandwidth)}</td><td className="fiberComputed">{fmt(value.storageGb)}</td><td><button type="button" className="fiberRemove" aria-label="Eliminar fila" onClick={()=>saveRows(rows.filter((_,i)=>i!==index))}>×</button></td></tr>})}</tbody><tfoot><tr><th colSpan={4}>Totales</th><th colSpan={4}>{fmt(totals.cameras)} cámaras</th><th>{fmt(totals.bandwidth)} Mbps</th><th>{fmt(totals.storageGb)} GB</th><th></th></tr></tfoot></table></div>
+  <p className="fiberFormula">Para cámaras con grabación continua, use 100% de actividad; para grabación por evento capture el porcentaje promedio esperado. Si no se indica, el cálculo usa 100% para mantener una estimación conservadora.</p>
+ </div>;
+}
+
+function CCTVVideoAnalyticsForm({data,setData}){
+ const [active,setActive]=useState(0);
+ const set=(key,value)=>setData(prev=>({...prev,[key]:value}));
+ const allFields=CCTV_SECTIONS.flatMap(section=>section.fields);
+ const filled=allFields.filter(field=>{const value=data['cctv_'+field.key];return Array.isArray(value)?value.length>0:Boolean(value)}).length;
+ const hasCameras=Array.isArray(data.cctv_camera_rows)&&data.cctv_camera_rows.some(row=>row&&Object.values(row).some(Boolean));
+ const progress=Math.round((filled+(hasCameras?1:0))/Math.max(1,allFields.length+1)*100);
+ const go=index=>{setActive(index);document.getElementById('cctv-section-'+index)?.scrollIntoView({behavior:'smooth',block:'start'})};
+ const exportJson=()=>downloadSortingFile('levantamiento-cctv-videoanalitica.json',JSON.stringify({form:'CCTV y Videoanalítica',data},null,2),'application/json');
+ return <div className="sortingExperience domainExperience fiberExperience cctvExperience">
+  <div className="sortingAppHeader"><div className="sortingAppMark">CV</div><div><strong>CCTV & Video Analytics Site Survey</strong><span>Levantamiento técnico · Seguridad y operación</span></div><div className="sortingAppActions"><button type="button" onClick={exportJson}>Exportar JSON</button><button type="button" onClick={()=>window.print()}>PDF en español</button><button type="button" onClick={()=>window.print()}>PDF in English</button><button type="button" className="sortingClearButton" onClick={()=>window.confirm('¿Limpiar los datos de este levantamiento?')&&setData({cctv_client:data.cctv_client||''})}>Limpiar</button></div></div>
+  <div className="sortingHero"><div><h2>Levantamiento de CCTV y Videoanalítica</h2><p>Capture las áreas a cubrir, las necesidades de vigilancia y analítica, la plataforma de video, conectividad, retención e infraestructura para definir una solución dimensionada a la operación.</p></div><div className="sortingHeroMeta"><span>Documento<strong>CCTV Site Survey</strong></span><span>Aplicación<strong>Almacén / Edificio</strong></span><span>Estado<strong>{progress===100?'Completo':'En captura'}</strong></span></div></div>
+  <div className="sortingLayout"><nav className="sortingProgress" aria-label="Secciones del levantamiento de CCTV"><div>Avance <b>{progress}%</b></div><div className="sortingProgressBar"><i style={{width:progress+'%'}}/></div>{CCTV_SECTIONS.map((section,index)=><button type="button" key={section.title} className={active===index?'active':''} onClick={()=>go(index)}><b>{index+1}</b>{section.title}</button>)}</nav>
+   <div className="sortingSections">{CCTV_SECTIONS.map((section,index)=>{const completed=section.fields.filter(field=>{const value=data['cctv_'+field.key];return Array.isArray(value)?value.length>0:Boolean(value)}).length;const tableFilled=section.table==='cameras'&&hasCameras?1:0;const totalFields=section.fields.length+(section.table==='cameras'?1:0);return <section className="wfCard sortingSection" id={'cctv-section-'+index} key={section.title}><header><b>{index+1}</b><div><h3>{section.title}</h3><p>{section.subtitle}</p></div><span className="sortingSectionCompletion">{Math.round((completed+tableFilled)/Math.max(1,totalFields)*100)}%</span></header><div className="wfBody">{section.table==='cameras'&&<CCTVCameraTable data={data} setData={setData}/>}<div className="wfGrid">{section.fields.map(field=><FiberField key={field.key} prefix="cctv_" field={field} data={data} set={set}/>)}</div></div></section>})}</div>
+  </div>
+ </div>;
+}
+
 function FormRenderer({formId,data,setData,saveForm}){
   if(formId==='eligibility') return <EligibilityWixForm data={data} set={(key,value)=>setData(prev=>typeof key==='object'?key:{...prev,[key]:value})}/>;
   if(formId==='warehouseInitial') return <WarehouseInitialForm data={data} set={(key,value)=>setData(prev=>({...prev,[key]:value}))}/>;
@@ -1120,6 +1242,7 @@ function FormRenderer({formId,data,setData,saveForm}){
   if(formId==='amr') return <AMRCalculator data={data} setData={setData}/>;
   if(formId==='fiberVolumetry') return <FiberOpticForm data={data} setData={setData}/>;
   if(formId==='electricalSurvey') return <ElectricalSurveyForm data={data} setData={setData}/>;
+  if(formId==='cctvVideoAnalytics') return <CCTVVideoAnalyticsForm data={data} setData={setData}/>;
   if(formId==='sortingInitial'||formId==='sortingDetailed') return <SortingFormSections formId={formId} data={data} setData={setData} onSave={saveForm}/>;
   const fields=fieldSets[formId]||fieldSets.sortingDetailed;
   const groups=[];
@@ -1268,6 +1391,7 @@ function FormWorkspace(){
       <button className={selected==='amr'?'active':''} onClick={()=>setSelected('amr')}>Cálculo inicial de AMR's</button>
       <button className={selected==='fiberVolumetry'?'active':''} onClick={()=>setSelected('fiberVolumetry')}>Volumetría de Fibra Óptica</button>
       <button className={selected==='electricalSurvey'?'active':''} onClick={()=>setSelected('electricalSurvey')}>Levantamiento Eléctrico</button>
+      <button className={selected==='cctvVideoAnalytics'?'active':''} onClick={()=>setSelected('cctvVideoAnalytics')}>CCTV y Videoanalítica</button>
     </aside>
 
     <div className="wfMain">
@@ -1298,7 +1422,7 @@ function FormWorkspace(){
 
       {!isWarehouse&&<div className="wfTitleBand">
         <div><h1>{current.title}</h1><p>{current.subtitle} Captura la información mínima necesaria para evaluar la operación, la factibilidad técnica y las oportunidades de automatización.</p></div>
-        <div className="wfMeta"><span>Cliente<strong>{activeClient?.name||'Sin seleccionar'}</strong></span><span>Tipo<strong>{selected.includes('sorting')?'Sorting':selected==='amr'?'AMR / AGV':'Warehouse'}</strong></span><span>Estado<strong>{clientId?'En captura':'Selecciona cliente'}</strong></span></div>
+        <div className="wfMeta"><span>Cliente<strong>{activeClient?.name||'Sin seleccionar'}</strong></span><span>Tipo<strong>{selected.includes('sorting')?'Sorting':selected==='amr'?'AMR / AGV':selected==='cctvVideoAnalytics'?'CCTV / Video':'Warehouse'}</strong></span><span>Estado<strong>{clientId?'En captura':'Selecciona cliente'}</strong></span></div>
       </div>}
 
       {!clientId&&!isWarehouse&&<div className="clientRequiredNotice">Selecciona un cliente para cargar o guardar la información de este formulario.</div>}
