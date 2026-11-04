@@ -74,6 +74,7 @@ const fieldSets = {
 };
 
 const ENGLISH_PDF_PHRASES={
+ 'Sí':'Yes','Cálculo inicial de AMR\'s':'Initial AMR Calculator','Volumetría de Fibra Óptica':'Fiber Optic Volume Survey','Levantamiento Eléctrico':'Electrical Survey','Levantamiento Inicial para: Almacén':'Initial Warehouse Survey','Levantamiento Inicial para: Sorting':'Initial Sorting Survey','Cuestionario detallado para: Almacén':'Detailed Warehouse Questionnaire','Cuestionario detallado para: Sorting':'Detailed Sorting Questionnaire',
  'Formularios internos de levantamiento.':'Internal survey forms.','Calificación de Elegibilidad':'Eligibility Assessment','Preevaluación de la oportunidad.':'Opportunity prequalification.','Evaluación de Elegibilidad del Proyecto':'Project Eligibility Assessment',
  'SOP DE COOPERACIÓN PARA SOLUCIONES DE AUTOMATIZACIÓN':'AUTOMATION SOLUTIONS COOPERATION SOP','Capture la información del cliente. La evaluación reproduce la lógica de puntuación y ponderación de la hoja de evaluación.':'Enter client information. This assessment follows the scoring and weighting logic in the evaluation worksheet.',
  'Umbrales de prioridad':'Priority thresholds','Prioridad baja':'Low priority','Seguimiento normal':'Standard follow-up','Prioridad alta':'High priority','Información del cliente':'Client information',
@@ -156,8 +157,8 @@ async function saveEnglishPdf(){
   value.textContent=answer;
   control.replaceWith(value);
  });
- clone.querySelectorAll('.clientBarMeta,.clientBarEmpty').forEach(node=>node.classList.add('englishPdfAnswer'));
- clone.querySelectorAll('.sortingProgress,.wfProgress,.whProgress,.wfTopActions,.wfBottom,.sortingAppActions,.sortingLocalSave,.whHeroActions,.whFooterActions,.eligFooter,.clientRequiredNotice,.clientModalBackdrop').forEach(node=>node.remove());
+ clone.querySelectorAll('.clientBarMeta,.clientBarEmpty,.whLocalNav,.whProgressLabel,.whProgressTrack').forEach(node=>node.remove());
+ clone.querySelectorAll('.sortingProgress,.wfProgress,.whProgress,.wfTopActions,.wfBottom,.sortingAppActions, .sortingLocalSave,.whLocalNav,.whHeroActions,.whFooterActions,.eligFooter,.clientRequiredNotice,.clientModalBackdrop').forEach(node=>node.remove());
  clone.querySelectorAll('button').forEach(node=>node.remove());
  clone.querySelectorAll('details').forEach(node=>{node.open=true});
  const walker=document.createTreeWalker(clone,NodeFilter.SHOW_TEXT);
